@@ -1,0 +1,196 @@
+.navbar_container {
+    background-color: grey;
+    padding-inline: 2rem;
+    padding-block: 0.7rem;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.navbar_card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar_card_left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar_card_left img {
+    width: 50px;
+    height: fit-content;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.navbar_card_left h2 {
+    cursor: pointer;
+}
+
+.navbar_card_right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.navbar_card_right h3 {
+    cursor: pointer;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    border-radius: 5px;
+}
+
+.navbar_card_right h3:hover {
+    border: 1px solid black;
+    background-color: #3498db;
+}
+
+.navbar_card_right_item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar_card_right_item svg {
+    width: 50px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.navbar_card_right_item svg:hover {
+    color: #3498db;
+}
+
+.tooltip_container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip_container img {
+    width:40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    padding: 0.1rem;
+    border: 2px solid black;
+}
+
+.tooltip_text {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+.tooltip_container:hover .tooltip_text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.navbar_card_right_profile {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: grey;
+    border: 1px solid black;
+    border-radius: 16px 0 0 16px;
+    width: 300px;
+    min-height: 100%;
+    padding-inline: 0.5rem;
+
+}
+
+.navbar_card_right_profile_top {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 1rem;
+    align-items: center;
+    padding-block: 0.9rem;
+}
+
+.navbar_card_right_profile_top svg {
+    width: 30px;
+    transform: rotate(45deg);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.navbar_card_right_profile_top svg:hover {
+    color: #3498db;
+    transform: rotate(135deg);
+
+}
+
+.navbar_card_right_profile_top_image {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.navbar_card_right_profile_top_image img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+    padding: 0.1rem;
+    cursor: pointer;
+}
+
+.navbar_card_right_profile_middle {
+    display: flex;
+    flex-direction: column;
+    padding-block: 2rem;
+}
+
+.navbar_card_right_profile_middle_item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.navbar_card_right_profile_middle_item:hover {
+    background-color: rgb(165, 165, 165);
+}
+
+.navbar_card_right_profile_middle_item svg {
+    width: 25px;
+}
+
+.navbar_card_right_profile_bottom {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-inline: 1rem;
+    padding-block: 0.3rem;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-block: 1rem;
+}
+
+.navbar_card_right_profile_bottom:hover {
+    background-color: rgb(165, 165, 165);
+}
+
+.navbar_card_right_profile_bottom svg {
+    width: 25px;
+}
