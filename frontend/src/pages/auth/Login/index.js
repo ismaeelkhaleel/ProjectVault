@@ -13,10 +13,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     if (authState.isSuccess) {
-      dispatch(getMyProfile());
+      dispatch(getMyProfile(userId));
       setEmail("");
       setPassword("");
       navigate("/dashboard");

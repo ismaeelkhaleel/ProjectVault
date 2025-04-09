@@ -25,6 +25,9 @@ const initialState = {
   otpResent: false,
   loggedIn: false,
   message: "",
+  userProjects:[],
+  userFollowerList:[],
+  userFollowingList:[],
 };
 
 const authSlice = createSlice({
@@ -231,7 +234,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.userFollowerList = action.payload;
+        state.userFollowerList = action.payload.followers;
         state.message =
           action.payload.message || "Followers Loaded Successfully";
       })
@@ -249,7 +252,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.userFollowingList = action.payload;
+        state.userFollowingList = action.payload.following;
         state.message =
           action.payload.message || "Following Loaded Successfully";
       })

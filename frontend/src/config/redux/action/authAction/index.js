@@ -118,9 +118,8 @@ export const getUserByUsername = createAsyncThunk(
 
 export const getMyProfile = createAsyncThunk(
   "/your_profile",
-  async (user, thunkAPI) => {
+  async (userId, thunkAPI) => {
     try {
-      const userId = localStorage.getItem("userId");
       const response = await clientServer.get(`/get-user-profile/${userId}`);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
@@ -166,8 +165,7 @@ export const updateMyProfile = createAsyncThunk(
       formData.append("course", user.course);
       formData.append("enrollNumber", user.enrollNumber);
       formData.append("facNumber", user.facNumber);
-      formData.append("skills", JSON.stringify(user.skills)); // backend expects array
-
+      formData.append("skills", JSON.stringify(user.skills)); 
       if (user.idCard instanceof File) {
         formData.append("idCard", user.idCard);
       }

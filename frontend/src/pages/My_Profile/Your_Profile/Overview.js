@@ -38,8 +38,10 @@ function Overview({ isEditable, setIsEditable }) {
     formData.enrollNumber.trim() &&
     formData.facNumber.trim();
 
+    const userId = authState?.user?.profile?.user?._id;
+
   useEffect(() => {
-    dispatch(getMyProfile());
+    dispatch(getMyProfile(userId));
   }, []);
 
   useEffect(() => {
@@ -218,7 +220,11 @@ function Overview({ isEditable, setIsEditable }) {
         </div>
       )}
 
-      {isEditable && <button onClick={handleUpdate}>{authState.isLoading ? "Updating..." : "Update Profile"}</button>}
+      {isEditable && (
+        <button onClick={handleUpdate}>
+          {authState.isLoading ? "Updating..." : "Update Profile"}
+        </button>
+      )}
     </div>
   );
 }

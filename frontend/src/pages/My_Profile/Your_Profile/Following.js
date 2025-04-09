@@ -1,28 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserFollowerList } from "../../../config/redux/action/authAction";
+import {  getUserFollowingList } from "../../../config/redux/action/authAction";
 import { BASE_URL } from "../../../config";
 import styles from "./Style.module.css";
 
-function Followers() {
+function Following() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
   const userId = authState?.user?.profile?.user?._id;
   useEffect(() => {
     if (userId) {
-      dispatch(getUserFollowerList(userId));
+      dispatch(getUserFollowingList(userId));
     }
   }, [dispatch, userId]);
-  const followers = authState?.userFollowerList || [];
+  const following = authState?.userFollowingList || [];
 
   return (
     <div className={styles.profile_container_card_bottom_right_follower}>
-      {followers.length > 0 ? (
+      {following.length > 0 ? (
         <div>
-          {followers.map((follower, index) => {
+          {following.map((following, index) => {
             const isFollowing =
-              authState?.user?.profile?.user?.following?.includes(follower._id);
+              authState?.user?.profile?.user?.following?.includes(following._id);
 
             return (
               <div
@@ -33,23 +33,23 @@ function Followers() {
               >
                 <div>
                   <img
-                    src={`${BASE_URL}uploads/${follower.profilePicture}`}
+                    src={`${BASE_URL}uploads/${following.profilePicture}`}
                     alt=""
                   />
                 </div>
                 <div className={styles.follower_info}>
-                  <h3>{follower.name}</h3>
-                  <p>@{follower.username}</p>
+                  <h3>{following.name}</h3>
+                  <p>@{following.username}</p>
                 </div>
               </div>
             );
           })}
         </div>
       ) : (
-        <p>No followers found.</p>
+        <p>No following found.</p>
       )}
     </div>
   );
 }
 
-export default Followers;
+export default Following;

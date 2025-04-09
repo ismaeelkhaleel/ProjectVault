@@ -9,6 +9,7 @@ import {
 } from "../../../config/redux/action/authAction";
 import Project from "./Project";
 import Followers from "./Followers";
+import Following from "./Following";
 function Profile() {
   const [activeTab, setActiveTab] = useState("Overview");
   const authState = useSelector((state) => state.auth);
@@ -25,12 +26,13 @@ function Profile() {
     }
   };
 
+  const userId = authState?.user?.profile?.user?._id;
   const handleImageUpload = async () => {
     const formData = new FormData();
     formData.append("profilePicture", selectedImage);
 
     await dispatch(updateProfilePicture(formData));
-    dispatch(getMyProfile());
+    dispatch(getMyProfile(userId));
     setIsImage(false);
   };
 
@@ -167,8 +169,8 @@ function Profile() {
               <Overview isEditable={isEditable} setIsEditable={setIsEditable} />
             )}
             {activeTab === "Projects" && <Project />}
-            {activeTab === "Followers" &&  <Followers/>}
-            {activeTab === "Following" && <div>Following</div>}
+            {activeTab === "Followers" && <Followers />}
+            {activeTab === "Following" && <Following />}
           </div>
         </div>
       </div>
