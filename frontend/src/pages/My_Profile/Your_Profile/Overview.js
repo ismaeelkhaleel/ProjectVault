@@ -21,28 +21,12 @@ function Overview({ isEditable, setIsEditable }) {
 
   const [originalData, setOriginalData] = useState({});
 
-  const hasChanges =
-    JSON.stringify({
-      ...formData,
-      idCard: null,
-    }) !==
-    JSON.stringify({
-      ...originalData,
-      idCard: null,
-    });
-
-  // Form validation
-  const isFormValid =
-    formData.bio.trim() &&
-    formData.course.trim() &&
-    formData.enrollNumber.trim() &&
-    formData.facNumber.trim();
-
-    const userId = authState?.user?.profile?.user?._id;
+  const user = authState?.user?.profile?.user;
+  const userId = typeof user === "string" ? user : user?._id;
 
   useEffect(() => {
     dispatch(getMyProfile(userId));
-  }, []);
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (authState?.user?.profile) {
@@ -97,7 +81,7 @@ function Overview({ isEditable, setIsEditable }) {
       const resultAction = await dispatch(updateMyProfile(updatedData));
 
       if (updateMyProfile.fulfilled.match(resultAction)) {
-        await dispatch(getMyProfile());
+        await dispatch(getMyProfile(userId));
 
         setIsEditable(false);
         setOriginalData(updatedData);

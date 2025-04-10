@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Style.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import Overview from "./Overview";
@@ -10,6 +10,7 @@ import {
 import Project from "./Project";
 import Followers from "./Followers";
 import Following from "./Following";
+import { useParams } from "react-router-dom";
 function Profile() {
   const [activeTab, setActiveTab] = useState("Overview");
   const authState = useSelector((state) => state.auth);
@@ -17,6 +18,12 @@ function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
+  const params = useParams();
+
+  const { id } = params;
+  const userId = localStorage.getItem("userId");
+
+  const isOwner = String(id) === String(userId);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -25,14 +32,16 @@ function Profile() {
       setIsImage(true);
     }
   };
+  useEffect(() => {
+    dispatch(getMyProfile(id));
+  }, [dispatch, id]);
 
-  const userId = authState?.user?.profile?.user?._id;
   const handleImageUpload = async () => {
     const formData = new FormData();
     formData.append("profilePicture", selectedImage);
 
     await dispatch(updateProfilePicture(formData));
-    dispatch(getMyProfile(userId));
+    dispatch(getMyProfile(id));
     setIsImage(false);
   };
 
@@ -115,17 +124,25 @@ function Profile() {
                   src={`${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`}
                   alt={authState?.user?.profile?.user?.username || ""}
                 />
-                <span className={styles.tooltip_text}>
-                  Update Profile Picture
-                </span>
+                {isOwner && (
+                  <span className={styles.tooltip_text}>
+                    Update Profile Picture
+                  </span>
+                )}
               </label>
-              <input
-                type="file"
-                id="profilePicture"
-                hidden
-                onChange={handleImageChange}
-              />
-              {isImage && <button onClick={handleImageUpload}>Update</button>}
+              {isOwner && (
+                <>
+                  <input
+                    type="file"
+                    id="profilePicture"
+                    hidden
+                    onChange={handleImageChange}
+                  />
+                  {isImage && (
+                    <button onClick={handleImageUpload}>Update</button>
+                  )}
+                </>
+              )}
             </div>
             <div>
               <h1>
@@ -155,13 +172,17 @@ function Profile() {
               </p>
             </div>
             <div>
-              <button
-                onClick={() => {
-                  setIsEditable(true);
-                }}
-              >
-                Edit Profile
-              </button>
+              {isOwner ? (
+                <button
+                  onClick={() => {
+                    setIsEditable(true);
+                  }}
+                >
+                  Edit Profile
+                </button>
+              ) : (
+                <button>Follow</button>
+              )}
             </div>
           </div>
           <div className={styles.profile_container_card_bottom_right}>

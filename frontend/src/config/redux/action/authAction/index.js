@@ -94,6 +94,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     });
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("userId", response.data.userId);
+    localStorage.setItem("loggedInUser", JSON.stringify(response.data));
     return thunkAPI.fulfillWithValue(response.data);
   } catch (err) {
     const errMessage = err.response?.data?.message || "Login failed";
@@ -118,9 +119,10 @@ export const getUserByUsername = createAsyncThunk(
 
 export const getMyProfile = createAsyncThunk(
   "/your_profile",
-  async (userId, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      const response = await clientServer.get(`/get-user-profile/${userId}`);
+      const response = await clientServer.get(`/get-user-profile/${id}`);
+
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage = err.response?.data?.message || "Failed to get user";
@@ -165,7 +167,7 @@ export const updateMyProfile = createAsyncThunk(
       formData.append("course", user.course);
       formData.append("enrollNumber", user.enrollNumber);
       formData.append("facNumber", user.facNumber);
-      formData.append("skills", JSON.stringify(user.skills)); 
+      formData.append("skills", JSON.stringify(user.skills));
       if (user.idCard instanceof File) {
         formData.append("idCard", user.idCard);
       }

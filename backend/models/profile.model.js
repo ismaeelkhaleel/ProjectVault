@@ -13,7 +13,7 @@ const profileSchema = new mongoose.Schema(
     },
     course: {
       type: String,
-      enum: ["MCA", "MSc (Cyber Security)", "BSc (CS)",""],
+      enum: ["MCA", "MSC (CYBER SECURITY)", "BSC (CS)",""],
       default: "",
       uppercase:true
     },

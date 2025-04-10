@@ -10,8 +10,15 @@ function Navbar() {
   const navigate = useNavigate();
   const [profileToggle, setProfileToggle] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const loggedInUser = user?.profile?.user;
+  const token = localStorage.getItem("token");
+
   const handleProfileToggle = () => {
     setProfileToggle(!profileToggle);
+    console.log(authState);
+    console.log(user);
+    console.log(token);
   };
 
   const handleLogout = async () => {
@@ -33,13 +40,13 @@ function Navbar() {
               navigate("/");
             }}
           />
-          {authState.loggedIn ? (
+          {token ? (
             <h2
               onClick={() => {
                 navigate("/dashboard");
               }}
             >
-              {authState.user?.profile?.user?.username}
+              {loggedInUser?.username}
             </h2>
           ) : (
             <h2
@@ -51,7 +58,7 @@ function Navbar() {
             </h2>
           )}
         </div>
-        {authState.loggedIn ? (
+        {token ? (
           <div className={styles.navbar_card_right}>
             <div className={styles.navbar_card_right_item}>
               <div className={styles.tooltip_container}>
@@ -76,8 +83,8 @@ function Navbar() {
                 onClick={handleProfileToggle}
               >
                 <img
-                  src={`${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`}
-                  alt={authState?.user?.profile?.user?.username}
+                  src={`${BASE_URL}uploads/${loggedInUser?.profilePicture}`}
+                  alt={loggedInUser?.username}
                 />
                 <span className={styles.tooltip_text}>Profile</span>
               </div>
@@ -87,14 +94,14 @@ function Navbar() {
                 <div className={styles.navbar_card_right_profile_top}>
                   <div className={styles.navbar_card_right_profile_top_image}>
                     <img
-                      src={`${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`}
+                      src={`${BASE_URL}uploads/${loggedInUser?.profilePicture}`}
                       alt=""
                     />
                     <div>
                       <h4 style={{ cursor: "pointer" }}>
-                        {authState?.user?.profile?.user?.username}
+                        {loggedInUser?.username}
                       </h4>
-                      <p>{authState?.user?.profile?.user?.name}</p>
+                      <p>{loggedInUser?.name}</p>
                     </div>
                   </div>
                   <div onClick={handleProfileToggle}>
@@ -117,7 +124,7 @@ function Navbar() {
                   <div
                     className={styles.navbar_card_right_profile_middle_item}
                     onClick={() => {
-                      navigate("/my_profile");
+                      navigate(`/my_profile/${loggedInUser._id}`);
                       setProfileToggle(!profileToggle);
                     }}
                   >

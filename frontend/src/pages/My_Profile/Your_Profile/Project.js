@@ -12,17 +12,18 @@ function Project() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
+  const userId = authState?.user?.profile?.user?._id;
+
   useEffect(() => {
     if (userId) {
       dispatch(getUserProjects(userId));
     }
-  }, [authState?.user?.profile?.user?._id]);
+  }, [authState?.user?.profile?.user?._id, dispatch, userId]);
 
   const savedProjects = authState?.user?.profile?.user?.saveProjects;
-  const userId = authState?.user?.profile?.user?._id;
   useEffect(() => {
     dispatch(getMyProfile(userId));
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   return (
     <div className={styles.profile_container_card_bottom_right_projects}>

@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserFollowerList } from "../../../config/redux/action/authAction";
+import { getMyProfile, getUserFollowerList } from "../../../config/redux/action/authAction";
 import { BASE_URL } from "../../../config";
 import styles from "./Style.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Followers() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const userId = authState?.user?.profile?.user?._id;
   useEffect(() => {
@@ -21,15 +23,16 @@ function Followers() {
       {followers.length > 0 ? (
         <div>
           {followers.map((follower, index) => {
-            const isFollowing =
-              authState?.user?.profile?.user?.following?.includes(follower._id);
-
             return (
               <div
                 className={
                   styles.profile_container_card_bottom_right_follower_item
                 }
                 key={index}
+                onClick={() => {
+                  navigate(`/my_profile/${follower._id}`);
+                  dispatch(getMyProfile(follower._id));
+                }}
               >
                 <div>
                   <img

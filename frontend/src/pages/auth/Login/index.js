@@ -13,16 +13,17 @@ const Login = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+  const id = localStorage.getItem("userId");
 
   useEffect(() => {
     if (authState.isSuccess) {
-      dispatch(getMyProfile(userId));
+      dispatch(getMyProfile(id));
       setEmail("");
       setPassword("");
       navigate("/dashboard");
+      console.log(id);
     }
-  }, [authState.isSuccess, authState.token, dispatch, navigate]);
+  }, [authState.isSuccess, authState.token, dispatch, navigate, id]);
 
   const handleLogin = (e) => {
     e.preventDefault();
