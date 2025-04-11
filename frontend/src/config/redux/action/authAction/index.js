@@ -272,7 +272,7 @@ export const followUser = createAsyncThunk(
   "user/followuser",
   async ({ userId, id }, thunkAPI) => {
     try {
-      const response = await clientServer.post(`/follow-user/${id}`, {
+      const response = await clientServer.put(`/follow-user/${id}`, {
         userId,
       });
       return thunkAPI.fulfillWithValue(response.data);
@@ -287,7 +287,7 @@ export const unfollowUser = createAsyncThunk(
   "user/unfollowUser",
   async ({ userId, id }, thunkAPI) => {
     try {
-      const response = await clientServer.delete(`/unfollow-user/${id}`, {
+      const response = await clientServer.put(`/unfollow-user/${id}`, {
         userId,
       });
       return thunkAPI.fulfillWithValue(response.data);

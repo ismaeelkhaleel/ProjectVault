@@ -6,6 +6,9 @@ import { BASE_URL } from "../../../config";
 import {
   getUserProfile,
   updateProfilePicture,
+  followUser,
+  unfollowUser,
+  getUserFollowerList,
 } from "../../../config/redux/action/authAction";
 import Project from "./Project";
 import Followers from "./Followers";
@@ -25,6 +28,9 @@ function Profile() {
 
   const isOwner = String(id) === String(userId);
 
+  const follower = authState?.user?.profile?.user?.followers || [];
+  const isFollow = follower.includes(userId);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -34,6 +40,7 @@ function Profile() {
   };
   useEffect(() => {
     dispatch(getUserProfile(id));
+    dispatch(getUserFollowerList(id));
   }, [dispatch, id]);
 
   const handleImageUpload = async () => {
@@ -180,8 +187,24 @@ function Profile() {
                 >
                   Edit Profile
                 </button>
+              ) : isFollow ? (
+                <button className={styles.profile_container_card_bottom_left_unfollow_button}
+                  onClick={async () => {
+                    await dispatch(unfollowUser({ userId, id }));
+                    dispatch(getUserProfile(id))
+                  }}
+                >
+                  unfollow
+                </button>
               ) : (
-                <button>Follow</button>
+                <button
+                  onClick={async () => {
+                    await dispatch(followUser({ userId, id }));
+                      dispatch(getUserProfile(id));
+                  }}
+                >
+                  Follow
+                </button>
               )}
             </div>
           </div>

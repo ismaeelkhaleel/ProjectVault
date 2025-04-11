@@ -21,7 +21,6 @@ const Login = () => {
       setEmail("");
       setPassword("");
       navigate("/dashboard");
-      console.log(id);
     }
   }, [authState.isSuccess, authState.token, dispatch, navigate, id]);
 

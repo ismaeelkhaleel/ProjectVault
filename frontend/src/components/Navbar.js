@@ -16,9 +16,6 @@ function Navbar() {
 
   const handleProfileToggle = () => {
     setProfileToggle(!profileToggle);
-    console.log(authState);
-    console.log(user);
-    console.log(token);
   };
 
   const handleLogout = async () => {

@@ -367,3 +367,13 @@
 .follower_info {
     flex-grow: 1;
 }
+
+.profile_container_card_bottom_left_unfollow_button {
+    background-color: rgb(255, 255, 255) !important;
+    color: black !important;
+    border: 2px solid grey !important;
+}
+
+.profile_container_card_bottom_left_unfollow_button :hover {
+    background-color: rgb(170, 169, 169) !important;
+}
