@@ -311,6 +311,17 @@ export const deccrementLikes = async (req, res) => {
   }
 };
 
+export const getLikedProjects = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate("likeProjects");
+    res.json(user.likeProjects);
+  } catch (error) {
+    console.error("Error fetching saved projects:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const incrementViews = async (req, res) => {
   const { id: projectId } = req.params;
   try {

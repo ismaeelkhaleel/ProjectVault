@@ -9,6 +9,8 @@ import {
   followUser,
   unfollowUser,
   getUserFollowerList,
+  getUserFollowingList,
+  getUserProjects,
 } from "../../../config/redux/action/authAction";
 import Project from "./Project";
 import Followers from "./Followers";
@@ -41,6 +43,7 @@ function Profile() {
   useEffect(() => {
     dispatch(getUserProfile(id));
     dispatch(getUserFollowerList(id));
+    dispatch(getUserFollowingList(id));
   }, [dispatch, id]);
 
   const handleImageUpload = async () => {
@@ -188,10 +191,15 @@ function Profile() {
                   Edit Profile
                 </button>
               ) : isFollow ? (
-                <button className={styles.profile_container_card_bottom_left_unfollow_button}
+                <button
+                  className={
+                    styles.profile_container_card_bottom_left_unfollow_button
+                  }
                   onClick={async () => {
                     await dispatch(unfollowUser({ userId, id }));
-                    dispatch(getUserProfile(id))
+                    dispatch(getUserProfile(id));
+                    dispatch(getUserFollowerList(id));
+                    dispatch(getUserFollowingList(id));
                   }}
                 >
                   unfollow
@@ -200,7 +208,9 @@ function Profile() {
                 <button
                   onClick={async () => {
                     await dispatch(followUser({ userId, id }));
-                      dispatch(getUserProfile(id));
+                    dispatch(getUserProfile(id));
+                    dispatch(getUserFollowerList(id));
+                    dispatch(getUserFollowingList(id));
                   }}
                 >
                   Follow

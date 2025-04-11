@@ -298,3 +298,17 @@ export const unfollowUser = createAsyncThunk(
     }
   }
 );
+
+export const getLikedProjects = createAsyncThunk(
+  "user/getLikedProjects",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/get-liked-projects/${userId}`);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to get liked projects";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);

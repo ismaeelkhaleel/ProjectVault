@@ -9,7 +9,8 @@ import {
   upload,
   incrementLikes,
   deccrementLikes,
-  incrementViews
+  incrementViews,
+  getLikedProjects
 } from "../controllers/project.controller.js";
 
 const router = express.Router();
@@ -23,5 +24,6 @@ router.put("/un-save-project/:id", unSaveProject);
 router.post("/increment-likes/:id", incrementLikes);
 router.post("/decrement-likes/:id", deccrementLikes);
 router.post("/increment-views/:id", incrementViews);
+router.get("/get-liked-projects/:id", getLikedProjects);
 
 export default router;

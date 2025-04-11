@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import styles from "./Navbar.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assest/images/logo.png";
 import { BASE_URL } from "../config/index";
+import { getUserProfile } from "../config/redux/action/authAction";
 
 function Navbar() {
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [profileToggle, setProfileToggle] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -16,6 +18,7 @@ function Navbar() {
 
   const handleProfileToggle = () => {
     setProfileToggle(!profileToggle);
+    dispatch(getUserProfile(loggedInUser?._id));
   };
 
   const handleLogout = async () => {

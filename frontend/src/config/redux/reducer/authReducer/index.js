@@ -15,6 +15,7 @@ import {
   getUserFollowingList,
   followUser,
   unfollowUser,
+  getLikedProjects
 } from "../../action/authAction";
 
 const initialState = {
@@ -28,6 +29,7 @@ const initialState = {
   userProjects: [],
   userFollowerList: [],
   userFollowingList: [],
+  userLikedProjects:[],
 };
 
 const authSlice = createSlice({
@@ -291,7 +293,23 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload.message || "Unfollowing can not be done";
-      });
+      })
+      .addCase(getLikedProjects.pending , (state) => {
+        state.isLoading = true;
+        state.message = "Loading Liked Projects...";
+      })
+      .addCase(getLikedProjects.fulfilled , (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.userLikedProjects = action.payload;
+        state.message = action.payload.message || "Liked Projects Loaded Successfully";
+      })
+      .addCase(getLikedProjects.rejected , (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload.message || "Liked Projects can not be loaded";
+      })
   },
 });
 
