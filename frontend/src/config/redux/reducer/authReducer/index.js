@@ -6,7 +6,7 @@ import {
   resendOTP,
   forgotPassword,
   updatePassword,
-  getMyProfile,
+  getUserProfile,
   updateMyProfile,
   updateProfilePicture,
   getUserProjects,
@@ -25,9 +25,9 @@ const initialState = {
   otpResent: false,
   loggedIn: false,
   message: "",
-  userProjects:[],
-  userFollowerList:[],
-  userFollowingList:[],
+  userProjects: [],
+  userFollowerList: [],
+  userFollowingList: [],
 };
 
 const authSlice = createSlice({
@@ -142,18 +142,18 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload?.message || "Login Failed";
       })
-      .addCase(getMyProfile.pending, (state) => {
+      .addCase(getUserProfile.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading Profile...";
       })
-      .addCase(getMyProfile.fulfilled, (state, action) => {
+      .addCase(getUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
         state.user = action.payload;
         state.message = action.payload.message || "Profile Loaded Successfully";
       })
-      .addCase(getMyProfile.rejected, (state, action) => {
+      .addCase(getUserProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload?.message || "Profile can not be loaded";

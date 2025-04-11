@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Overview from "./Overview";
 import { BASE_URL } from "../../../config";
 import {
-  getMyProfile,
+  getUserProfile,
   updateProfilePicture,
 } from "../../../config/redux/action/authAction";
 import Project from "./Project";
@@ -33,7 +33,7 @@ function Profile() {
     }
   };
   useEffect(() => {
-    dispatch(getMyProfile(id));
+    dispatch(getUserProfile(id));
   }, [dispatch, id]);
 
   const handleImageUpload = async () => {
@@ -41,7 +41,7 @@ function Profile() {
     formData.append("profilePicture", selectedImage);
 
     await dispatch(updateProfilePicture(formData));
-    dispatch(getMyProfile(id));
+    dispatch(getUserProfile(id));
     setIsImage(false);
   };
 

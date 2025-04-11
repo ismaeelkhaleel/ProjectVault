@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyProfile, getUserFollowerList } from "../../../config/redux/action/authAction";
+import { getUserProfile, getUserFollowerList } from "../../../config/redux/action/authAction";
 import { BASE_URL } from "../../../config";
 import styles from "./Style.module.css";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ function Followers() {
                 key={index}
                 onClick={() => {
                   navigate(`/my_profile/${follower._id}`);
-                  dispatch(getMyProfile(follower._id));
+                  dispatch(getUserProfile(follower._id));
                 }}
               >
                 <div>

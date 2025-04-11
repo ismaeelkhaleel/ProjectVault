@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getMyProfile,
+  getUserProfile,
   updateMyProfile,
 } from "../../../config/redux/action/authAction";
 import styles from "./Style.module.css";
@@ -25,7 +25,7 @@ function Overview({ isEditable, setIsEditable }) {
   const userId = typeof user === "string" ? user : user?._id;
 
   useEffect(() => {
-    dispatch(getMyProfile(userId));
+    dispatch(getUserProfile(userId));
   }, [dispatch, userId]);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ function Overview({ isEditable, setIsEditable }) {
       const resultAction = await dispatch(updateMyProfile(updatedData));
 
       if (updateMyProfile.fulfilled.match(resultAction)) {
-        await dispatch(getMyProfile(userId));
+        await dispatch(getUserProfile(userId));
 
         setIsEditable(false);
         setOriginalData(updatedData);

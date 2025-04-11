@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getMyProfile,
+  getUserProfile,
   login,
 } from "../../../config/redux/action/authAction/index";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ const Login = () => {
 
   useEffect(() => {
     if (authState.isSuccess) {
-      dispatch(getMyProfile(id));
+      dispatch(getUserProfile(id));
       setEmail("");
       setPassword("");
       navigate("/dashboard");

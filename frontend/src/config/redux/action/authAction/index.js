@@ -117,7 +117,7 @@ export const getUserByUsername = createAsyncThunk(
   }
 );
 
-export const getMyProfile = createAsyncThunk(
+export const getUserProfile = createAsyncThunk(
   "/your_profile",
   async (id, thunkAPI) => {
     try {

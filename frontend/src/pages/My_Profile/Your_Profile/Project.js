@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getMyProfile,
+  getUserProfile,
   getUserProjects,
   saveProject,
   unsaveProject,
@@ -22,7 +22,7 @@ function Project() {
 
   const savedProjects = authState?.user?.profile?.user?.saveProjects;
   useEffect(() => {
-    dispatch(getMyProfile(userId));
+    dispatch(getUserProfile(userId));
   }, [dispatch, userId]);
 
   return (
@@ -70,13 +70,13 @@ function Project() {
                     if (savedProjects.includes(projectId)) {
                       dispatch(unsaveProject({ projectId, userId })).then(
                         () => {
-                          dispatch(getMyProfile(userId));
+                          dispatch(getUserProfile(userId));
                           dispatch(getUserProjects(userId));
                         }
                       );
                     } else {
                       dispatch(saveProject({ projectId, userId })).then(() => {
-                        dispatch(getMyProfile(userId));
+                        dispatch(getUserProfile(userId));
                         dispatch(getUserProjects(userId));
                       });
                     }
