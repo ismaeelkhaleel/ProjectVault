@@ -10,7 +10,7 @@ import {
   incrementLikes,
   deccrementLikes,
   incrementViews,
-  getLikedProjects
+  getLikedProjects,
 } from "../controllers/project.controller.js";
 
 const router = express.Router();
@@ -18,7 +18,7 @@ const router = express.Router();
 router.post("/create-project", upload.single("demoVideoPath"), uploadProject);
 router.get("/get-all-project", getAllProjects);
 router.get("/get-user-project/:id", getUserProjects);
-router.get("/get-saved-project/:id", getSavedProjects);
+router.get("/get-saved-projects/:id", getSavedProjects);
 router.put("/save-project/:id", saveProject);
 router.put("/un-save-project/:id", unSaveProject);
 router.post("/increment-likes/:id", incrementLikes);

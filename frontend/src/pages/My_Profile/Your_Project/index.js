@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import styles from "./Style.module.css";
-import { getUserProjects } from "../../../config/redux/action/authAction";
+import { getUserProjects } from "../../../config/redux/action/projectAction";
 import { useDispatch, useSelector } from "react-redux";
 
 function Your_Project() {
-  const authState = useSelector((state) => state.auth);
+  const projectState = useSelector((state) => state.project);
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem("userId");
 
-  const userProjects = authState?.userProjects || [];
+  const userProjects = projectState?.projects || [];
 
   useEffect(() => {
     dispatch(getUserProjects(userId));
@@ -20,17 +20,17 @@ function Your_Project() {
       {userProjects.length === 0 ? (
         <p className={styles.no_projects}>No projects found.</p>
       ) : (
-        <div className={styles.projects_grid}>
+        <div className={styles.your_projects_grid}>
           {userProjects.map((project, index) => (
-            <div className={styles.project_card} key={index}>
-              <h3 className={styles.project_title}>{project.title}</h3>
-              <p className={styles.project_description}>
+            <div className={styles.your_project_card} key={index}>
+              <h3 className={styles.your_project_title}>{project.title}</h3>
+              <p className={styles.your_project_description}>
                 {project.description.length > 100
                   ? project.description.slice(0, 100) + "..."
                   : project.description}
               </p>
               <div>
-                <p className={styles.project_button}>See Full Project</p>
+                <p className={styles.your_project_button}>See Full Project</p>
               </div>
             </div>
           ))}

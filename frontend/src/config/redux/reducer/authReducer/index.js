@@ -9,13 +9,10 @@ import {
   getUserProfile,
   updateMyProfile,
   updateProfilePicture,
-  getUserProjects,
-  saveProject,
   getUserFollowerList,
   getUserFollowingList,
   followUser,
   unfollowUser,
-  getLikedProjects
 } from "../../action/authAction";
 
 const initialState = {
@@ -26,10 +23,8 @@ const initialState = {
   otpResent: false,
   loggedIn: false,
   message: "",
-  userProjects: [],
   userFollowerList: [],
   userFollowingList: [],
-  userLikedProjects:[],
 };
 
 const authSlice = createSlice({
@@ -195,39 +190,6 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload?.message || "Profile can not be updated";
       })
-      .addCase(getUserProjects.pending, (state) => {
-        state.isLoading = true;
-        state.message = "Loading Projects...";
-      })
-      .addCase(getUserProjects.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.isError = false;
-        state.userProjects = action.payload;
-        state.message =
-          action.payload.message || "Projects Loaded Successfully";
-      })
-      .addCase(getUserProjects.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload?.message || "Projects can not be loaded";
-      })
-      .addCase(saveProject.pending, (state) => {
-        state.isLoading = true;
-        state.message = "Saving Project...";
-      })
-      .addCase(saveProject.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.isError = false;
-        state.userProjects = [...state.userProjects, action.payload];
-        state.message = action.payload.message || "Project Saved Successfully";
-      })
-      .addCase(saveProject.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload?.message || "Project can not be saved";
-      })
       .addCase(getUserFollowerList.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading Followers...";
@@ -293,22 +255,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload.message || "Unfollowing can not be done";
-      })
-      .addCase(getLikedProjects.pending , (state) => {
-        state.isLoading = true;
-        state.message = "Loading Liked Projects...";
-      })
-      .addCase(getLikedProjects.fulfilled , (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.isError = false;
-        state.userLikedProjects = action.payload;
-        state.message = action.payload.message || "Liked Projects Loaded Successfully";
-      })
-      .addCase(getLikedProjects.rejected , (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload.message || "Liked Projects can not be loaded";
       })
   },
 });

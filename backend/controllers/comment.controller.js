@@ -72,7 +72,7 @@ export const getUserComments = async (req, res) => {
     const comments = await Comment.find({ userId })
       .populate("projectId")
       .populate("parentId")
-      .sort({ likes: -1, createdAt: -1 });
+      .sort({createdAt: -1 });
 
     return res.status(200).json({ message: "Comments retrieved successfully" , comments });
   } catch (error) {

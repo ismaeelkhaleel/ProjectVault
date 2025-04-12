@@ -1,20 +1,42 @@
 import React, { useEffect } from "react";
-import { getLikedProjects } from "../../../config/redux/action/authAction";
+import { getLikedProjects } from "../../../config/redux/action/projectAction";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./Style.module.css";
 
 function LikedProject() {
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
-  const likedProjects = authState?.userLikedProjects || [];
+  const projectState = useSelector((state) => state.project);
+  const likedProjects = projectState?.likedProjects || [];
 
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     dispatch(getLikedProjects(userId));
-    console.log(likedProjects);
-  },[dispatch, userId]);
+  }, [dispatch, userId]);
 
-  return <div>Liked</div>;
+  return (
+    <div className={styles.like_project_container}>
+      {likedProjects.length === 0 ? (
+        <p className={styles.no_projects}>No projects found.</p>
+      ) : (
+        <div className={styles.like_projects_grid}>
+          {likedProjects.map((project, index) => (
+            <div className={styles.like_project_card} key={index}>
+              <h3 className={styles.like_project_title}>{project.title}</h3>
+              <p className={styles.like_project_description}>
+                {project.description.length > 100
+                  ? project.description.slice(0, 100) + "..."
+                  : project.description}
+              </p>
+              <div>
+                <p className={styles.like_project_button}>See Full Project</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default LikedProject;
