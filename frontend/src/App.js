@@ -17,6 +17,7 @@ import SavedProject from "./pages/My_Profile/Saved_Project";
 import YourProject from "./pages/My_Profile/Your_Project";
 import MyProfile from "./pages/My_Profile/Your_Profile";
 import Navbar from "./components/Navbar";
+import ProjectDetails from "./pages/Project/index";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -143,6 +144,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <MyProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/project-details/:id"
+          element={
+            <ProtectedRoute>
+              <ProjectDetails />
             </ProtectedRoute>
           }
         />

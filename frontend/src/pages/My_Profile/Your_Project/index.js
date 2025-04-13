@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import styles from "./Style.module.css";
 import { getUserProjects } from "../../../config/redux/action/projectAction";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Your_Project() {
   const projectState = useSelector((state) => state.project);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId");
 
@@ -30,7 +32,7 @@ function Your_Project() {
                   : project.description}
               </p>
               <div>
-                <p className={styles.your_project_button}>See Full Project</p>
+                <p className={styles.your_project_button} onClick={()=> {navigate(`/project-details/${project._id}`)}}>See Full Project</p>
               </div>
             </div>
           ))}

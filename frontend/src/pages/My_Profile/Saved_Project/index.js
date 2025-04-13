@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import styles from './Style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSavedProjects } from '../../../config/redux/action/projectAction';
+import { useNavigate } from 'react-router-dom';
 
 function SavedProject() {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const projectState = useSelector((state) => state.project);
   const savedProjects = projectState?.savedProjects || [];
@@ -30,7 +32,7 @@ function SavedProject() {
                   : project.description}
               </p>
               <div>
-                <p className={styles.save_project_button}>See Full Project</p>
+                <p className={styles.save_project_button} onClick={()=> {navigate(`/project-details/${project._id}`)}}>See Full Project</p>
               </div>
             </div>
           ))}

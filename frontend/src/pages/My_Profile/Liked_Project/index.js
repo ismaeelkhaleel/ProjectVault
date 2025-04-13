@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { getLikedProjects } from "../../../config/redux/action/projectAction";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Style.module.css";
+import { useNavigate } from "react-router-dom";
 
 function LikedProject() {
   const dispatch = useDispatch();
   const projectState = useSelector((state) => state.project);
   const likedProjects = projectState?.likedProjects || [];
+  const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId");
 
@@ -29,7 +31,7 @@ function LikedProject() {
                   : project.description}
               </p>
               <div>
-                <p className={styles.like_project_button}>See Full Project</p>
+                <p className={styles.like_project_button} onClick={()=> {navigate(`/project-details/${project._id}`)}}>See Full Project</p>
               </div>
             </div>
           ))}
