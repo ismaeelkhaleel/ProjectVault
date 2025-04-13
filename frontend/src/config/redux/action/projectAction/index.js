@@ -1,6 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import clientServer from "../../../index";
 
+
+export const getProjectById = createAsyncThunk(
+  "project/getProjectById",
+  async (id, thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/get-project-by-id/${id}`);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage = err.response?.data?.message || " Failed to get project by id";
+      return thunkAPI.rejectWithValue({message:errMessage});
+    }
+  }
+)
+
 export const getUserProjects = createAsyncThunk(
   "user/getUserProjects",
   async (userId, thunkAPI) => {

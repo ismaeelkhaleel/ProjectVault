@@ -1,0 +1,32 @@
+.project_details_container {
+    padding-inline: 2rem;
+    padding-block: 2rem;
+}
+.project_details_wrapper_top {
+    padding-left: 1rem;
+}
+.project_details_wrapper_top_desc {
+    margin-block: 1rem;
+}
+
+.project_details_wrapper_middle {
+    border: 1px solid black;
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-radius: 6px;
+}
+
+.project_details_wrapper_middle_options {
+    display: flex;
+    gap: 2rem;
+}
+.project_details_wrapper_middle_options_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+.project_details_wrapper_middle_options_item svg {
+    width: 30px;
+}

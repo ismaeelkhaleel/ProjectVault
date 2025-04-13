@@ -6,6 +6,7 @@ import {
   unsaveProject,
   getLikedProjects,
   getSavedProjects,
+  getProjectById,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -110,6 +111,21 @@ const projectSlice = createSlice({
         state.isError = true;
         state.message =
           action.payload.message || "Failed to Load Saved Projects";
+      })
+      .addCase(getProjectById.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading Project...";
+      })
+      .addCase(getProjectById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message || "Project Loaded Successfully";
+        state.projectDetails = action.payload;
+      })
+      .addCase(getProjectById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload.message || "Failed to Load Project";
       });
   },
 });
