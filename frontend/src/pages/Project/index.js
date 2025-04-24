@@ -3,11 +3,15 @@ import styles from "./Style.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProjectById } from "../../config/redux/action/projectAction";
+import Video from "./Video";
+import Instruction from "./Instruction";
+import Code from "./Code";
 function Project() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
   const [viewMore, setViewMore] = useState(false);
+  const [activeTab, setActiveTab] = useState("Demo Video");
 
   const projectState = useSelector((state) => state.project);
 
@@ -59,7 +63,12 @@ function Project() {
         </div>
         <div className={styles.project_details_wrapper_middle}>
           <div className={styles.project_details_wrapper_middle_options}>
-            <div className={styles.project_details_wrapper_middle_options_item}>
+            <div
+              className={styles.project_details_wrapper_middle_options_item}
+              onClick={() => {
+                setActiveTab("Demo Video");
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -70,7 +79,12 @@ function Project() {
               </svg>
               <h4>Demo Video</h4>
             </div>
-            <div className={styles.project_details_wrapper_middle_options_item}>
+            <div
+              className={styles.project_details_wrapper_middle_options_item}
+              onClick={() => {
+                setActiveTab("Instructions");
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -80,9 +94,14 @@ function Project() {
                 <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
               </svg>
 
-              <h4>instructions</h4>
+              <h4>Instructions</h4>
             </div>
-            <div className={styles.project_details_wrapper_middle_options_item}>
+            <div
+              className={styles.project_details_wrapper_middle_options_item}
+              onClick={() => {
+                setActiveTab("Code");
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -99,6 +118,11 @@ function Project() {
               <h4>Code</h4>
             </div>
           </div>
+        </div>
+        <div className={styles.project_details_wrapper_bottom}>
+          {activeTab === "Demo Video" && <Video />}
+          {activeTab === "Instructions" && <Instruction />}
+          {activeTab === "Code" && <Code />}
         </div>
       </div>
     </div>

@@ -1,0 +1,5 @@
+{
+    "watch": ["controllers", "middleware", "models", "routes", "index.js"],
+    "ignore": ["uploads", "uploads/*", "uploads/**"],
+    "ext": "js,json"
+  }  

@@ -10,10 +10,12 @@
 }
 
 .project_details_wrapper_middle {
-    border: 1px solid black;
+    border-top: 2px solid grey;
     margin-top: 1rem;
     padding-left: 1rem;
     border-radius: 6px;
+    background-color: white;
+    box-shadow: 2px 2px 2px grey;
 }
 
 .project_details_wrapper_middle_options {

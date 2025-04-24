@@ -1,5 +1,4 @@
 import express from "express";
-import { exec } from "child_process";
 import User from "../models/user.model.js";
 import Project from "../models/project.model.js";
 import path from "path";
@@ -7,6 +6,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 import axios from "axios";
 import multer from "multer";
+import simpleGit from "simple-git";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -59,9 +59,9 @@ export const uploadProject = async (req, res) => {
       return res.status(400).json({ message: "User ID is required" });
     if (!githubRepo)
       return res.status(400).json({ message: "GitHub repository is required" });
-
     if (!demoVideoPath)
       return res.status(400).json({ message: "Demo video is required" });
+
     const existingUser = await User.findById(userId);
     if (!existingUser)
       return res.status(400).json({ message: "User not found" });
@@ -74,6 +74,14 @@ export const uploadProject = async (req, res) => {
     const userDir = path.join(__dirname, "../uploads", userId);
     const clonePath = path.join(userDir, repoName);
     const zipPath = path.join(userDir, `${repoName}.zip`);
+    const relativePath = path.relative(
+      path.join(__dirname, "../uploads"),
+      demoVideoPath
+    );
+    const publicVideoUrl = `http://localhost:5000/uploads/${relativePath.replaceAll(
+      "\\",
+      "/"
+    )}`;
 
     if (!fs.existsSync(userDir)) fs.mkdirSync(userDir, { recursive: true });
 
@@ -90,62 +98,48 @@ export const uploadProject = async (req, res) => {
       responseType: "stream",
     });
 
-    const writer = fs.createWriteStream(zipPath);
-    response.data.pipe(writer);
-
-    writer.on("finish", async () => {
-      console.log(`ZIP file saved at: ${zipPath}`);
-
-      const cloneCommand = `git clone ${githubRepo} "${clonePath}"`;
-      console.log(`Cloning repository: ${githubRepo} into ${clonePath}`);
-
-      exec(cloneCommand, async (error, stdout, stderr) => {
-        if (error) {
-          console.error("Error cloning repository:", stderr);
-          return res
-            .status(400)
-            .json({ message: "Failed to clone repository", error: stderr });
-        }
-
-        console.log("Repository cloned successfully!");
-
-        try {
-          const project = new Project({
-            userId,
-            title,
-            description,
-            githubRepo,
-            clonedPath: clonePath,
-            zipFilePath: zipPath,
-            demoVideoPath,
-          });
-
-          await project.save();
-          console.log("Project details saved successfully!");
-
-          res.status(201).json({
-            message:
-              "GitHub repository cloned and ZIP file downloaded successfully",
-            project,
-          });
-        } catch (dbError) {
-          console.error("Database error:", dbError);
-          res
-            .status(500)
-            .json({ message: "Database save failed", error: dbError.message });
-        }
-      });
+    // Await the stream write using Promise
+    await new Promise((resolve, reject) => {
+      const writer = fs.createWriteStream(zipPath);
+      response.data.pipe(writer);
+      writer.on("finish", resolve);
+      writer.on("error", reject);
     });
 
-    writer.on("error", (err) => {
-      console.error("Error saving ZIP file:", err);
-      res
-        .status(500)
-        .json({ message: "Failed to save ZIP file", error: err.message });
+    console.log(`✅ ZIP file saved at: ${zipPath}`);
+    console.log(`🚀 Cloning repository using simple-git into: ${clonePath}`);
+
+    const git = simpleGit();
+
+    // Remove existing folder if it exists
+    if (fs.existsSync(clonePath)) {
+      fs.rmSync(clonePath, { recursive: true, force: true });
+    }
+
+    await git.clone(githubRepo, clonePath.replace(/\\/g, "/"));
+    console.log("✅ Repository cloned successfully!");
+
+    const project = new Project({
+      userId,
+      title,
+      description,
+      githubRepo,
+      clonedPath: clonePath,
+      zipFilePath: zipPath,
+      demoVideoPath: publicVideoUrl,
     });
+
+    await project.save();
+    console.log("✅ Project details saved successfully!");
+
+    res.status(201).json({
+      message: "GitHub repository cloned and ZIP file downloaded successfully",
+      project,
+    });
+
   } catch (error) {
-    console.error("Error in processing repository:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("❌ Error in uploadProject:", error);
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -167,7 +161,10 @@ export const getAllProjects = async (req, res) => {
 export const getProjectById = async (req, res) => {
   try {
     const projectId = req.params.id;
-    const project = await Project.findById(projectId).populate("userId", "name username");
+    const project = await Project.findById(projectId).populate(
+      "userId",
+      "name username"
+    );
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
@@ -176,7 +173,7 @@ export const getProjectById = async (req, res) => {
     console.error("Error fetching project:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 export const getUserProjects = async (req, res) => {
   try {
@@ -335,7 +332,6 @@ export const getLikedProjects = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 export const incrementViews = async (req, res) => {
   const { id: projectId } = req.params;
