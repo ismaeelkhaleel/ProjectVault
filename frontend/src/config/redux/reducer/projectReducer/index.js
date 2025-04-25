@@ -7,6 +7,7 @@ import {
   getLikedProjects,
   getSavedProjects,
   getProjectById,
+  getAllProjects,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   message: "",
   likedProjects: [],
   savedProjects: [],
+  allProjects: [],
 };
 
 const projectSlice = createSlice({
@@ -126,6 +128,21 @@ const projectSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload.message || "Failed to Load Project";
+      })
+      .addCase(getAllProjects.pending, (state, action) => {
+        state.isLoading = true;
+        state.message = "Fetching Projects...";
+      })
+      .addCase(getAllProjects.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message || "Project Loaded Successfully";
+        state.allProjects = action.payload;
+      })
+      .addCase(getAllProjects.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action?.payload?.message || "Failed to fetch Project";
       });
   },
 });

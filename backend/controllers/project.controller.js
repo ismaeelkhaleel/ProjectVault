@@ -52,7 +52,8 @@ const upload = multer({ storage, fileFilter });
 
 export const uploadProject = async (req, res) => {
   try {
-    const { userId, title, description, githubRepo } = req.body;
+    const { userId, title, description, githubRepo, category, technology } =
+      req.body;
     const demoVideoPath = req.file ? req.file.path : null;
 
     if (!userId)
@@ -124,6 +125,8 @@ export const uploadProject = async (req, res) => {
       title,
       description,
       githubRepo,
+      category,
+      technology,
       clonedPath: clonePath,
       zipFilePath: zipPath,
       demoVideoPath: publicVideoUrl,
@@ -136,10 +139,11 @@ export const uploadProject = async (req, res) => {
       message: "GitHub repository cloned and ZIP file downloaded successfully",
       project,
     });
-
   } catch (error) {
     console.error("❌ Error in uploadProject:", error);
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 

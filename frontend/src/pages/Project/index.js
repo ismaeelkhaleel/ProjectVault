@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Style.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProjectById } from "../../config/redux/action/projectAction";
+import { getAllProjects, getProjectById } from "../../config/redux/action/projectAction";
 import Video from "./Video";
 import Instruction from "./Instruction";
 import Code from "./Code";
@@ -19,6 +19,7 @@ function Project() {
 
   useEffect(() => {
     dispatch(getProjectById(id));
+    dispatch(getAllProjects());
   }, [dispatch, id]);
 
   return (

@@ -17,7 +17,7 @@ import {
 const router = express.Router();
 
 router.post("/create-project", upload.single("demoVideoPath"), uploadProject);
-router.get("/get-all-project", getAllProjects);
+router.get("/get-all-projects", getAllProjects);
 router.get("/get-user-project/:id", getUserProjects);
 router.get("/get-saved-projects/:id", getSavedProjects);
 router.put("/save-project/:id", saveProject);

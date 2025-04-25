@@ -14,6 +14,14 @@ const projectSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    category: {
+      type: String,
+      required: true,
+    },
+    technology: {
+      type: [String],
+      required: true,
+    },
     githubRepo: {
       type: String,
       validate: {

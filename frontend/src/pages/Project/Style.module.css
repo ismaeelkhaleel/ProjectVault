@@ -2,9 +2,11 @@
     padding-inline: 2rem;
     padding-block: 2rem;
 }
+
 .project_details_wrapper_top {
     padding-left: 1rem;
 }
+
 .project_details_wrapper_top_desc {
     margin-block: 1rem;
 }
@@ -22,6 +24,7 @@
     display: flex;
     gap: 2rem;
 }
+
 .project_details_wrapper_middle_options_item {
     display: flex;
     flex-direction: row;
@@ -29,6 +32,36 @@
     gap: 0.5rem;
     cursor: pointer;
 }
+
 .project_details_wrapper_middle_options_item svg {
     width: 30px;
+}
+
+.project_details_wrapper_bottom {
+    display: flex;
+    padding-block: 2rem;
+    padding-inline: 0.5rem;
+}
+
+.project_details_wrapper_bottom_video {
+    width: 65%;
+
+}
+
+.project_details_wrapper_bottom_suggested {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    padding-inline-start: 4rem;
+}
+.project_details_wrapper_bottom_suggested_project_card {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+.project_details_wrapper_bottom_suggested_project_card:hover {
+transform: scale(1.01);
 }
