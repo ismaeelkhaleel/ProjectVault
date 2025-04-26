@@ -48,6 +48,26 @@
 
 }
 
+.project_details_wrapper_bottom_others_icon {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 0.7rem;
+    padding-inline: 1rem;
+    align-items: center;
+}
+.project_details_wrapper_bottom_others_icon_item {
+    display: flex;
+    align-items: center;
+    gap:0.5rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding-inline: 1rem;
+    padding-block: 0.2rem;
+}
+.project_details_wrapper_bottom_others_icon svg {
+    width: 25px;
+}
+
 .project_details_wrapper_bottom_suggested {
     display: flex;
     flex-direction: column;

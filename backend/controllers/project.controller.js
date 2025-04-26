@@ -329,7 +329,9 @@ export const deccrementLikes = async (req, res) => {
 export const getLikedProjects = async (req, res) => {
   try {
     const userId = req.params.id;
+    console.log("userId", userId);
     const user = await User.findById(userId).populate("likeProjects");
+    console.log("zcalled in bakcend", user.likeProjects);
     res.json(user.likeProjects);
   } catch (error) {
     console.error("Error fetching saved projects:", error);

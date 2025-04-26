@@ -80,6 +80,7 @@ export const getSavedProjects = createAsyncThunk(
   async (userId, thunkAPI) => {
     try {
       const response = await clientServer.get(`/get-saved-projects/${userId}`);
+      console.log(response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage =
