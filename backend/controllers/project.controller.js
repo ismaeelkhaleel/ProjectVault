@@ -52,45 +52,27 @@ const upload = multer({ storage, fileFilter });
 
 export const uploadProject = async (req, res) => {
   try {
-    const { userId, title, description, githubRepo, category, technology } =
-      req.body;
+    const { userId, title, description, githubRepo, category, technology } = req.body;
     const demoVideoPath = req.file ? req.file.path : null;
 
-    if (!userId)
-      return res.status(400).json({ message: "User ID is required" });
-    if (!githubRepo)
-      return res.status(400).json({ message: "GitHub repository is required" });
-    if (!demoVideoPath)
-      return res.status(400).json({ message: "Demo video is required" });
+    if (!userId) return res.status(400).json({ message: "User ID is required" });
+    if (!githubRepo) return res.status(400).json({ message: "GitHub repository is required" });
+    if (!demoVideoPath) return res.status(400).json({ message: "Demo video is required" });
 
     const existingUser = await User.findById(userId);
-    if (!existingUser)
-      return res.status(400).json({ message: "User not found" });
+    if (!existingUser) return res.status(400).json({ message: "User not found" });
 
     const existingProject = await Project.findOne({ userId, title });
-    if (existingProject)
-      return res.status(400).json({ message: "Project already exists" });
+    if (existingProject) return res.status(400).json({ message: "Project already exists" });
 
     const repoName = githubRepo.split("/").slice(-2).join("-");
-    const userDir = path.join(__dirname, "../uploads", userId);
-    const clonePath = path.join(userDir, repoName);
-    const zipPath = path.join(userDir, `${repoName}.zip`);
-    const relativePath = path.relative(
-      path.join(__dirname, "../uploads"),
-      demoVideoPath
-    );
-    const publicVideoUrl = `http://localhost:5000/uploads/${relativePath.replaceAll(
-      "\\",
-      "/"
-    )}`;
+    const uploadsDir = path.join(__dirname, "../uploads", userId);
+    const clonePath = path.join(uploadsDir, repoName);
+    const zipPath = path.join(uploadsDir, `${repoName}.zip`);
 
-    if (!fs.existsSync(userDir)) fs.mkdirSync(userDir, { recursive: true });
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
-    const repoZipUrl = `${githubRepo.replace(
-      ".git",
-      ""
-    )}/archive/refs/heads/main.zip`;
-
+    const repoZipUrl = `${githubRepo.replace(".git", "")}/archive/refs/heads/main.zip`;
     console.log(`📥 Downloading ZIP from: ${repoZipUrl}`);
 
     const response = await axios({
@@ -99,7 +81,6 @@ export const uploadProject = async (req, res) => {
       responseType: "stream",
     });
 
-    // Await the stream write using Promise
     await new Promise((resolve, reject) => {
       const writer = fs.createWriteStream(zipPath);
       response.data.pipe(writer);
@@ -112,13 +93,24 @@ export const uploadProject = async (req, res) => {
 
     const git = simpleGit();
 
-    // Remove existing folder if it exists
     if (fs.existsSync(clonePath)) {
       fs.rmSync(clonePath, { recursive: true, force: true });
     }
 
     await git.clone(githubRepo, clonePath.replace(/\\/g, "/"));
     console.log("✅ Repository cloned successfully!");
+
+    // Create public URLs
+    const baseUploadsPath = path.join(__dirname, "../uploads");
+
+    const makePublicUrl = (filePath) => {
+      const relativePath = path.relative(baseUploadsPath, filePath);
+      return `http://localhost:5000/uploads/${relativePath.replaceAll("\\", "/")}`;
+    };
+
+    const publicVideoUrl = makePublicUrl(demoVideoPath);
+    const publicZipUrl = makePublicUrl(zipPath);
+    const publicClonePath = makePublicUrl(clonePath);
 
     const project = new Project({
       userId,
@@ -127,9 +119,9 @@ export const uploadProject = async (req, res) => {
       githubRepo,
       category,
       technology,
-      clonedPath: clonePath,
-      zipFilePath: zipPath,
-      demoVideoPath: publicVideoUrl,
+      clonedPath: publicClonePath,    // ✅ public URL
+      zipFilePath: publicZipUrl,       // ✅ public URL
+      demoVideoPath: publicVideoUrl,   // ✅ public URL
     });
 
     await project.save();
@@ -141,9 +133,7 @@ export const uploadProject = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Error in uploadProject:", error);
-    res
-      .status(500)
-      .json({ error: "Internal Server Error", details: error.message });
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -329,9 +319,7 @@ export const deccrementLikes = async (req, res) => {
 export const getLikedProjects = async (req, res) => {
   try {
     const userId = req.params.id;
-    console.log("userId", userId);
     const user = await User.findById(userId).populate("likeProjects");
-    console.log("zcalled in bakcend", user.likeProjects);
     res.json(user.likeProjects);
   } catch (error) {
     console.error("Error fetching saved projects:", error);
