@@ -134,3 +134,22 @@
 .project_details_wrapper_bottom_suggested_project_card:hover {
     transform: scale(1.01);
 }
+
+.project_details_wrapper_bottom_instructions {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.project_details_wrapper_instructions_content {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-inline: 2rem;
+}
+
+.markdown-body {
+    font-family: Arial, sans-serif;
+}
