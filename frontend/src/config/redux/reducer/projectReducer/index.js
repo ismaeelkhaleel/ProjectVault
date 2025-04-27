@@ -8,6 +8,9 @@ import {
   getSavedProjects,
   getProjectById,
   getAllProjects,
+  incrementLikes,
+  decrementLikes,
+  incrementViews,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -129,7 +132,7 @@ const projectSlice = createSlice({
         state.isError = true;
         state.message = action.payload.message || "Failed to Load Project";
       })
-      .addCase(getAllProjects.pending, (state, action) => {
+      .addCase(getAllProjects.pending, (state) => {
         state.isLoading = true;
         state.message = "Fetching Projects...";
       })
@@ -143,6 +146,49 @@ const projectSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action?.payload?.message || "Failed to fetch Project";
+      })
+      .addCase(incrementLikes.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Liking Project...";
+      })
+      .addCase(incrementLikes.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message || "Project liked Successfully";
+      })
+      .addCase(incrementLikes.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action?.payload?.message || "Failed to like Project";
+      })
+      .addCase(decrementLikes.pending, (state) => {
+        state.isLoading = true;
+        state.message = "UnLiking Project...";
+      })
+      .addCase(decrementLikes.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message =
+          action.payload.message || "Project Unliked Successfully";
+      })
+      .addCase(decrementLikes.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action?.payload?.message || "Failed to Unlike Project";
+      })
+      .addCase(incrementViews.pending, (state) => {
+        state.isLoading = true;
+        state.message = "viewing Project...";
+      })
+      .addCase(incrementViews.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message || "Project viewed Successfully";
+      })
+      .addCase(incrementViews.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action?.payload?.message || "Failed to view Project";
       });
   },
 });

@@ -80,7 +80,6 @@ export const getSavedProjects = createAsyncThunk(
   async (userId, thunkAPI) => {
     try {
       const response = await clientServer.get(`/get-saved-projects/${userId}`);
-      console.log(response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage =
@@ -99,6 +98,56 @@ export const getAllProjects = createAsyncThunk(
     } catch (err) {
       const errMessage =
         err.response?.data?.message || "Failed to get all projects";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
+export const incrementLikes = createAsyncThunk(
+  "project/incrementLikes",
+  async ({ projectId, userId }, thunkAPI) => {
+    try {
+      const response = await clientServer.post(
+        `/increment-likes/${projectId}`,
+        {
+          userId,
+        }
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage = err.response?.data?.message || "Failed like project";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
+export const decrementLikes = createAsyncThunk(
+  "project/decrementLikes",
+  async ({ projectId, userId }, thunkAPI) => {
+    try {
+      const response = await clientServer.post(
+        `/decrement-likes/${projectId}`,
+        {
+          userId,
+        }
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage = err.response?.data?.message || "Failed unlike project";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
+export const incrementViews = createAsyncThunk(
+  "project/incrementViews",
+  async (projectId, thunkAPI) => {
+    try {
+      const response = await clientServer.post(`/increment-views/${projectId}`);
+
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage = err.response?.data?.message || "Failed view project";
       return thunkAPI.rejectWithValue({ message: errMessage });
     }
   }

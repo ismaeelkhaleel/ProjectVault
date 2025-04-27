@@ -7,6 +7,7 @@ import {
   getLikedProjects,
   getProjectById,
   getSavedProjects,
+  incrementViews,
 } from "../../config/redux/action/projectAction";
 import Video from "./Video";
 import Instruction from "./Instruction";
@@ -25,6 +26,7 @@ function Project() {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    dispatch(incrementViews(id));
     dispatch(getProjectById(id));
     dispatch(getAllProjects());
     dispatch(getLikedProjects(userId));
