@@ -11,6 +11,7 @@ import {
   incrementLikes,
   decrementLikes,
   incrementViews,
+  getCodeTree,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   likedProjects: [],
   savedProjects: [],
   allProjects: [],
+  codeTree: null,
 };
 
 const projectSlice = createSlice({
@@ -189,6 +191,22 @@ const projectSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action?.payload?.message || "Failed to view Project";
+      })
+      .addCase(getCodeTree.pending, (state) => {
+        state.isLoading = true;
+        state.message = "getting code tree...";
+      })
+      .addCase(getCodeTree.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.codeTree = action.payload;
+        state.message = action?.payload?.message || "Code Structure fetched!";
+      })
+      .addCase(getCodeTree.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action?.payload?.message || "Code Structure Can not be fetched";
       });
   },
 });

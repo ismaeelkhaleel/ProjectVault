@@ -52,27 +52,37 @@ const upload = multer({ storage, fileFilter });
 
 export const uploadProject = async (req, res) => {
   try {
-    const { userId, title, description, githubRepo, category, technology } = req.body;
+    const { userId, title, description, githubRepo, category, technology } =
+      req.body;
     const demoVideoPath = req.file ? req.file.path : null;
 
-    if (!userId) return res.status(400).json({ message: "User ID is required" });
-    if (!githubRepo) return res.status(400).json({ message: "GitHub repository is required" });
-    if (!demoVideoPath) return res.status(400).json({ message: "Demo video is required" });
+    if (!userId)
+      return res.status(400).json({ message: "User ID is required" });
+    if (!githubRepo)
+      return res.status(400).json({ message: "GitHub repository is required" });
+    if (!demoVideoPath)
+      return res.status(400).json({ message: "Demo video is required" });
 
     const existingUser = await User.findById(userId);
-    if (!existingUser) return res.status(400).json({ message: "User not found" });
+    if (!existingUser)
+      return res.status(400).json({ message: "User not found" });
 
     const existingProject = await Project.findOne({ userId, title });
-    if (existingProject) return res.status(400).json({ message: "Project already exists" });
+    if (existingProject)
+      return res.status(400).json({ message: "Project already exists" });
 
     const repoName = githubRepo.split("/").slice(-2).join("-");
     const uploadsDir = path.join(__dirname, "../uploads", userId);
     const clonePath = path.join(uploadsDir, repoName);
     const zipPath = path.join(uploadsDir, `${repoName}.zip`);
 
-    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+    if (!fs.existsSync(uploadsDir))
+      fs.mkdirSync(uploadsDir, { recursive: true });
 
-    const repoZipUrl = `${githubRepo.replace(".git", "")}/archive/refs/heads/main.zip`;
+    const repoZipUrl = `${githubRepo.replace(
+      ".git",
+      ""
+    )}/archive/refs/heads/main.zip`;
     console.log(`📥 Downloading ZIP from: ${repoZipUrl}`);
 
     const response = await axios({
@@ -105,7 +115,10 @@ export const uploadProject = async (req, res) => {
 
     const makePublicUrl = (filePath) => {
       const relativePath = path.relative(baseUploadsPath, filePath);
-      return `http://localhost:5000/uploads/${relativePath.replaceAll("\\", "/")}`;
+      return `http://localhost:5000/uploads/${relativePath.replaceAll(
+        "\\",
+        "/"
+      )}`;
     };
 
     const publicVideoUrl = makePublicUrl(demoVideoPath);
@@ -119,9 +132,9 @@ export const uploadProject = async (req, res) => {
       githubRepo,
       category,
       technology,
-      clonedPath: publicClonePath,    // ✅ public URL
-      zipFilePath: publicZipUrl,       // ✅ public URL
-      demoVideoPath: publicVideoUrl,   // ✅ public URL
+      clonedPath: publicClonePath, // ✅ public URL
+      zipFilePath: publicZipUrl, // ✅ public URL
+      demoVideoPath: publicVideoUrl, // ✅ public URL
     });
 
     await project.save();
@@ -133,7 +146,9 @@ export const uploadProject = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Error in uploadProject:", error);
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -339,5 +354,58 @@ export const incrementViews = async (req, res) => {
   } catch (error) {
     console.error("Error incrementing views:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getCodeTree = async (req, res) => {
+  const projectId  = req.params.id;
+  try {
+    console.log(projectId);
+    if (!projectId) {
+      return res.status(400).json({ error: "Project ID is required" });
+    }
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    const codePath = project.clonedPath;
+    console.log(codePath);
+    if (!codePath) {
+      return res
+        .status(404)
+        .json({ error: "Code path not found for the project" });
+    }
+
+    const getDirectoryStructure = (dirPath) => {
+      const result = {
+        name: path.basename(dirPath),
+        type: "folder",
+        children: [],
+      };
+      const files = fs.readdirSync(dirPath);
+
+      files.forEach((file) => {
+        const filePath = path.join(dirPath, file);
+        const stat = fs.lstatSync(filePath);
+
+        if (stat.isDirectory()) {
+          result.children.push(getDirectoryStructure(filePath));
+        } else {
+          result.children.push({ name: file, type: "file" });
+        }
+      });
+
+      return result;
+    };
+
+    const directoryStructure = getDirectoryStructure(codePath);
+
+    res.json(directoryStructure);
+  } catch (error) {
+    console.error("Error fetching project or directory structure:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

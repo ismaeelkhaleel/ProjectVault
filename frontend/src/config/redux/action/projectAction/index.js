@@ -152,3 +152,18 @@ export const incrementViews = createAsyncThunk(
     }
   }
 );
+
+export const getCodeTree = createAsyncThunk(
+  "project/getCodeStructure",
+  async (projectId, thunkAPI) => {
+    try {
+      const response = await fetch(`/code-tree/${projectId}`);
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed view project code tree";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);

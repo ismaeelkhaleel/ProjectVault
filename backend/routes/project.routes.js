@@ -11,7 +11,8 @@ import {
   deccrementLikes,
   incrementViews,
   getLikedProjects,
-  getProjectById
+  getProjectById,
+  getCodeTree
 } from "../controllers/project.controller.js";
 
 const router = express.Router();
@@ -27,5 +28,6 @@ router.post("/decrement-likes/:id", deccrementLikes);
 router.post("/increment-views/:id", incrementViews);
 router.get("/get-liked-projects/:id", getLikedProjects);
 router.get("/get-project-by-id/:id", getProjectById);
+router.get("/code-tree/:id", getCodeTree);
 
 export default router;
