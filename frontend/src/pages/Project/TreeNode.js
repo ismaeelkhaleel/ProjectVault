@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const IGNORED_NAMES = [".git"];
 
-const TreeNode = ({ node, setSelectedFile }) => {
+const TreeNode = ({ node, setSelectedFile, selectedFile }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleToggle = () => {
@@ -19,6 +19,9 @@ const TreeNode = ({ node, setSelectedFile }) => {
     return null;
   }
 
+  // Check if this node is the currently selected file
+  const isActive = selectedFile && selectedFile.path === node.path;
+
   return (
     <div style={{ marginLeft: "20px" }}>
       {node.type === "folder" ? (
@@ -32,7 +35,13 @@ const TreeNode = ({ node, setSelectedFile }) => {
       ) : (
         <div
           onClick={handleFileClick}
-          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+          style={{
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            color: isActive ? "red" : "inherit", // 🔥 Here we apply red color if active
+            fontWeight: isActive ? "bold" : "normal", // 🔥 Bold for active file
+          }}
         >
           <span style={{ marginRight: "5px" }}>📄</span>
           <span>{node.name}</span>
@@ -42,7 +51,12 @@ const TreeNode = ({ node, setSelectedFile }) => {
       {expanded && node.children && (
         <div style={{ marginLeft: "20px" }}>
           {node.children.map((child, index) => (
-            <TreeNode key={index} node={child} setSelectedFile={setSelectedFile} />
+            <TreeNode
+              key={index}
+              node={child}
+              setSelectedFile={setSelectedFile}
+              selectedFile={selectedFile} // 👈 Pass selectedFile to child nodes also
+            />
           ))}
         </div>
       )}
