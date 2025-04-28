@@ -12,6 +12,7 @@ import {
   decrementLikes,
   incrementViews,
   getCodeTree,
+  getFileContent,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   savedProjects: [],
   allProjects: [],
   codeTree: null,
+  selectedFile: null,
 };
 
 const projectSlice = createSlice({
@@ -207,6 +209,22 @@ const projectSlice = createSlice({
         state.isError = true;
         state.message =
           action?.payload?.message || "Code Structure Can not be fetched";
+      })
+      .addCase(getFileContent.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Code Content fetching...";
+      })
+      .addCase(getFileContent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.selectedFile = action.payload;
+        state.message = action?.payload?.message || "Code Content fetched!";
+      })
+      .addCase(getFileContent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action?.payload?.message || "Code content Can not be fetched";
       });
   },
 });

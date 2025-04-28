@@ -157,8 +157,7 @@ export const getCodeTree = createAsyncThunk(
   "project/getCodeStructure",
   async (projectId, thunkAPI) => {
     try {
-      const response = await fetch(`/code-tree/${projectId}`);
-      console.log(response);
+      const response = await clientServer.get(`/code-tree/${projectId}`);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage =
@@ -167,3 +166,18 @@ export const getCodeTree = createAsyncThunk(
     }
   }
 );
+
+export const getFileContent = createAsyncThunk(
+  "project/getFileContent",
+  async({projectId, filePath}, thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/project/${projectId}/fileContent?filePath=${filePath}`);
+      console.log(response.data);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to get code";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+)

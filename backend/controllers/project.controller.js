@@ -358,9 +358,9 @@ export const incrementViews = async (req, res) => {
 };
 
 export const getCodeTree = async (req, res) => {
-  const projectId  = req.params.id;
+  const projectId = req.params.id;
+
   try {
-    console.log(projectId);
     if (!projectId) {
       return res.status(400).json({ error: "Project ID is required" });
     }
@@ -372,12 +372,19 @@ export const getCodeTree = async (req, res) => {
     }
 
     const codePath = project.clonedPath;
-    console.log(codePath);
+
     if (!codePath) {
       return res
         .status(404)
         .json({ error: "Code path not found for the project" });
     }
+
+    const uploadsFolderPath = path.join(__dirname, "..", "uploads"); // go to backend/uploads/
+    const relativePath = codePath.replace(
+      /^http:\/\/localhost:5000\/uploads\//,
+      ""
+    );
+    const absoluteLocalPath = path.join(uploadsFolderPath, relativePath);
 
     const getDirectoryStructure = (dirPath) => {
       const result = {
@@ -394,18 +401,40 @@ export const getCodeTree = async (req, res) => {
         if (stat.isDirectory()) {
           result.children.push(getDirectoryStructure(filePath));
         } else {
-          result.children.push({ name: file, type: "file" });
+          result.children.push({ name: file, type: "file", path:filePath });
         }
       });
 
       return result;
     };
 
-    const directoryStructure = getDirectoryStructure(codePath);
+    const directoryStructure = getDirectoryStructure(absoluteLocalPath);
 
     res.json(directoryStructure);
   } catch (error) {
     console.error("Error fetching project or directory structure:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getFileContent = (req, res) => {
+  const { filePath } = req.query;
+
+  if (!filePath) {
+    return res.status(400).json({ error: "File path is required" });
+  }
+
+  const absoluteFilePath = path.join(__dirname, "..", filePath); 
+ 
+  if (!fs.existsSync(absoluteFilePath)) {
+    return res.status(404).json({ error: "File not found" });
+  }
+
+  try {
+    const content = fs.readFileSync(absoluteFilePath, "utf-8");
+    res.json({ content });
+  } catch (error) {
+    console.error("Error reading file:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

@@ -153,3 +153,79 @@
 .markdown-body {
     font-family: Arial, sans-serif;
 }
+
+/* General styling for the layout */
+.project_details_wrapper_bottom_code {
+    display: flex;
+    width: 100%;
+    font-family: 'Roboto', sans-serif; /* Clean font similar to GitHub */
+    background-color: #f7f7f7; /* Subtle background color like GitHub */
+}
+
+.project_details_wrapper_bottom_code_tree {
+    width: 40%;
+    box-sizing: border-box;
+    border-right: 2px solid #e1e4e8; /* Light border for separation */
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #fff; /* White background for tree section */
+}
+
+.project_details_wrapper_bottom_code_section {
+    width: 60%;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* Header styles */
+.project_details_wrapper_bottom_code h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* TreeNode item styling */
+.project_details_wrapper_bottom_code_tree ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.project_details_wrapper_bottom_code_tree li {
+    padding: 5px 0;
+    font-size: 1rem;
+    color: #24292f;
+    cursor: pointer;
+}
+
+.project_details_wrapper_bottom_code_tree li:hover {
+    background-color: #f1f8ff;
+    border-radius: 5px;
+}
+
+/* File content area styling */
+.project_details_wrapper_bottom_file_content {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    background-color: #2d2d2d;
+    color: #f7f7f7;
+    padding: 15px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+}
+
+/* Add padding to empty file section */
+.project_details_wrapper_bottom_code_section div {
+    font-size: 1rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* TreeNode hover effect */
+.project_details_wrapper_bottom_code_tree li:hover {
+    background-color: #f1f8ff;
+    border-radius: 5px;
+    padding-left: 10px; /* Slight indentation on hover for effect */
+}
