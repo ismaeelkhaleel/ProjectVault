@@ -235,3 +235,31 @@
     color: #888;
     font-style: italic;
 }
+
+.commentSectionWrapper {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.currentUserCommentBox {
+    width: 100%;
+}
+
+.currentUserCommentBox input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    margin-top:1rem ;
+}
+
+.currentUserInfo {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.currentUserInfo img {
+    width: 50px;
+    border-radius: 50%;
+}

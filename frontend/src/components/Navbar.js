@@ -9,7 +9,7 @@ function Navbar() {
   const [profileToggle, setProfileToggle] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  const loggedInUser = user; // or access specific fields like user.name, user.email, etc.
+  const loggedInUser = user;  
   const token = localStorage.getItem("token");
 
   const handleProfileToggle = () => {

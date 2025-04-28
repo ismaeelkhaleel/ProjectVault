@@ -18,7 +18,7 @@ function Code() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
-  const codeRef = useRef(null); // NEW
+  const codeRef = useRef(null); 
 
   useEffect(() => {
     if (projectId) {

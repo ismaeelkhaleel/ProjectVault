@@ -12,6 +12,7 @@ import {
   saveProject,
   unsaveProject,
 } from "../../config/redux/action/projectAction";
+import CommentSection from "./CommentSection";
 
 function Video() {
   const navigate = useNavigate();
@@ -103,7 +104,9 @@ function Video() {
                 />
               </svg>
             )}
-            <span className={styles.tooltiptext}>{isLiked ? "Liked" : "Like"}</span>
+            <span className={styles.tooltiptext}>
+              {isLiked ? "Liked" : "Like"}
+            </span>
           </div>
           <div
             className={styles.project_details_wrapper_bottom_others_icon_item}
@@ -169,8 +172,13 @@ function Video() {
                 />
               </svg>
             )}
-           <span className={styles.tooltiptext}>{isSaved ? "Unsave" : "Save"}</span>
+            <span className={styles.tooltiptext}>
+              {isSaved ? "Unsave" : "Save"}
+            </span>
           </div>
+        </div>
+        <div className={styles.project_details_wrapper_bottom_comment}>
+          <CommentSection projectId={currentProjectId} />
         </div>
       </div>
       <div className={styles.project_details_wrapper_bottom_suggested}>
