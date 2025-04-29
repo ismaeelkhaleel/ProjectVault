@@ -250,7 +250,7 @@
     border: none;
     border-bottom: 2px solid black;
     outline: none;
-    margin-top:1rem ;
+    margin-top: 1rem;
 }
 
 .currentUserInfo {
@@ -262,4 +262,88 @@
 .currentUserInfo img {
     width: 50px;
     border-radius: 50%;
+    object-fit: cover;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.postBtn,
+.cancelBtn {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.postBtn {
+    background-color: #007bff;
+    color: white;
+}
+
+.cancelBtn {
+    background-color: #ccc;
+    color: black;
+}
+
+
+.allComments {
+    border-top: 1px solid black;
+    margin-top: 1rem;
+}
+
+.singleComment {
+    padding-block: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.singleComment>div:first-child {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.singleComment_image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.singleComment_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.singleComment_info h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.singleComment_info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgb(63, 62, 62);
+}
+
+.singleComment_header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.singleComment_header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.singleComment_header span {
+    font-size: 0.8rem;
+    color: gray;
 }
