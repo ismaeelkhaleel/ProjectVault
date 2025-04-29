@@ -9,6 +9,7 @@ import {
   getSavedProjects,
   incrementViews,
 } from "../../config/redux/action/projectAction";
+import {getAllComments,} from "../../config/redux/action/commentAction"
 import Video from "./Video";
 import Instruction from "./Instruction";
 import Code from "./Code";
@@ -31,6 +32,7 @@ function Project() {
     dispatch(getAllProjects());
     dispatch(getLikedProjects(userId));
     dispatch(getSavedProjects(userId));
+    dispatch(getAllComments(id));
   }, [dispatch, id, userId]);
 
   return (

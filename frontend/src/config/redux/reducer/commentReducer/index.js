@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { postComment, getAllComments } from "../../action/commentAction";
+import {
+  postComment,
+  getAllComments,
+  likeComment,
+  dislikeComment,
+} from "../../action/commentAction";
 
 const initialState = {
   comments: null,
@@ -53,6 +58,37 @@ const commentSlice = createSlice({
         state.isError = true;
         state.message =
           action?.payload?.message || "Comments can not be fetched";
+      })
+      .addCase(likeComment.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Comment liking...";
+      })
+      .addCase(likeComment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.message =
+          action?.payload?.message || "Comment Liked Successfully";
+      })
+      .addCase(likeComment.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.message = action?.payload?.message || "Comment Can not be liked";
+      })
+      .addCase(dislikeComment.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Comment disliking...";
+      })
+      .addCase(dislikeComment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.message =
+          action?.payload?.message || "Comment Disliked Successfully";
+      })
+      .addCase(dislikeComment.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.message =
+          action?.payload?.message || "Comment Can not be disliked";
       });
   },
 });

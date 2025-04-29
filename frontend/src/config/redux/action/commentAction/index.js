@@ -5,11 +5,14 @@ export const postComment = createAsyncThunk(
   "comment/post",
   async (Comment, thunkAPI) => {
     try {
-      const response = await clientServer.post(`/post-comment/${Comment.projectId}`, {
-        content: Comment.content,
-        parentId: Comment.parentId,
-        userId: Comment.userId,
-      });
+      const response = await clientServer.post(
+        `/post-comment/${Comment.projectId}`,
+        {
+          content: Comment.content,
+          parentId: Comment.parentId,
+          userId: Comment.userId,
+        }
+      );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage =
@@ -30,6 +33,41 @@ export const getAllComments = createAsyncThunk(
     } catch (err) {
       const errMessage =
         err.response?.data?.message || "Comment can not be fetched";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
+export const likeComment = createAsyncThunk(
+  "comment/like",
+  async ({ commentId, userId }, thunkAPI) => {
+    try {
+      const response = await clientServer.post(`/like-comment/${commentId}`, {
+        userId,
+      });
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Comment can not be Liked";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
+export const dislikeComment = createAsyncThunk(
+  "comment/dislike",
+  async ({ commentId, userId }, thunkAPI) => {
+    try {
+      const response = await clientServer.post(
+        `/dislike-comment/${commentId}`,
+        {
+          userId,
+        }
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Comment can not be Disliked";
       return thunkAPI.rejectWithValue({ message: errMessage });
     }
   }
