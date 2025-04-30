@@ -326,13 +326,27 @@
     font-weight: 600;
 }
 
-.singleComment_info p {
+.singleComment_info>p {
     margin: 0;
     font-size: 0.9rem;
     color: rgb(63, 62, 62);
+    padding-right: 1.2rem;
 }
 
-.singleComment_header,
+.singleComment_header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.singleComment_header>div {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
 .singleComment_footer {
     display: flex;
     align-items: center;

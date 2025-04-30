@@ -55,7 +55,9 @@ export const getComments = async (req, res) => {
       .populate("parentId")
       .sort({ likes: -1, createdAt: -1 });
 
-    return res.status(200).json({ message: "Comments retrieved successfully" , comments });
+    return res
+      .status(200)
+      .json({ message: "Comments retrieved successfully", comments });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error fetching comments" });
@@ -72,9 +74,11 @@ export const getUserComments = async (req, res) => {
     const comments = await Comment.find({ userId })
       .populate("projectId")
       .populate("parentId")
-      .sort({createdAt: -1 });
+      .sort({ createdAt: -1 });
 
-    return res.status(200).json({ message: "Comments retrieved successfully" , comments });
+    return res
+      .status(200)
+      .json({ message: "Comments retrieved successfully", comments });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error fetching user comments" });
@@ -91,7 +95,9 @@ export const editComment = async (req, res) => {
     }
     comment.content = content;
     await comment.save();
-    return res.status(200).json({ message: "Comment updated successfully", comment });
+    return res
+      .status(200)
+      .json({ message: "Comment updated successfully", comment });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error updating comment" });
@@ -101,29 +107,53 @@ export const editComment = async (req, res) => {
 export const deleteComment = async (req, res) => {
   const commentId = req.params.id;
   const { projectId } = req.body;
+
   try {
-    const comment = await Comment.findByIdAndDelete(commentId);
-    const project = await Project.findById(projectId);
+    const comment = await Comment.findById(commentId);
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
+
+    const project = await Project.findById(projectId);
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    project.totalComments -= 1;
+    // Only recursively delete replies if it's a top-level comment
+    const isTopLevelComment = !comment.parentId;
+
+    const deleteReplies = async (parentId) => {
+      const replies = await Comment.find({ parentId });
+      for (const reply of replies) {
+        await deleteReplies(reply._id); // delete nested replies
+        await Comment.findByIdAndDelete(reply._id); // delete the reply
+      }
+    };
+
+    if (isTopLevelComment) {
+      await deleteReplies(commentId);
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+
+    const totalRemaining = await Comment.countDocuments({ projectId });
+    project.totalComments = totalRemaining;
     await project.save();
 
-    return res.status(200).json({ message: "Comment deleted successfully" , project });
+    return res.status(200).json({
+      message: "Comment deleted successfully",
+      project,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error deleting comment" });
   }
 };
 
+
 export const likeComment = async (req, res) => {
   const commentId = req.params.id;
-  const {userId} = req.body;
+  const { userId } = req.body;
   try {
     const comment = await Comment.findById(commentId);
     if (!comment) {
@@ -143,8 +173,10 @@ export const likeComment = async (req, res) => {
     comment.likeBy.push(userId);
     comment.likes += 1;
     await comment.save();
-     
-    return res.status(200).json({ message: "Comment liked successfully", comment });
+
+    return res
+      .status(200)
+      .json({ message: "Comment liked successfully", comment });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error liking comment" });
@@ -153,7 +185,7 @@ export const likeComment = async (req, res) => {
 
 export const dislikeComment = async (req, res) => {
   const commentId = req.params.id;
-  const {userId} = req.body;
+  const { userId } = req.body;
   try {
     const comment = await Comment.findById(commentId);
     if (!comment) {
@@ -171,8 +203,10 @@ export const dislikeComment = async (req, res) => {
     comment.likeBy.pull(userId);
     comment.likes -= 1;
     await comment.save();
-    
-    return res.status(200).json({ message: "Comment disliked successfully", comment });
+
+    return res
+      .status(200)
+      .json({ message: "Comment disliked successfully", comment });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error disliking comment" });

@@ -5,6 +5,8 @@ import {
   getAllComments,
   likeComment,
   dislikeComment,
+  editComment,
+  deleteComment,
 } from "../../action/commentAction";
 
 const initialState = {
@@ -89,6 +91,37 @@ const commentSlice = createSlice({
         state.isLoading = false;
         state.message =
           action?.payload?.message || "Comment Can not be disliked";
+      })
+      .addCase(editComment.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.message = "Comment Editing...";
+      })
+      .addCase(editComment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.message = action?.payload?.message || "Comment Edited";
+      })
+      .addCase(editComment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action?.payload?.message || "Comment Can not be Edited";
+      })
+      .addCase(deleteComment.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.message = "Comment Deleting...";
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.message = action?.payload?.message || "Comment Deleted";
+      })
+      .addCase(deleteComment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action?.payload?.message || "Comment Can not be deleted";
       });
   },
 });

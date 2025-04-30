@@ -72,3 +72,40 @@ export const dislikeComment = createAsyncThunk(
     }
   }
 );
+
+export const editComment = createAsyncThunk(
+  "comment/edit",
+  async ({ commentId, content }, thunkAPI) => {
+    try {
+      const response = await clientServer.put(`/edit-comment/${commentId}`, {
+        content,
+      });
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Comment can not be Edited";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
+export const deleteComment = createAsyncThunk(
+  "comment/delete",
+  async ({ commentId, projectId }, thunkAPI) => {
+    try {
+      const response = await clientServer.delete(
+        `/delete-comment/${commentId}`,
+        {
+          data: {
+            projectId,
+          },
+        }
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Comment can not be Deleted";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
