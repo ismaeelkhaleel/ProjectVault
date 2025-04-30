@@ -37,6 +37,8 @@ const CommentSection = ({ projectId }) => {
   const [openReplies, setOpenReplies] = useState({});
   const [replyInputVisible, setReplyInputVisible] = useState({});
   const [replyContents, setReplyContents] = useState({});
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedContent, setEditedContent] = useState("");
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -109,6 +111,33 @@ const CommentSection = ({ projectId }) => {
     setReplyContents((prev) => ({ ...prev, [parentId]: "" }));
     setReplyInputVisible((prev) => ({ ...prev, [parentId]: false }));
     setIsReplyActive(false);
+    dispatch(getAllComments(projectId));
+  };
+
+  // Edit comment functions
+  const handleEditComment = (comment) => {
+    setEditingCommentId(comment._id);
+    setEditedContent(comment.content);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCommentId(null);
+    setEditedContent("");
+  };
+
+  const handleSaveEdit = async (commentId) => {
+    if (editedContent.trim() === "") return;
+
+    await dispatch(
+      editComment({
+        commentId,
+        content: editedContent,
+        projectId,
+      })
+    );
+
+    setEditingCommentId(null);
+    setEditedContent("");
     dispatch(getAllComments(projectId));
   };
 
@@ -219,7 +248,34 @@ const CommentSection = ({ projectId }) => {
                         </div>
                       )}
                     </div>
-                    <p>{comment?.content}</p>
+                    
+                    {editingCommentId === comment._id ? (
+                      <>
+                        <input
+                          type="text"
+                          value={editedContent}
+                          onChange={(e) => setEditedContent(e.target.value)}
+                          className={styles.editInput}
+                        />
+                        <div className={styles.buttonRow}>
+                          <button
+                            onClick={handleCancelEdit}
+                            className={styles.cancelBtn}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={() => handleSaveEdit(comment._id)}
+                            className={styles.postBtn}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <p>{comment?.content}</p>
+                    )}
+                    
                     <div className={styles.singleComment_footer}>
                       <div>
                         <p>{comment?.likes}</p>
@@ -264,11 +320,23 @@ const CommentSection = ({ projectId }) => {
                               <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
-                              />
+                                d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
                             </svg>
                           )}
                         </div>
+                        {comment?.userId?._id === userId && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            className="size-4"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleEditComment(comment)}
+                          >
+                            <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                            <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                          </svg>
+                        )}
                       </div>
                       <p
                         onClick={() => {
@@ -427,7 +495,34 @@ const CommentSection = ({ projectId }) => {
                                   </div>
                                 )}
                               </div>
-                              <p>{reply?.content}</p>
+                              
+                              {editingCommentId === reply._id ? (
+                                <>
+                                  <input
+                                    type="text"
+                                    value={editedContent}
+                                    onChange={(e) => setEditedContent(e.target.value)}
+                                    className={styles.editInput}
+                                  />
+                                  <div className={styles.buttonRow}>
+                                    <button
+                                      onClick={handleCancelEdit}
+                                      className={styles.cancelBtn}
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      onClick={() => handleSaveEdit(reply._id)}
+                                      className={styles.postBtn}
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </>
+                              ) : (
+                                <p>{reply?.content}</p>
+                              )}
+                              
                               <div className={styles.singleComment_footer}>
                                 <div>
                                   <p>{reply?.likes}</p>
@@ -476,11 +571,23 @@ const CommentSection = ({ projectId }) => {
                                         <path
                                           strokeLinecap="round"
                                           strokeLinejoin="round"
-                                          d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
-                                        />
+                                          d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
                                       </svg>
                                     )}
                                   </div>
+                                  {reply?.userId?._id === userId && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 16 16"
+                                      fill="currentColor"
+                                      className="size-4"
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => handleEditComment(reply)}
+                                    >
+                                      <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                                      <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                                    </svg>
+                                  )}
                                 </div>
                               </div>
                             </div>

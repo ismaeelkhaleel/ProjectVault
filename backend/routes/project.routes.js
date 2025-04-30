@@ -13,7 +13,8 @@ import {
   getLikedProjects,
   getProjectById,
   getCodeTree,
-  getFileContent
+  getFileContent,
+  getCommentedProjects
 } from "../controllers/project.controller.js";
 
 const router = express.Router();
@@ -31,5 +32,6 @@ router.get("/get-liked-projects/:id", getLikedProjects);
 router.get("/get-project-by-id/:id", getProjectById);
 router.get("/code-tree/:id", getCodeTree);
 router.get("/project/:id/fileContent", getFileContent);
+router.get("/get-commented-projects/:id", getCommentedProjects);
 
 export default router;

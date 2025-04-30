@@ -13,6 +13,7 @@ import {
   incrementViews,
   getCodeTree,
   getFileContent,
+  getCommentedProjects,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   likedProjects: [],
   savedProjects: [],
   allProjects: [],
+  commentedProjects: [],
   codeTree: null,
   selectedFile: null,
 };
@@ -120,6 +122,23 @@ const projectSlice = createSlice({
         state.isError = true;
         state.message =
           action.payload.message || "Failed to Load Saved Projects";
+      })
+      .addCase(getCommentedProjects.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading Commented Projects...";
+      })
+      .addCase(getCommentedProjects.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message =
+          action.payload.message || "Saved Projects Commented Successfully";
+        state.commentedProjects = action.payload;
+      })
+      .addCase(getCommentedProjects.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action.payload.message || "Failed to Load commented Projects";
       })
       .addCase(getProjectById.pending, (state) => {
         state.isLoading = true;

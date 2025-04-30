@@ -31,7 +31,15 @@ function LikedProject() {
                   : project.description}
               </p>
               <div>
-                <p className={styles.like_project_button} onClick={()=> {navigate(`/project-details/${project._id}`)}}>See Full Project</p>
+                <p
+                  className={styles.like_project_button}
+                  onClick={() => {
+                    navigate(`/project-details/${project._id}`);
+                  }}
+                >
+                  See Full Project
+                   
+                </p>
               </div>
             </div>
           ))}

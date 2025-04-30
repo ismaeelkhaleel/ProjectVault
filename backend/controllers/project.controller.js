@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/user.model.js";
 import Project from "../models/project.model.js";
+import Comment from "../models/comment.model.js";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -337,7 +338,26 @@ export const getLikedProjects = async (req, res) => {
     const user = await User.findById(userId).populate("likeProjects");
     res.json(user.likeProjects);
   } catch (error) {
-    console.error("Error fetching saved projects:", error);
+    console.error("Error fetching Liked projects:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getCommentedProjects = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const userComments = await Comment.find({ userId }).select("projectId");
+
+    const projectIds = [
+      ...new Set(userComments.map((c) => c.projectId.toString())),
+    ];
+
+    const projects = await Project.find({ _id: { $in: projectIds } });
+
+    res.json(projects);
+  } catch (error) {
+    console.error("Error fetching commented projects:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -401,7 +421,7 @@ export const getCodeTree = async (req, res) => {
         if (stat.isDirectory()) {
           result.children.push(getDirectoryStructure(filePath));
         } else {
-          result.children.push({ name: file, type: "file", path:filePath });
+          result.children.push({ name: file, type: "file", path: filePath });
         }
       });
 
@@ -424,8 +444,8 @@ export const getFileContent = (req, res) => {
     return res.status(400).json({ error: "File path is required" });
   }
 
-  const absoluteFilePath = path.join(__dirname, "..", filePath); 
- 
+  const absoluteFilePath = path.join(__dirname, "..", filePath);
+
   if (!fs.existsSync(absoluteFilePath)) {
     return res.status(404).json({ error: "File not found" });
   }

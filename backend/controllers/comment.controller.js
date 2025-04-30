@@ -34,6 +34,8 @@ export const postComment = async (req, res) => {
     project.totalComments += 1;
     await project.save();
 
+    user.commentProjects.push(projectId);
+    await user.save();
     res
       .status(201)
       .json({ message: "Comment posted successfully", comment: newComment });
@@ -149,7 +151,6 @@ export const deleteComment = async (req, res) => {
     return res.status(500).json({ message: "Error deleting comment" });
   }
 };
-
 
 export const likeComment = async (req, res) => {
   const commentId = req.params.id;
