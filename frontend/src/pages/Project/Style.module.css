@@ -425,4 +425,5 @@
     border-bottom: 2px solid black;
     margin-bottom: 8px;
     padding-top: 10px;
+    outline: none;
 }
