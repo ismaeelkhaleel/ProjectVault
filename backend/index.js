@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.routes.js";
 import projectRoutes from "./routes/project.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
+import userActivityRoutes from "./routes/userActivity.routes.js";
 
 dotenv.config();
 const app = express();
@@ -14,7 +15,8 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(projectRoutes);
 app.use(commentRoutes);
-app.use('/uploads', express.static('uploads'));
+app.use(userActivityRoutes);
+app.use("/uploads", express.static("uploads"));
 
 const start = async () => {
   await mongoose.connect(process.env.MONGO_URI);

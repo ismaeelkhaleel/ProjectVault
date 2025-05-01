@@ -251,3 +251,17 @@ export const unfollowUser = createAsyncThunk(
     }
   }
 );
+
+export const getHeatMap = createAsyncThunk(
+  "user/heatmap",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/user/activity-data/${userId}`);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to fetch user activity";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);

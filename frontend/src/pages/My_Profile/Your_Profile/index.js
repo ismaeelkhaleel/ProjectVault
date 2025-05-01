@@ -15,6 +15,7 @@ import Project from "./Project";
 import Followers from "./Followers";
 import Following from "./Following";
 import { useParams } from "react-router-dom";
+import Heatmap from "../../../layout/Dashboard/Heatmap";
 function Profile() {
   const [activeTab, setActiveTab] = useState("Overview");
   const authState = useSelector((state) => state.auth);
@@ -219,7 +220,13 @@ function Profile() {
           </div>
           <div className={styles.profile_container_card_bottom_right}>
             {activeTab === "Overview" && (
-              <Overview isEditable={isEditable} setIsEditable={setIsEditable} />
+              <div>
+                <Overview
+                  isEditable={isEditable}
+                  setIsEditable={setIsEditable}
+                />
+                <Heatmap userId={id} />
+              </div>
             )}
             {activeTab === "Projects" && <Project />}
             {activeTab === "Followers" && <Followers />}

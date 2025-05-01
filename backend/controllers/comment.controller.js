@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/user.model.js";
 import Project from "../models/project.model.js";
 import Comment from "../models/comment.model.js";
+import UserActivity from "../models/userActivity.model.js";
 
 export const postComment = async (req, res) => {
   const { content, parentId, userId } = req.body;
@@ -36,6 +37,11 @@ export const postComment = async (req, res) => {
 
     user.commentProjects.push(projectId);
     await user.save();
+    await UserActivity.create({
+      userId: user._id,
+      activityType: "comment",
+      activityDate: new Date(),
+    });
     res
       .status(201)
       .json({ message: "Comment posted successfully", comment: newComment });
@@ -174,6 +180,12 @@ export const likeComment = async (req, res) => {
     comment.likeBy.push(userId);
     comment.likes += 1;
     await comment.save();
+
+    await UserActivity.create({
+      userId: user._id,
+      activityType: "comment_like",
+      activityDate: new Date(),
+    });
 
     return res
       .status(200)

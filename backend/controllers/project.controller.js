@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import axios from "axios";
 import multer from "multer";
 import simpleGit from "simple-git";
+import UserActivity from "../models/userActivity.model.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -141,6 +142,12 @@ export const uploadProject = async (req, res) => {
     await project.save();
     console.log("✅ Project details saved successfully!");
 
+    await UserActivity.create({
+      userId: userId,
+      activityType: "project_submission",
+      activityDate: new Date(),
+    });
+
     res.status(201).json({
       message: "GitHub repository cloned and ZIP file downloaded successfully",
       project,
@@ -225,6 +232,12 @@ export const saveProject = async (req, res) => {
     user.saveProjects.push(projectId);
     await user.save();
 
+    await UserActivity.create({
+      userId: user._id,
+      activityType: "project_save",
+      activityDate: new Date(),
+    });
+
     res.status(200).json({
       message: "Project saved successfully",
       saveProjects: user.saveProjects,
@@ -294,6 +307,11 @@ export const incrementLikes = async (req, res) => {
     await user.save();
     project.likeBy.push(userId);
     await project.save();
+    await UserActivity.create({
+      userId: user._id,
+      activityType: "like",
+      activityDate: new Date(),
+    });
     res.status(200).json({ message: "Likes incremented successfully" });
   } catch (error) {
     console.error("Error incrementing likes:", error);

@@ -1,0 +1,60 @@
+ .container {
+     padding: 2rem;
+     background-color: #ffffff;
+     border-radius: 12px;
+     max-width: 900px;
+     margin: 0 auto;
+ }
+
+ .title {
+     font-size: 2rem;
+     font-weight: 600;
+     color: #24292e;
+     margin-bottom: 2rem;
+ }
+
+ .heatmap {
+     display: flex;
+     justify-content: center;
+     overflow-x: auto;
+ }
+
+ .react-calendar-heatmap rect {
+     rx: 50%;
+     ry: 50%;
+     shape-rendering: geometricPrecision;
+     transition: transform 0.2s ease, fill 0.3s ease;
+
+ }
+
+ .color-empty {
+     fill: #ebebeb;
+ }
+
+ .color-github-1 {
+     fill: #7dc9d3;
+ }
+
+ .color-github-2 {
+     fill: #54b0bd;
+ }
+
+ .color-github-3 {
+     fill: #3b87b8;
+ }
+
+ .color-github-4 {
+     fill: #2e3eaa;
+ }
+
+
+ .react-calendar-heatmap rect:hover {
+     transform: scale(1.2);
+     stroke: #000;
+     stroke-width: 1;
+     cursor: pointer;
+ }
+
+ .heatmap_tooltip {
+     background-color: #3b87b8;
+ }

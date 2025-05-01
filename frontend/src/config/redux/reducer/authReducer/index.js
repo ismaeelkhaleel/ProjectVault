@@ -13,6 +13,7 @@ import {
   getUserFollowingList,
   followUser,
   unfollowUser,
+  getHeatMap,
 } from "../../action/authAction";
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   message: "",
   userFollowerList: [],
   userFollowingList: [],
+  userActivityData: [],
 };
 
 const authSlice = createSlice({
@@ -256,6 +258,24 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload.message || "Unfollowing can not be done";
       })
+      .addCase(getHeatMap.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.message = "Fetching activity data...";
+      })
+      .addCase(getHeatMap.fulfilled, (state, action) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.userActivityData = action.payload;
+        state.message =
+          action?.payload?.message || "Fetched User activity Data";
+      })
+      .addCase(getHeatMap.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action?.payload?.message || "Error in fetching user activity data";
+      });
   },
 });
 

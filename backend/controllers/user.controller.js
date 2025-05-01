@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Profile from "../models/profile.model.js";
+import UserActivity from "../models/userActivity.model.js";
 import nodemailer from "nodemailer";
 import multer from "multer";
 const storage = multer.diskStorage({
@@ -9,8 +10,8 @@ const storage = multer.diskStorage({
     cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
-    const username = req.user?.username || "anonymous"; // fallback
-    const ext = file.originalname.split(".").pop(); // get extension
+    const username = req.user?.username || "anonymous";
+    const ext = file.originalname.split(".").pop();
     const filename = `${Date.now()}-${username}.${ext}`;
     cb(null, filename);
   },
@@ -249,6 +250,11 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    await UserActivity.create({
+      userId: user._id,
+      activityType: "login",
+      activityDate: new Date(),
+    });
 
     return res.status(200).json({
       message: "Login successful",
@@ -529,4 +535,3 @@ export const getUserFollowingList = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
