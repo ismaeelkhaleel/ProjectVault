@@ -3,7 +3,6 @@
     padding-block: 1rem;
     display: flex;
     flex-direction: column;
-    padding-inline: 2rem;
 }
 
 :local .monthsWrapper {

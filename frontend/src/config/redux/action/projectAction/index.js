@@ -92,7 +92,9 @@ export const getCommentedProjects = createAsyncThunk(
   "user/getCommentedProjects",
   async (userId, thunkAPI) => {
     try {
-      const response = await clientServer.get(`/get-commented-projects/${userId}`);
+      const response = await clientServer.get(
+        `/get-commented-projects/${userId}`
+      );
       console.log(response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
@@ -183,15 +185,30 @@ export const getCodeTree = createAsyncThunk(
 
 export const getFileContent = createAsyncThunk(
   "project/getFileContent",
-  async({projectId, filePath}, thunkAPI) => {
+  async ({ projectId, filePath }, thunkAPI) => {
     try {
-      const response = await clientServer.get(`/project/${projectId}/fileContent?filePath=${filePath}`);
+      const response = await clientServer.get(
+        `/project/${projectId}/fileContent?filePath=${filePath}`
+      );
       console.log(response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      const errMessage =
-        err.response?.data?.message || "Failed to get code";
+      const errMessage = err.response?.data?.message || "Failed to get code";
       return thunkAPI.rejectWithValue({ message: errMessage });
     }
   }
-)
+);
+
+export const getRecommendedProjects = createAsyncThunk(
+  "user/getRecommendedProjects",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/user/recommend-projects/${userId}`);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to get recommended projects";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);

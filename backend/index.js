@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes.js";
 import projectRoutes from "./routes/project.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
 import userActivityRoutes from "./routes/userActivity.routes.js";
+import recommendRoutes from "./routes/recommend.routes.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(userRoutes);
 app.use(projectRoutes);
 app.use(commentRoutes);
 app.use(userActivityRoutes);
+app.use(recommendRoutes);
 app.use("/uploads", express.static("uploads"));
 
 const start = async () => {

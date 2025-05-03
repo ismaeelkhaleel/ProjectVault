@@ -14,7 +14,6 @@ function CommentedProject() {
 
   useEffect(() => {
     dispatch(getCommentedProjects(userId));
-    console.log(projectState);
   }, [dispatch, userId]);
 
   return (

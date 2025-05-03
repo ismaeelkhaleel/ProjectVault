@@ -15,7 +15,7 @@ import Project from "./Project";
 import Followers from "./Followers";
 import Following from "./Following";
 import { useParams } from "react-router-dom";
-import Heatmap from "../../../layout/Dashboard/Heatmap";
+import Heatmap from "../../../layout/Dashboard/Heatmap/index";
 function Profile() {
   const [activeTab, setActiveTab] = useState("Overview");
   const authState = useSelector((state) => state.auth);

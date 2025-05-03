@@ -14,6 +14,7 @@ import {
   getCodeTree,
   getFileContent,
   getCommentedProjects,
+  getRecommendedProjects,
 } from "../../action/projectAction";
 
 const initialState = {
@@ -28,6 +29,7 @@ const initialState = {
   commentedProjects: [],
   codeTree: null,
   selectedFile: null,
+  recommendedProjects: [],
 };
 
 const projectSlice = createSlice({
@@ -244,6 +246,23 @@ const projectSlice = createSlice({
         state.isError = true;
         state.message =
           action?.payload?.message || "Code content Can not be fetched";
+      })
+      .addCase(getRecommendedProjects.pending, (state) => {
+        state.isLoading = true;
+        state.message = "recommended projects fetching...";
+      })
+      .addCase(getRecommendedProjects.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.recommendedProjects = action.payload;
+        state.message =
+          action?.payload?.message || "recommended projects fetched!";
+      })
+      .addCase(getRecommendedProjects.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action?.payload?.message || "recommended projects Can not be fetched";
       });
   },
 });

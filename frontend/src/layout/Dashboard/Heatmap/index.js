@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getHeatMap } from "../../config/redux/action/authAction";
+import { getHeatMap } from "../../../config/redux/action/authAction";
 import dayjs from "dayjs";
-import styles from "./Heatmap.module.css";
+import styles from "./Style.module.css";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 dayjs.extend(isSameOrBefore);

@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import Heatmap from "./Heatmap";
-
+import React  from "react";
+import styles from "./Style.module.css"
+import Heatmap from "./Heatmap/index";
+import Recommend from "./Recommend/index";
 
 function Dashboard() {
-
   const userId = localStorage.getItem("userId");
   return (
-    <div>
-      <Heatmap userId={userId}/>
+    <div className={styles.dashboard_container}>
+      <Heatmap userId={userId} />
+      <Recommend userId={userId} />
     </div>
   );
 }
