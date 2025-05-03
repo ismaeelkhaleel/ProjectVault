@@ -1,60 +1,113 @@
- .container {
-     padding: 2rem;
-     background-color: #ffffff;
-     border-radius: 12px;
-     max-width: 900px;
-     margin: 0 auto;
- }
+:local .container {
+    width: 100%;
+    padding-block: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding-inline: 2rem;
+}
 
- .title {
-     font-size: 2rem;
-     font-weight: 600;
-     color: #24292e;
-     margin-bottom: 2rem;
- }
-
- .heatmap {
-     display: flex;
-     justify-content: center;
-     overflow-x: auto;
- }
-
- .react-calendar-heatmap rect {
-     rx: 50%;
-     ry: 50%;
-     shape-rendering: geometricPrecision;
-     transition: transform 0.2s ease, fill 0.3s ease;
-
- }
-
- .color-empty {
-     fill: #ebebeb;
- }
-
- .color-github-1 {
-     fill: #7dc9d3;
- }
-
- .color-github-2 {
-     fill: #54b0bd;
- }
-
- .color-github-3 {
-     fill: #3b87b8;
- }
-
- .color-github-4 {
-     fill: #2e3eaa;
- }
+:local .monthsWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 
 
- .react-calendar-heatmap rect:hover {
-     transform: scale(1.2);
-     stroke: #000;
-     stroke-width: 1;
-     cursor: pointer;
- }
 
- .heatmap_tooltip {
-     background-color: #3b87b8;
- }
+:local .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+:local .monthsContainer {
+    display: flex;
+    gap: 40px;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border: 1px solid black;
+    padding-block: 1rem;
+    border-radius: 1rem;
+    padding-inline: 1rem;
+}
+
+:local .monthsContainer::-webkit-scrollbar {
+    display: none;
+}
+
+
+:local .month {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+:local .monthLabel {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+:local .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 16px);
+    grid-auto-rows: 16px;
+    gap: 4px;
+}
+
+
+
+:local .weekColumn {
+    display: grid;
+    grid-template-rows: repeat(7, 16px);
+    gap: 4px;
+}
+
+:local .dayCell {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:local .circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid #e5e7eb;
+}
+
+:local .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 16px);
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 0.7rem;
+    color: #666;
+    text-align: center;
+}
+
+:local .weekdayCell {
+    width: 16px;
+}
+
+:local .legend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #444;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+:local .legendColor {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
