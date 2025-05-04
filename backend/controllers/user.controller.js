@@ -378,10 +378,44 @@ export const deleteProfileAndUser = async (req, res) => {
 
 export const getAllUsersProfiles = async (req, res) => {
   try {
-    const profiles = await Profile.find().populate(
-      "user",
-      "name username email profilePicture"
-    );
+    const profiles = await Profile.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $unwind: "$userDetails" },
+      {
+        $addFields: {
+          followersCount: { $size: "$userDetails.followers" },
+          createdAt: "$userDetails.createdAt",
+        },
+      },
+      {
+        $sort: {
+          followersCount: -1,
+          createdAt: -1,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          bio: 1,
+          skills: 1,
+          user: {
+            _id: "$userDetails._id",
+            name: "$userDetails.name",
+            username: "$userDetails.username",
+            email: "$userDetails.email",
+            profilePicture: "$userDetails.profilePicture",
+            followers:"$userDetails.followers",
+          },
+        },
+      },
+    ]);
 
     return res.status(200).json(profiles);
   } catch (err) {
