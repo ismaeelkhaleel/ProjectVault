@@ -129,6 +129,19 @@ export const getUserProfile = createAsyncThunk(
     }
   }
 );
+export const getAllProfiles = createAsyncThunk(
+  "/getAllUserProfiles",
+  async (_,thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/get-all-users-profiles`);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to get all user profiles";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
 
 export const updateProfilePicture = createAsyncThunk(
   "user/updateProfilePicture",

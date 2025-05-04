@@ -15,6 +15,7 @@ import {
   unfollowUser,
   getHeatMap,
   getRecommendedProfiles,
+  getAllProfiles,
 } from "../../action/authAction";
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   userFollowingList: [],
   userActivityData: [],
   recommendProfiles: [],
+  allProfiles: [],
 };
 
 const authSlice = createSlice({
@@ -295,6 +297,23 @@ const authSlice = createSlice({
         state.isError = true;
         state.message =
           action?.payload?.message || "Error in fetching recommended profiles";
+      })
+      .addCase(getAllProfiles.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.message = "Fetching all profiles...";
+      })
+      .addCase(getAllProfiles.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.allProfiles = action.payload;
+        state.message = "Fetched All Profiles";
+      })
+      .addCase(getAllProfiles.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message =
+          action?.payload?.message || "Error in fetching all profiles";
       });
   },
 });
