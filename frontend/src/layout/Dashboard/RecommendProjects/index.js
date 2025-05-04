@@ -51,7 +51,7 @@ const Recommend = ({ userId }) => {
   return (
     <div className={styles.recommend_container}>
       <div className={styles.recommend_container_haider}>
-        <h2>Recommended Projects</h2>
+        <h3>Recommended Projects</h3>
         {recommendedProjects.length > 0 && (
           <div>
             <p

@@ -265,3 +265,19 @@ export const getHeatMap = createAsyncThunk(
     }
   }
 );
+
+export const getRecommendedProfiles = createAsyncThunk(
+  "user/recommendedProfiles",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await clientServer.get(
+        `/user/recommended-profiles/${userId}`
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to fetch recommended profiles";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);

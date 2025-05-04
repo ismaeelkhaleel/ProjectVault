@@ -1,0 +1,111 @@
+.cardList {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-block: 1rem;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+}
+
+.cardList::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.card {
+    position: relative;
+    flex: 0 0 auto;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color:#2193b0;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.card:hover .tooltip {
+    opacity: 1;
+}
+
+.profileImg {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+.nameRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.nameRow h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.info p {
+    margin: 0.2rem 0 0.6rem;
+    font-size: 0.85rem;
+    color: #555;
+    text-align: center;
+}
+
+.followBtn {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: #fff;
+    background-color: #3897f0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.followBtn:hover {
+    background-color: #000000;
+}
+
+.unfollowBtn {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+.unfollowBtn:hover {
+    background-color: black;
+    color: white;
+}
