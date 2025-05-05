@@ -1,25 +1,25 @@
-.recommend_container_haider {
+.top_container_haider {
     display: flex;
     justify-content: space-between;
 }
 
-.recommend_container_haider>div {
+.top_container_haider>div {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
 }
 
-.recommend_container_haider>div:hover {
+.top_container_haider>div:hover {
     color: #2193b0;
     text-decoration: underline;
 }
 
-.recommend_container_haider>div>svg {
+.top_container_haider>div>svg {
     width: 25px;
 }
 
-.recommend_card {
+.top_card {
     min-width: 250px;
     max-width: 250px;
     padding: 16px;
@@ -31,25 +31,19 @@
 }
  
 
-.recommend_card:hover {
+.top_card:hover {
     transform: translateY(-5px);
 }
 
-.recommend_card_title {
+.top_card_title {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 8px;
 }
 
-.recommend_card_description {
+.top_card_description {
     font-size: 14px;
     margin-bottom: 10px;
-}
-
-.recommend_card_match {
-    font-size: 14px;
-    font-weight: 600;
-    color: #2193b0;
 }
 
 .carousel_wrapper {
@@ -80,7 +74,6 @@
 .arrow_button:hover {
     background-color: rgb(206, 197, 197);
 }
-
 
 .arrow_button:disabled {
     opacity: 0.3;

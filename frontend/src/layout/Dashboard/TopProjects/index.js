@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecommendedProjects } from "../../../config/redux/action/projectAction";
+import { getAllProjects } from "../../../config/redux/action/projectAction";
 import styles from "./Style.module.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Recommend = ({ userId }) => {
+const TopProjects = ({ userId }) => {
   const dispatch = useDispatch();
-  const { recommendedProjects,  isError, message } = useSelector(
+  const { allProjects, isError, message } = useSelector(
     (state) => state.project
   );
 
   const [startIndex, setStartIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(4);  
+  const [visibleCount, setVisibleCount] = useState(4);
   const navigate = useNavigate();
 
-   
   useEffect(() => {
     const updateVisibleCount = () => {
       const width = window.innerWidth;
-      if (width < 640) setVisibleCount(1);  
-      else if (width < 1024) setVisibleCount(2);  
-      else setVisibleCount(4); 
+      if (width < 640) setVisibleCount(1);
+      else if (width < 1024) setVisibleCount(2);
+      else setVisibleCount(4);
     };
 
-    updateVisibleCount();  
+    updateVisibleCount();
     window.addEventListener("resize", updateVisibleCount);
     return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
 
   useEffect(() => {
-    if (userId) dispatch(getRecommendedProjects(userId));
+    if (userId) dispatch(getAllProjects());
   }, [dispatch, userId]);
 
   const handlePrev = () => {
@@ -39,20 +38,20 @@ const Recommend = ({ userId }) => {
 
   const handleNext = () => {
     setStartIndex((prev) =>
-      Math.min(prev + 1, recommendedProjects.length - visibleCount)
+      Math.min(prev + 1, allProjects.length - visibleCount)
     );
   };
 
-  const visibleProjects = recommendedProjects.slice(
+  const visibleProjects = allProjects.slice(
     startIndex,
     startIndex + visibleCount
   );
 
   return (
-    <div className={styles.recommend_container}>
-      <div className={styles.recommend_container_haider}>
-        <h3>Recommended Projects</h3>
-        {recommendedProjects.length > 0 && (
+    <div className={styles.top_container}>
+      <div className={styles.top_container_haider}>
+        <h3>Top Projects</h3>
+        {allProjects.length > 0 && (
           <div>
             <p
               className="mt-4 text-blue-600 underline"
@@ -75,8 +74,9 @@ const Recommend = ({ userId }) => {
           </div>
         )}
       </div>
+
       {isError && (
-        <p className={styles.recommend_container_error_message}>{message}</p>
+        <p className={styles.top_container_error_message}>{message}</p>
       )}
 
       <div className={styles.carousel_wrapper}>
@@ -92,15 +92,16 @@ const Recommend = ({ userId }) => {
 
         <div className={styles.carousel_card_container}>
           {visibleProjects.map((project, index) => (
-            <div key={index} className={styles.recommend_card} onClick={()=>navigate(`/project-details/${project._id}`)}>
-              <h3 className={styles.recommend_card_title}>{project.title}</h3>
-              <p className={styles.recommend_card_description}>
+            <div
+              key={index}
+              className={styles.top_card}
+              onClick={() => navigate(`/project-details/${project._id}`)}
+            >
+              <h3 className={styles.top_card_title}>{project.title}</h3>
+              <p className={styles.top_card_description}>
                 {project.description.length > 200
                   ? project.description.slice(0, 200) + "..."
                   : project.description}
-              </p>
-              <p className={styles.recommend_card_match}>
-                {project.match_percentage}% Match
               </p>
             </div>
           ))}
@@ -110,7 +111,7 @@ const Recommend = ({ userId }) => {
           <button
             className={styles.arrow_button}
             onClick={handleNext}
-            disabled={startIndex + visibleCount >= recommendedProjects.length}
+            disabled={startIndex + visibleCount >= allProjects.length}
           >
             <ChevronRight size={24} />
           </button>
@@ -120,4 +121,4 @@ const Recommend = ({ userId }) => {
   );
 };
 
-export default Recommend;
+export default TopProjects;

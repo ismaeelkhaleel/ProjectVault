@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./Style.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getRecommendedProfiles,
   followUser,
   unfollowUser,
 } from "../../../config/redux/action/authAction";
 import { BASE_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
 
-function TopUsers({ userId }) {
+function TopUsers({ userId ,refreshProfiles }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,11 +16,7 @@ function TopUsers({ userId }) {
     (state) => state.auth
   );
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(getRecommendedProfiles(userId));
-    }
-  }, [dispatch, userId]);
+  
 
   const handleFollowToggle = async (id, isFollowing) => {
     if (isFollowing) {
@@ -30,7 +25,7 @@ function TopUsers({ userId }) {
       await dispatch(followUser({ userId, id }));
     }
 
-    dispatch(getRecommendedProfiles(userId));
+    refreshProfiles(); 
   };
 
   const notFollowedProfiles = recommendProfiles?.filter(

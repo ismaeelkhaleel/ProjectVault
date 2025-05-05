@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 import axios from "axios";
 import multer from "multer";
 import simpleGit from "simple-git";
-import UserActivity from "../models/userActivity.model.js"
+import UserActivity from "../models/userActivity.model.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -164,10 +164,9 @@ export { upload };
 
 export const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate(
-      "userId",
-      "name username email profilePicture"
-    );
+    const projects = await Project.find()
+      .populate("userId", "name username email profilePicture")
+      .sort({ likes: -1, createdAt: -1 });
     res.json(projects);
   } catch (error) {
     console.error("Error fetching projects:", error);
