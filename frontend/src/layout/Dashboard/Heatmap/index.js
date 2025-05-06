@@ -67,22 +67,30 @@ const Heatmap = ({ userId }) => {
     dispatch(getHeatMap(userId));
   }, [dispatch, userId]);
 
+
   useEffect(() => {
-    if (authState?.userActivityData) {
-      const transformed = generateCalendarData(authState.userActivityData);
-      setMonthsData(transformed);
-      setTimeout(() => {
-        lastMonthRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 100);
+    if (authState?.userActivityData?.heatmap) {
+      if (Array.isArray(authState.userActivityData?.heatmap)) {
+        const transformed = generateCalendarData(authState.userActivityData.heatmap);
+        setMonthsData(transformed);
+        setTimeout(() => {
+          lastMonthRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
+      } else {
+        console.error(
+          "userActivityData is not an array:",
+          authState.userActivityData.heatmap
+        );
+      }
     }
-  }, [authState?.userActivityData]);
+  }, [authState?.userActivityData.heatmap]);
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Contribution Activity</h2>
+      <h3 className={styles.title}>Contribution Activity</h3>
       <div className={styles.monthsWrapper}>
         <div className={styles.monthsContainer}>
           {monthsData.map((month, idx) => (

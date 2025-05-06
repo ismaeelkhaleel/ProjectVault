@@ -5,6 +5,9 @@ import RecommendProjects from "./RecommendProjects/index";
 import RecommendProfiles from "./RecommendProfiles/index";
 import TopUsers from "./TopUsers/index";
 import TopProjects from "./TopProjects/index";
+import LineChart from "./LineChart/index";
+import BarChart from "./BarChart/index";
+import Greeting from "./Greeting/index";
 import { useDispatch } from "react-redux";
 import {
   getAllProfiles,
@@ -13,6 +16,8 @@ import {
 
 function Dashboard() {
   const userId = localStorage.getItem("userId");
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
   const dispatch = useDispatch();
 
   const refreshProfiles = useCallback(() => {
@@ -28,6 +33,23 @@ function Dashboard() {
 
   return (
     <div className={styles.dashboard_container}>
+      <div className={styles.greeting_container}>
+        <Greeting name={user?.name} />
+      </div>
+      <div className={styles.charts_container}>
+        <div>
+          <h4>User Activity(Past 12 Months)</h4>
+        </div>
+        <div>
+          <div className={styles.line_chart_wrapper}>
+            <LineChart userId={userId} />
+          </div>
+          <div className={styles.bar_chart_wrapper}>
+            <BarChart userId={userId} />
+          </div>
+        </div>
+      </div>
+
       <Heatmap userId={userId} />
       <RecommendProjects userId={userId} />
       <TopProjects userId={userId} />

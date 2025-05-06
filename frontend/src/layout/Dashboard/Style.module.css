@@ -2,5 +2,41 @@
     padding-inline: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 4rem; 
+    gap: 4rem;
+}
+.greeting_container {
+    margin-bottom: -3rem;
+    margin-top: 3rem;
+    color:green;
+    text-align: center;
+}
+.charts_container>div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.line_chart_wrapper,
+.bar_chart_wrapper {
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+}
+
+
+@media (min-width: 1024px) {
+    .charts_container>div {
+        flex-direction: row;
+    }
+
+    .line_chart_wrapper {
+        flex: 0 0 55%;
+        max-width: 55%;
+    }
+
+    .bar_chart_wrapper {
+        flex: 0 0 45%;
+        max-width: 45%;
+    }
 }
