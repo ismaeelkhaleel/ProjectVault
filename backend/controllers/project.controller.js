@@ -36,17 +36,34 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = [
+  const videoTypes = [
     "video/mp4",
     "video/mkv",
     "video/webm",
     "video/avi",
     "video/mov",
   ];
-  if (allowedTypes.includes(file.mimetype)) {
+  const documentTypes = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
+
+  if (
+    file.fieldname === "demoVideoPath" &&
+    videoTypes.includes(file.mimetype)
+  ) {
+    cb(null, true);
+  } else if (
+    file.fieldname === "desertationPath" &&
+    documentTypes.includes(file.mimetype)
+  ) {
     cb(null, true);
   } else {
-    cb(new Error("Invalid file type. Only videos are allowed"), false);
+    cb(
+      new Error("Invalid file type. Only videos and documents are allowed"),
+      false
+    );
   }
 };
 
@@ -63,7 +80,8 @@ export const uploadProject = async (req, res) => {
       technology,
       year,
     } = req.body;
-    const demoVideoPath = req.file ? req.file.path : null;
+    const demoVideoPath =req.files?.demoVideoPath?.[0]?.path || null;
+    const desertationPath = req.files?.desertationPath?.[0]?.path || null;
 
     if (!userId)
       return res.status(400).json({ message: "User ID is required" });
@@ -71,6 +89,8 @@ export const uploadProject = async (req, res) => {
       return res.status(400).json({ message: "GitHub repository is required" });
     if (!demoVideoPath)
       return res.status(400).json({ message: "Demo video is required" });
+    if (!desertationPath)
+      return res.status(400).json({ message: "Dissertation file is required" });
 
     const existingUser = await User.findById(userId);
     if (!existingUser)
@@ -132,17 +152,20 @@ export const uploadProject = async (req, res) => {
     const publicVideoUrl = makePublicUrl(demoVideoPath);
     const publicZipUrl = makePublicUrl(zipPath);
     const publicClonePath = makePublicUrl(clonePath);
+    const publicDesertationUrl = makePublicUrl(desertationPath);
 
     const project = new Project({
       userId,
       title,
       description,
+      year,
       githubRepo,
       category,
       technology,
       clonedPath: publicClonePath,
       zipFilePath: publicZipUrl,
       demoVideoPath: publicVideoUrl,
+      desertationPath: publicDesertationUrl,
     });
 
     await project.save();

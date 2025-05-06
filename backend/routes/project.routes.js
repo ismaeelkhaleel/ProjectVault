@@ -14,12 +14,19 @@ import {
   getProjectById,
   getCodeTree,
   getFileContent,
-  getCommentedProjects
+  getCommentedProjects,
 } from "../controllers/project.controller.js";
 
 const router = express.Router();
 
-router.post("/create-project", upload.single("demoVideoPath"), uploadProject);
+router.post(
+  "/create-project",
+  upload.fields([
+    { name: "demoVideoPath", maxCount: 1 },
+    { name: "desertationPath", maxCount: 1 },
+  ]),
+  uploadProject
+);
 router.get("/get-all-projects", getAllProjects);
 router.get("/get-user-project/:id", getUserProjects);
 router.get("/get-saved-projects/:id", getSavedProjects);

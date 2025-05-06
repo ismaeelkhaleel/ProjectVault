@@ -20,6 +20,7 @@ import Navbar from "./components/Navbar";
 import ProjectDetails from "./pages/Project/Project_Detail/index";
 import Projects from "./pages/Project/See_All_Projects/index";
 import UserPage from "./pages/My_Profile/See_All_Profiles";
+import ProjectForm from "./pages/Project/Project_Add";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -170,6 +171,14 @@ const App = () => {
         element={
           <ProtectedRoute>
             <UserPage />
+          </ProtectedRoute>
+        }
+        />
+       <Route
+        path="/project_submit_form"
+        element={
+          <ProtectedRoute>
+            <ProjectForm />
           </ProtectedRoute>
         }
         />

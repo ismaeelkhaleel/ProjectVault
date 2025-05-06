@@ -9,7 +9,7 @@ function Navbar() {
   const [profileToggle, setProfileToggle] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  const loggedInUser = user;  
+  const loggedInUser = user;
   const token = localStorage.getItem("token");
 
   const handleProfileToggle = () => {
@@ -62,6 +62,9 @@ function Navbar() {
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   className="size-6"
+                  onClick={() => {
+                    navigate("/project_submit_form");
+                  }}
                 >
                   <path
                     fillRule="evenodd"
@@ -234,7 +237,13 @@ function Navbar() {
                     </svg>
                     <h4>Comments</h4>
                   </div>
-                  <div className={styles.navbar_card_right_profile_middle_item}>
+                  <div
+                    className={styles.navbar_card_right_profile_middle_item}
+                    onClick={() => {
+                      navigate("/project_submit_form");
+                      setProfileToggle(!profileToggle);
+                    }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

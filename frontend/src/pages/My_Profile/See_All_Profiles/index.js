@@ -28,7 +28,6 @@ const UserPage = () => {
       } else if (type === "populer") {
         dispatch(getAllProfiles());
       }
-      console.log(authState);
     }
   }, [type, userId, dispatch]);
   const handleFollowToggle = async (id, isFollowing) => {

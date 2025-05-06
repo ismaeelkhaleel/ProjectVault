@@ -1,6 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import clientServer from "../../../index";
 
+export const uploadProject = createAsyncThunk(
+  "project/createNew",
+  async (formDataToSubmit, thunkAPI) => {
+    try {
+      const response = await clientServer.post(
+        `/create-project`,
+        formDataToSubmit,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to upload project";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
+
 export const getProjectById = createAsyncThunk(
   "project/getProjectById",
   async (id, thunkAPI) => {
@@ -203,7 +226,9 @@ export const getRecommendedProjects = createAsyncThunk(
   "user/getRecommendedProjects",
   async (userId, thunkAPI) => {
     try {
-      const response = await clientServer.get(`/user/recommend-projects/${userId}`);
+      const response = await clientServer.get(
+        `/user/recommend-projects/${userId}`
+      );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage =
