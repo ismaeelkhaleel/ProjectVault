@@ -11,7 +11,7 @@ import {
   incrementLikes,
   saveProject,
   unsaveProject,
-} from "../../config/redux/action/projectAction";
+} from "../../../config/redux/action/projectAction";
 import CommentSection from "./CommentSection";
 
 function Video() {

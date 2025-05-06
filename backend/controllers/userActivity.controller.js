@@ -10,7 +10,6 @@ export const heatMap = async (req, res) => {
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(now.getFullYear() - 1);
 
-    // Heatmap data (daily counts)
     const heatmapData = await UserActivity.aggregate([
       {
         $match: {
@@ -34,7 +33,6 @@ export const heatMap = async (req, res) => {
       count: item.count,
     }));
 
-    // Monthly summary for each activityType
     const monthlyData = await UserActivity.aggregate([
       {
         $match: {
@@ -54,7 +52,6 @@ export const heatMap = async (req, res) => {
       },
     ]);
 
-    // Initialize structure
     const activityTypes = [
       "login",
       "comment",
@@ -71,12 +68,12 @@ export const heatMap = async (req, res) => {
 
     monthlyData.forEach((item) => {
       const { activityType, month, year } = item._id;
-      const date = new Date(year, month - 1); // month is 1-based
+      const date = new Date(year, month - 1);
       const diffInMonths =
         (now.getFullYear() - date.getFullYear()) * 12 +
         (now.getMonth() - date.getMonth());
 
-      const index = 11 - diffInMonths; // index 11 is current month
+      const index = 11 - diffInMonths;
       if (index >= 0 && index < 12) {
         summaryByMonth[activityType][index] += item.count;
       }

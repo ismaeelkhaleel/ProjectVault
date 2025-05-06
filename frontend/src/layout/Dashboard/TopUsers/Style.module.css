@@ -29,6 +29,26 @@
     scroll-snap-align: start;
     cursor: pointer;
 }
+.container_haider {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container_haider>div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.container_haider>div:hover {
+    color: #2193b0;
+    text-decoration: underline;
+}
+
+.container_haider>div>svg {
+    width: 25px;
+}
 
 
 .profileImg {

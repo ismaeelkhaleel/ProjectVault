@@ -7,9 +7,9 @@ import {
   dislikeComment,
   editComment,
   deleteComment,
-} from "../../config/redux/action/commentAction";
+} from "../../../config/redux/action/commentAction";
 import styles from "./Style.module.css";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../../config";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useNavigate } from "react-router-dom";
 

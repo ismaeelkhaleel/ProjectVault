@@ -8,15 +8,13 @@ import {
 import { BASE_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
 
-function TopUsers({ userId ,refreshProfiles }) {
+function TopUsers({ userId, refreshProfiles }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { recommendProfiles, isError, message } = useSelector(
     (state) => state.auth
   );
-
-  
 
   const handleFollowToggle = async (id, isFollowing) => {
     if (isFollowing) {
@@ -25,7 +23,7 @@ function TopUsers({ userId ,refreshProfiles }) {
       await dispatch(followUser({ userId, id }));
     }
 
-    refreshProfiles(); 
+    refreshProfiles();
   };
 
   const notFollowedProfiles = recommendProfiles?.filter(
@@ -34,7 +32,27 @@ function TopUsers({ userId ,refreshProfiles }) {
 
   return (
     <div className={styles.container}>
-      <h3>Suggested for You</h3>
+      <div className={styles.container_haider}>
+        <h3>Suggested for You</h3>
+        {notFollowedProfiles.length > 0 && (
+          <div onClick={() => navigate("/user?type=suggested")}>
+            <p className="mt-4 text-blue-600 underline">See All</p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5"
+            >
+              <path
+                fillRule="evenodd"
+                d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+        )}
+      </div>
+
       {isError && <p className={styles.error}>{message}</p>}
 
       <div className={styles.cardList}>

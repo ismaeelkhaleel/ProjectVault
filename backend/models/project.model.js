@@ -22,6 +22,10 @@ const projectSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    year: {
+      type: Number,
+      required: true,
+    },
     githubRepo: {
       type: String,
       validate: {
@@ -38,6 +42,9 @@ const projectSchema = new mongoose.Schema(
       type: String,
     },
     demoVideoPath: {
+      type: String,
+    },
+    desertationPath: {
       type: String,
     },
     views: {

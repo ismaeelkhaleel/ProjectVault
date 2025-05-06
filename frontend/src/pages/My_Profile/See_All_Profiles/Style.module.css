@@ -1,38 +1,21 @@
-.cardList {
+.profileGrid {
     display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    padding-block: 1rem;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
-.cardList::-webkit-scrollbar {
-    display: none;
+.profileHeading {
+    padding-block: 2rem;
+    padding-inline: 1rem;
 }
-.container_haider {
+
+.profileCardWrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
-.container_haider>div {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-}
-
-.container_haider>div:hover {
-    color: #2193b0;
-    text-decoration: underline;
-}
-
-.container_haider>div>svg {
-    width: 25px;
-}
-
-
-.card {
+.profileCard {
     position: relative;
     flex: 0 0 auto;
     width: 200px;
@@ -46,9 +29,15 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     scroll-snap-align: start;
     cursor: pointer;
+    transition: 0.3s ease-in-out;
 }
 
-.tooltip {
+.profileCard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.matchBadge {
     position: absolute;
     top: -10px;
     right: -10px;
@@ -63,54 +52,63 @@
     z-index: 10;
 }
 
-.card:hover .tooltip {
+.profileCard:hover .matchBadge {
     opacity: 1;
+    transform: translateY(0);
 }
 
-.profileImg {
-    width: 100px;
-    height: 100px;
+.profileImage {
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 0.5rem;
-    border: 1px solid #ccc;
+    border: 3px solid #3498db;
+    margin-bottom: 1rem;
 }
 
-.nameRow {
+.cardContent {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
 }
 
-.nameRow h4 {
-    margin: 0;
-    font-size: 0.95rem;
+.profileName {
+    font-size: 1.1rem;
     font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.3rem;
 }
 
-.info p {
-    margin: 0.2rem 0 0.6rem;
+.profileSkills {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 0.8rem;
+    font-style: italic;
+}
+
+.followers {
     font-size: 0.85rem;
-    color: #555;
-    text-align: center;
+    color: #777;
+    margin-bottom: 1rem;
 }
 
 .followBtn {
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
+    background-color: #0095f6;
     color: #fff;
-    background-color: #3897f0;
     border: none;
-    border-radius: 6px;
+    padding: 0.55rem 1.3rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s ease;
 }
 
 .followBtn:hover {
-    background-color: #000000;
+    background-color: #007cd1;
 }
-
 .unfollowBtn {
     padding: 0.4rem 1rem;
     font-size: 0.8rem;

@@ -69,6 +69,13 @@
     position: relative;
 }
 
+.projectTechs {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 1.2rem;
+    font-style: italic;
+}
+
 .like_project_button {
     color: #2193b0;
     font-weight: 600;

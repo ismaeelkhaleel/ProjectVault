@@ -53,10 +53,9 @@ const Recommend = ({ userId }) => {
       <div className={styles.recommend_container_haider}>
         <h3>Recommended Projects</h3>
         {recommendedProjects.length > 0 && (
-          <div>
+          <div onClick={() => navigate("/projects?type=recommended")}>
             <p
               className="mt-4 text-blue-600 underline"
-              onClick={() => (window.location.href = "/recommended-projects")}
             >
               See All
             </p>

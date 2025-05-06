@@ -30,6 +30,9 @@ function CommentedProject() {
                   ? project.description.slice(0, 100) + "..."
                   : project.description}
               </p>
+              <p className={styles.projectTechs}>
+                  Tech: {project.technology?.join(", ")}
+                </p>
               <div>
                 <p
                   className={styles.comment_project_button}

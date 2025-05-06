@@ -17,7 +17,9 @@ import SavedProject from "./pages/My_Profile/Saved_Project";
 import YourProject from "./pages/My_Profile/Your_Project";
 import MyProfile from "./pages/My_Profile/Your_Profile";
 import Navbar from "./components/Navbar";
-import ProjectDetails from "./pages/Project/index";
+import ProjectDetails from "./pages/Project/Project_Detail/index";
+import Projects from "./pages/Project/See_All_Projects/index";
+import UserPage from "./pages/My_Profile/See_All_Profiles";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -154,6 +156,22 @@ const App = () => {
               <ProjectDetails />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <Projects />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+        path="/user"
+        element={
+          <ProtectedRoute>
+            <UserPage />
+          </ProtectedRoute>
+        }
         />
       </Routes>
     </Router>

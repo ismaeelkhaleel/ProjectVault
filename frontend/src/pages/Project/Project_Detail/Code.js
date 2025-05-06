@@ -5,7 +5,7 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
   getCodeTree,
   getFileContent,
-} from "../../config/redux/action/projectAction/index";
+} from "../../../config/redux/action/projectAction/index";
 import { useParams } from "react-router-dom";
 import TreeNode from "./TreeNode";
 import styles from "./Style.module.css";

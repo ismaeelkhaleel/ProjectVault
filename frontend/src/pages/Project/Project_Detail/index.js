@@ -8,8 +8,8 @@ import {
   getProjectById,
   getSavedProjects,
   incrementViews,
-} from "../../config/redux/action/projectAction";
-import {getAllComments,} from "../../config/redux/action/commentAction"
+} from "../../../config/redux/action/projectAction";
+import {getAllComments,} from "../../../config/redux/action/commentAction"
 import Video from "./Video";
 import Instruction from "./Instruction";
 import Code from "./Code";

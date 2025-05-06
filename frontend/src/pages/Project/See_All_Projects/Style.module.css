@@ -1,0 +1,130 @@
+.pageWrapper {
+    padding: 2rem 1rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.heading {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.heading::after {
+    content: "";
+    width: 60px;
+    height: 4px;
+    background-color: #3498db;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.noProjects {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #999;
+    margin-top: 3rem;
+}
+
+.projectsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.projectCardWrapper {
+    position: relative;
+}
+
+.projectCard {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.projectCard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.tooltip {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #007bff;
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.projectCard:hover .tooltip {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+    .tooltip {
+        font-size: 10px;
+        top: 8px;
+        right: 8px;
+        padding: 3px 6px;
+    }
+}
+
+.cardBody {
+    padding: 1.5rem;
+}
+
+.projectTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: #34495e;
+}
+
+.projectDesc {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.projectTechs {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 1.2rem;
+    font-style: italic;
+}
+
+.viewBtn {
+    align-self: flex-start;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    color: black;
+    font-weight: bold;
+    display: flex;
+    justify-self: flex-end;
+}
+.viewBtn:hover {
+     color: #3498db;
+     text-decoration: underline;
+}
+

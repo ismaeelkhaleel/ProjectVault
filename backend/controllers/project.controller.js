@@ -54,8 +54,15 @@ const upload = multer({ storage, fileFilter });
 
 export const uploadProject = async (req, res) => {
   try {
-    const { userId, title, description, githubRepo, category, technology } =
-      req.body;
+    const {
+      userId,
+      title,
+      description,
+      githubRepo,
+      category,
+      technology,
+      year,
+    } = req.body;
     const demoVideoPath = req.file ? req.file.path : null;
 
     if (!userId)
@@ -112,7 +119,6 @@ export const uploadProject = async (req, res) => {
     await git.clone(githubRepo, clonePath.replace(/\\/g, "/"));
     console.log("✅ Repository cloned successfully!");
 
-    // Create public URLs
     const baseUploadsPath = path.join(__dirname, "../uploads");
 
     const makePublicUrl = (filePath) => {
@@ -134,9 +140,9 @@ export const uploadProject = async (req, res) => {
       githubRepo,
       category,
       technology,
-      clonedPath: publicClonePath, // ✅ public URL
-      zipFilePath: publicZipUrl, // ✅ public URL
-      demoVideoPath: publicVideoUrl, // ✅ public URL
+      clonedPath: publicClonePath,
+      zipFilePath: publicZipUrl,
+      demoVideoPath: publicVideoUrl,
     });
 
     await project.save();

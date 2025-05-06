@@ -52,13 +52,8 @@ const TopProjects = ({ userId }) => {
       <div className={styles.top_container_haider}>
         <h3>Top Projects</h3>
         {allProjects.length > 0 && (
-          <div>
-            <p
-              className="mt-4 text-blue-600 underline"
-              onClick={() => (window.location.href = "/recommended-projects")}
-            >
-              See All
-            </p>
+          <div onClick={() => navigate("/projects?type=top")}>
+            <p className="mt-4 text-blue-600 underline">See All</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"

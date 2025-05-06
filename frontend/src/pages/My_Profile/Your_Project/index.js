@@ -31,6 +31,9 @@ function Your_Project() {
                   ? project.description.slice(0, 100) + "..."
                   : project.description}
               </p>
+              <p className={styles.projectTechs}>
+                  Tech: {project.technology?.join(", ")}
+                </p>
               <div>
                 <p className={styles.your_project_button} onClick={()=> {navigate(`/project-details/${project._id}`)}}>See Full Project</p>
               </div>
