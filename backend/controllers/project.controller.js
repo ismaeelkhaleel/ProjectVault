@@ -96,9 +96,6 @@ export const uploadProject = async (req, res) => {
     if (!existingUser)
       return res.status(400).json({ message: "User not found" });
 
-    const existingProject = await Project.findOne({ userId, title });
-    if (existingProject)
-      return res.status(400).json({ message: "Project already exists" });
 
     const repoName = githubRepo.split("/").slice(-2).join("-");
     const uploadsDir = path.join(__dirname, "../uploads", userId);

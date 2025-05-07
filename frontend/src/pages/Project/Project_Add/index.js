@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadProject } from "../../../config/redux/action/projectAction";
 import styles from "./Style.module.css";
+import categoryOptions from "../../../data/categories";
+import technologyOptions from "../../../data/technologies";
+import yearOptions from "../../../data/years";
+import Select from "react-select";
 
 const ProjectForm = () => {
   const [formData, setFormData] = useState({
@@ -12,35 +16,61 @@ const ProjectForm = () => {
     technology: "",
     year: "",
   });
+
   const [demoVideo, setDemoVideo] = useState(null);
   const [desertation, setDesertation] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+  const [selectedTechnologies, setSelectedTechnologies] = useState([]);
+  const authState = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
   const { loading, error, project } = useSelector((state) => state.project);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
+
+    setValidationErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+    console.log(authState);
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    if (name === "demoVideo") {
-      setDemoVideo(files[0]);
-    } else if (name === "desertation") {
-      setDesertation(files[0]);
-    }
+    if (name === "demoVideo") setDemoVideo(files[0]);
+    if (name === "desertation") setDesertation(files[0]);
+  };
+
+  const validate = () => {
+    const errors = {};
+    if (!formData.title.trim()) errors.title = "Project title is required";
+    if (!formData.description.trim())
+      errors.description = "Description is required";
+    if (!formData.githubRepo.trim())
+      errors.githubRepo = "GitHub repo link is required";
+    if (!formData.category.trim()) errors.category = "Category is required";
+    if (!formData.technology.trim())
+      errors.technology = "Technology is required";
+    if (!formData.year.trim()) errors.year = "Year is required";
+    if (!demoVideo) errors.demoVideo = "Please upload a demo video";
+    if (!desertation) errors.desertation = "Please upload a dissertation";
+
+    return errors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errors = validate();
 
-    if (!demoVideo || !desertation) {
-      setErrorMessage("Please upload both demo video and dissertation.");
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
       return;
     }
 
@@ -58,12 +88,53 @@ const ProjectForm = () => {
     dispatch(uploadProject(formDataToSubmit));
   };
 
+  const customSelectStyles = {
+    control: (base, state) => ({
+      ...base,
+      backgroundColor: "#e1e0e0",
+      border: "none",
+      borderColor: state.isFocused ? "none" : "none",
+      boxShadow: state.isFocused ? "0 0 0 1px #3b82f6" : "none",
+      "&:hover": {
+        borderColor: "#3b82f6",
+      },
+      minHeight: "40px",
+      fontSize: "14px",
+      borderRadius: "6px",
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#e0f2fe",
+      color: "#0369a1",
+    }),
+    multiValueLabel: (base) => ({
+      ...base,
+      color: "#0369a1",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#9ca3af",
+    }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "150px",
+      overflowY: "auto",
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
+    }),
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.heading}>Add Project</h2>
       <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
-          <label htmlFor="title" className={styles.label}>Project Title</label>
+          <label htmlFor="title" className={styles.label}>
+            Project Title
+          </label>
           <input
             type="text"
             id="title"
@@ -71,24 +142,34 @@ const ProjectForm = () => {
             className={styles.input}
             value={formData.title}
             onChange={handleInputChange}
-            required
+            placeholder="Enter Project Title"
           />
+          {validationErrors.title && (
+            <p className={styles.error}>{validationErrors.title}</p>
+          )}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="description" className={styles.label}>Description</label>
+          <label htmlFor="description" className={styles.label}>
+            Description
+          </label>
           <textarea
             id="description"
             name="description"
             className={styles.textarea}
             value={formData.description}
             onChange={handleInputChange}
-            required
+            placeholder="Enter Project Description"
           />
+          {validationErrors.description && (
+            <p className={styles.error}>{validationErrors.description}</p>
+          )}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="githubRepo" className={styles.label}>GitHub Repository</label>
+          <label htmlFor="githubRepo" className={styles.label}>
+            GitHub Repository
+          </label>
           <input
             type="url"
             id="githubRepo"
@@ -96,51 +177,71 @@ const ProjectForm = () => {
             className={styles.input}
             value={formData.githubRepo}
             onChange={handleInputChange}
-            required
+            placeholder="Enter Github Repository Link"
           />
+          {validationErrors.githubRepo && (
+            <p className={styles.error}>{validationErrors.githubRepo}</p>
+          )}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="category" className={styles.label}>Category</label>
-          <input
-            type="text"
-            id="category"
-            name="category"
-            className={styles.input}
-            value={formData.category}
-            onChange={handleInputChange}
-            required
+          <label className={styles.label}>Technology</label>
+          <Select
+            styles={customSelectStyles}
+            isMulti
+            options={technologyOptions}
+            value={selectedTechnologies}
+            onChange={setSelectedTechnologies}
+            placeholder="Select technologies"
           />
+          {validationErrors.technology && (
+            <p className={styles.error}>{validationErrors.technology}</p>
+          )}
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Category</label>
+            <Select
+              styles={customSelectStyles}
+              options={categoryOptions}
+              value={categoryOptions.find(
+                (opt) => opt.value === formData.category
+              )}
+              onChange={(selected) =>
+                setFormData((prev) => ({ ...prev, category: selected.value }))
+              }
+              placeholder="Select a category"
+            />
+            {validationErrors.category && (
+              <p className={styles.error}>{validationErrors.category}</p>
+            )}
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="year" className={styles.label}>
+              Year
+            </label>
+            <Select
+              styles={customSelectStyles}
+              id="year"
+              name="year"
+              options={yearOptions}
+              value={yearOptions.find(
+                (option) => option.value === formData.year
+              )}
+              onChange={(selectedOption) =>
+                setFormData((prev) => ({ ...prev, year: selectedOption.value }))
+              }
+              placeholder="Select year"
+            />
+            {validationErrors.year && (
+              <p className={styles.error}>{validationErrors.year}</p>
+            )}
+          </div>
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="technology" className={styles.label}>Technology</label>
-          <input
-            type="text"
-            id="technology"
-            name="technology"
-            className={styles.input}
-            value={formData.technology}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="year" className={styles.label}>Year</label>
-          <input
-            type="number"
-            id="year"
-            name="year"
-            className={styles.input}
-            value={formData.year}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="demoVideo" className={styles.label}>Demo Video</label>
+          <label className={styles.label}>Demo Video</label>
           <input
             type="file"
             id="demoVideo"
@@ -148,12 +249,14 @@ const ProjectForm = () => {
             accept="video/*"
             className={styles.fileInput}
             onChange={handleFileChange}
-            required
           />
+          {validationErrors.demoVideo && (
+            <p className={styles.error}>{validationErrors.demoVideo}</p>
+          )}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="desertation" className={styles.label}>Dissertation File</label>
+          <label className={styles.label}>Dissertation File</label>
           <input
             type="file"
             id="desertation"
@@ -161,14 +264,18 @@ const ProjectForm = () => {
             accept="application/pdf"
             className={styles.fileInput}
             onChange={handleFileChange}
-            required
           />
+          {validationErrors.desertation && (
+            <p className={styles.error}>{validationErrors.desertation}</p>
+          )}
         </div>
 
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        {submitError && <p className={styles.error}>{submitError}</p>}
         {error && <p className={styles.error}>{error}</p>}
         {loading && <p>Submitting...</p>}
-        {project && <p className={styles.success}>Project created successfully!</p>}
+        {project && (
+          <p className={styles.success}>Project created successfully!</p>
+        )}
 
         <button type="submit" className={styles.button} disabled={loading}>
           {loading ? "Submitting..." : "Submit"}
