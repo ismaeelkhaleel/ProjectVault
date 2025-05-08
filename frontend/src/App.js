@@ -22,6 +22,8 @@ import Projects from "./pages/Project/See_All_Projects/index";
 import UserPage from "./pages/My_Profile/See_All_Profiles";
 import ProjectForm from "./pages/Project/Project_Add";
 import NotificationListener from "./components/NotificationListener";
+import Homepage from "./pages/Homepage/index";
+import Footer from "./components/Footer";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -55,6 +57,7 @@ const App = () => {
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Homepage />} />
         <Route
           path="/auth/login"
           element={
@@ -161,30 +164,31 @@ const App = () => {
           }
         />
         <Route
-        path="/user"
-        element={
-          <ProtectedRoute>
-            <UserPage />
-          </ProtectedRoute>
-        }
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <UserPage />
+            </ProtectedRoute>
+          }
         />
-       <Route
-        path="/project_submit_form"
-        element={
-          <ProtectedRoute>
-            <ProjectForm />
-          </ProtectedRoute>
-        }
+        <Route
+          path="/project_submit_form"
+          element={
+            <ProtectedRoute>
+              <ProjectForm />
+            </ProtectedRoute>
+          }
         />
-        <Route 
-        path="/notification"
-        element={
-          <ProtectedRoute>
-            <NotificationListener userId={userId}/>
-          </ProtectedRoute>
-        }
+        <Route
+          path="/notification"
+          element={
+            <ProtectedRoute>
+              <NotificationListener userId={userId} />
+            </ProtectedRoute>
+          }
         />
       </Routes>
+      <Footer />
     </Router>
   );
 };
