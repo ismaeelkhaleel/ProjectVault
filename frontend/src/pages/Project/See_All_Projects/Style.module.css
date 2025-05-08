@@ -31,12 +31,14 @@
 }
 
 .projectsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
+    justify-content: center;
 }
 
 .projectCardWrapper {
+    width: 300px;
     position: relative;
 }
 
@@ -50,6 +52,7 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    height: 250px;
 }
 
 .projectCard:hover {
@@ -77,15 +80,6 @@
 .projectCard:hover .tooltip {
     opacity: 1;
     pointer-events: auto;
-}
-
-@media (max-width: 768px) {
-    .tooltip {
-        font-size: 10px;
-        top: 8px;
-        right: 8px;
-        padding: 3px 6px;
-    }
 }
 
 .cardBody {
@@ -123,8 +117,69 @@
     display: flex;
     justify-self: flex-end;
 }
+
 .viewBtn:hover {
-     color: #3498db;
-     text-decoration: underline;
+    color: #3498db;
+    text-decoration: underline;
 }
 
+.filterWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchBox {
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 250px;
+    transition: border-color 0.3s ease;
+}
+
+.searchBox:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.filterSelect {
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    width: 220px;
+    transition: border-color 0.3s ease;
+}
+
+.filterSelect:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    .tooltip {
+        font-size: 10px;
+        top: 8px;
+        right: 8px;
+        padding: 3px 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .projectCardWrapper {
+        width: 90%;
+    }
+    .searchBox,
+    .filterSelect {
+        width: 100%;
+    }
+    .filterWrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

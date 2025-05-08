@@ -38,7 +38,7 @@ function Dashboard() {
       </div>
       <div className={styles.charts_container}>
         <div>
-          <h4>User Activity(Past 12 Months)</h4>
+          <h4>Your Activity(Past 12 Months)</h4>
         </div>
         <div>
           <div className={styles.line_chart_wrapper}>

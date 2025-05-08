@@ -405,6 +405,7 @@ export const getAllUsersProfiles = async (req, res) => {
           _id: 1,
           bio: 1,
           skills: 1,
+          course:1,
           user: {
             _id: "$userDetails._id",
             name: "$userDetails.name",

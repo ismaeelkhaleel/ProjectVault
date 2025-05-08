@@ -8,6 +8,23 @@
 .profileHeading {
     padding-block: 2rem;
     padding-inline: 1rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    position: relative;
+}
+
+.profileHeading::after {
+    content: "";
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    /* Half underline effect */
+    height: 3px;
+    background-color: #3498db;
+    border-radius: 2px;
 }
 
 .profileCardWrapper {
@@ -41,7 +58,7 @@
     position: absolute;
     top: -10px;
     right: -10px;
-    background-color:#2193b0;
+    background-color: #2193b0;
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -109,6 +126,7 @@
 .followBtn:hover {
     background-color: #007cd1;
 }
+
 .unfollowBtn {
     padding: 0.4rem 1rem;
     font-size: 0.8rem;
@@ -124,4 +142,34 @@
 .unfollowBtn:hover {
     background-color: black;
     color: white;
+}
+
+.filterControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+.searchInput,
+.filterSelect {
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    width: 250px;
+    max-width: 90%;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.searchInput:focus,
+.filterSelect:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    background-color: #fff;
 }
