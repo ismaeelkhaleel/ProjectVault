@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import Project from "../models/project.model.js";
 import Comment from "../models/comment.model.js";
 import UserActivity from "../models/userActivity.model.js";
-
+import {sendNotification} from "../utils/sendNotification.js"
 export const postComment = async (req, res) => {
   const { content, parentId, userId } = req.body;
   const projectId = req.params.id;
@@ -41,6 +41,13 @@ export const postComment = async (req, res) => {
       userId: user._id,
       activityType: "comment",
       activityDate: new Date(),
+    });
+    await sendNotification({
+      recipientId: project.userId.toString(),
+      senderId: userId,
+      type: parentId ? "reply" : "comment",
+      projectId,
+      commentId: newComment._id,
     });
     res
       .status(201)
@@ -185,6 +192,13 @@ export const likeComment = async (req, res) => {
       userId: user._id,
       activityType: "comment_like",
       activityDate: new Date(),
+    });
+    await sendNotification({
+      recipientId: comment.userId.toString(),
+      senderId: userId,
+      type: "like_comment",
+      projectId: comment.projectId.toString(),
+      commentId,
     });
 
     return res

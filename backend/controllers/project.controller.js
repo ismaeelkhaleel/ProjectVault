@@ -9,6 +9,7 @@ import axios from "axios";
 import multer from "multer";
 import simpleGit from "simple-git";
 import UserActivity from "../models/userActivity.model.js";
+import { sendNotification } from "../utils/sendNotification.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -80,7 +81,7 @@ export const uploadProject = async (req, res) => {
       technology,
       year,
     } = req.body;
-    const demoVideoPath =req.files?.demoVideoPath?.[0]?.path || null;
+    const demoVideoPath = req.files?.demoVideoPath?.[0]?.path || null;
     const desertationPath = req.files?.desertationPath?.[0]?.path || null;
 
     if (!userId)
@@ -95,7 +96,6 @@ export const uploadProject = async (req, res) => {
     const existingUser = await User.findById(userId);
     if (!existingUser)
       return res.status(400).json({ message: "User not found" });
-
 
     const repoName = githubRepo.split("/").slice(-2).join("-");
     const uploadsDir = path.join(__dirname, "../uploads", userId);
@@ -336,6 +336,12 @@ export const incrementLikes = async (req, res) => {
       userId: user._id,
       activityType: "like",
       activityDate: new Date(),
+    });
+    await sendNotification({
+      recipientId: project.userId.toString(),
+      senderId: userId,
+      type: "like_project",
+      projectId,
     });
     res.status(200).json({ message: "Likes incremented successfully" });
   } catch (error) {

@@ -5,6 +5,7 @@ import Profile from "../models/profile.model.js";
 import UserActivity from "../models/userActivity.model.js";
 import nodemailer from "nodemailer";
 import multer from "multer";
+import {sendNotification} from "../utils/sendNotification.js"
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
@@ -484,6 +485,12 @@ export const followUser = async (req, res) => {
 
     currentUser.following.push(id);
     await currentUser.save();
+
+    await sendNotification({
+      recipientId: id,
+      senderId: userId,
+      type: 'follow'
+    });
 
     return res.status(200).json({ message: "User followed successfully" });
   } catch (err) {

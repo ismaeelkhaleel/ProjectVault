@@ -21,6 +21,7 @@ import ProjectDetails from "./pages/Project/Project_Detail/index";
 import Projects from "./pages/Project/See_All_Projects/index";
 import UserPage from "./pages/My_Profile/See_All_Profiles";
 import ProjectForm from "./pages/Project/Project_Add";
+import NotificationListener from "./components/NotificationListener";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ const AuthRoute = ({ children }) => {
 };
 
 const App = () => {
+  const userId = localStorage.getItem("userId");
   return (
     <Router>
       <Navbar />
@@ -134,14 +136,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        {/* <Route
-          path="/my_profile"
-          element={
-            <ProtectedRoute>
-              <MyProfile />
-            </ProtectedRoute>
-          }
-        /> */}
         <Route
           path="/my_profile/:id"
           element={
@@ -179,6 +173,14 @@ const App = () => {
         element={
           <ProtectedRoute>
             <ProjectForm />
+          </ProtectedRoute>
+        }
+        />
+        <Route 
+        path="/notification"
+        element={
+          <ProtectedRoute>
+            <NotificationListener userId={userId}/>
           </ProtectedRoute>
         }
         />
