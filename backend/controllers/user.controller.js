@@ -5,7 +5,7 @@ import Profile from "../models/profile.model.js";
 import UserActivity from "../models/userActivity.model.js";
 import nodemailer from "nodemailer";
 import multer from "multer";
-import {sendNotification} from "../utils/sendNotification.js"
+import { sendNotification } from "../utils/sendNotification.js";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
@@ -265,6 +265,7 @@ export const login = async (req, res) => {
       username: user.name,
       email: user.email,
       profilePicture: user.profilePicture,
+      type: user.type,
     });
   } catch (err) {
     console.error(err);
@@ -281,7 +282,6 @@ export const updateProfilePicture = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    // Only save filename, not full path
     const filename = req.file.filename;
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -307,7 +307,7 @@ export const updateProfilePicture = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   const { bio, course, enrollNumber, facNumber, skills } = req.body;
-  const idCard = req.file ? req.file.path : null;
+  const idCard = req.file ? req.file.path.replace(/\\/g, "/") : null;
   const userId = req.params.id;
 
   try {
@@ -325,12 +325,12 @@ export const updateProfile = async (req, res) => {
     profile.course = course || profile.course;
     profile.enrollNumber = enrollNumber || profile.enrollNumber;
     profile.facNumber = facNumber || profile.facNumber;
+    profile.verifRequest = true;
 
     if (idCard) {
       profile.idCard = idCard;
     }
 
-    // 👇 Fix for skills
     let parsedSkills = skills;
     if (typeof skills === "string") {
       try {
@@ -406,14 +406,14 @@ export const getAllUsersProfiles = async (req, res) => {
           _id: 1,
           bio: 1,
           skills: 1,
-          course:1,
+          course: 1,
           user: {
             _id: "$userDetails._id",
             name: "$userDetails.name",
             username: "$userDetails.username",
             email: "$userDetails.email",
             profilePicture: "$userDetails.profilePicture",
-            followers:"$userDetails.followers",
+            followers: "$userDetails.followers",
           },
         },
       },
@@ -489,7 +489,7 @@ export const followUser = async (req, res) => {
     await sendNotification({
       recipientId: id,
       senderId: userId,
-      type: 'follow'
+      type: "follow",
     });
 
     return res.status(200).json({ message: "User followed successfully" });

@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "default.png",
     },
+    type:{
+      type:String,
+      default:"user"
+    },
     otp: {
       type: String,
       default: null,

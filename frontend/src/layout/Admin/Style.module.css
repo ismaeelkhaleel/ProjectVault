@@ -1,0 +1,41 @@
+.dashboard {
+    padding: 2rem 0;
+}
+
+.dashboard>p,
+.dashboard>h2 {
+    text-align: center;
+}
+
+.profileList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 250px;
+    text-align: center;
+    background-color: #f9f9f9;
+    flex: 0 1 250px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.profileImage {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.details {
+    font-family: sans-serif;
+}

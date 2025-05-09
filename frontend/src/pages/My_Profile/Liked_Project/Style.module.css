@@ -1,6 +1,6 @@
 .like_project_container {
     padding: 4rem 2rem;
-    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    background: linear-gradient(to right, #f0f4f8, #e0eafc);
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -25,8 +25,7 @@
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.4);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
-    animation: fadeInUp 0.8s ease forwards;
-    opacity: 0;
+
 }
 
 
@@ -35,21 +34,6 @@
     box-shadow: 0 12px 32px rgba(33, 147, 176, 0.2);
 }
 
-.like_project_card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, #6dd5ed, #2193b0);
-    filter: blur(18px);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    border-radius: inherit;
-    z-index: 0;
-}
-
-.like_project_card:hover::before {
-    opacity: 0.25;
-}
 
 .like_project_title {
     font-size: 1.6rem;

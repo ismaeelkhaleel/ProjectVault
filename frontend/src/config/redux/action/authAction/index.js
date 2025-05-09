@@ -131,7 +131,7 @@ export const getUserProfile = createAsyncThunk(
 );
 export const getAllProfiles = createAsyncThunk(
   "/getAllUserProfiles",
-  async (_,thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       const response = await clientServer.get(`/get-all-users-profiles`);
       return thunkAPI.fulfillWithValue(response.data);
@@ -158,6 +158,14 @@ export const updateProfilePicture = createAsyncThunk(
           },
         }
       );
+
+      console.log(response.data);
+      const updatedUser = {
+        ...JSON.parse(localStorage.getItem("loggedInUser")),
+        profilePicture: response.data.user.profilePicture,
+      };
+
+      localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
 
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {

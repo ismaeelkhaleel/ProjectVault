@@ -75,8 +75,12 @@ const NotificationListener = ({ userId }) => {
         return `${senderName} commented on your project.`;
       case "reply":
         return `${senderName} replied to your comment.`;
-      case "comment_like":
+      case "like_comment":
         return `${senderName} liked your comment.`;
+      case "verified":
+        return `Your profile verified by the admin.`;
+      case "rejected":
+        return `Your profile rejected by the admin, You can try again.`;
       default:
         return "You have a new notification.";
     }

@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/user.model.js";
 import Project from "../models/project.model.js";
 import Comment from "../models/comment.model.js";
+import Profile from "../models/profile.model.js";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -96,6 +97,11 @@ export const uploadProject = async (req, res) => {
     const existingUser = await User.findById(userId);
     if (!existingUser)
       return res.status(400).json({ message: "User not found" });
+
+    const profile = await Profile.findOne({ user: userId });
+    if (!profile.verified) {
+      return res.status(400).json({ message: "User is not verified" });
+    }
 
     const repoName = githubRepo.split("/").slice(-2).join("-");
     const uploadsDir = path.join(__dirname, "../uploads", userId);

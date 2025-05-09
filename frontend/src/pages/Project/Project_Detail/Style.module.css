@@ -12,12 +12,10 @@
 }
 
 .project_details_wrapper_middle {
-    border-top: 2px solid grey;
     margin-top: 1rem;
     padding-left: 1rem;
-    border-radius: 6px;
-    background-color: white;
-    box-shadow: 2px 2px 2px grey;
+    background: linear-gradient(to right, #f0f4f8, #e0eafc);
+    border-bottom: 2px solid black;
 }
 
 .project_details_wrapper_middle_options {
@@ -251,6 +249,7 @@
     border-bottom: 2px solid black;
     outline: none;
     margin-top: 1rem;
+    background: linear-gradient(to right, #f0f4f8, #e0eafc);
 }
 
 .currentUserInfo {
@@ -408,6 +407,7 @@
     border: none;
     border-bottom: 2px solid black;
     outline: none;
+    background: linear-gradient(to right, #f0f4f8, #e0eafc);
 }
 
 .viewReplies {
@@ -421,9 +421,49 @@
 
 .editInput {
     width: 100%;
-    border:none;
+    border: none;
     border-bottom: 2px solid black;
     margin-bottom: 8px;
     padding-top: 10px;
     outline: none;
+    background: linear-gradient(to right, #f0f4f8, #e0eafc);
+}
+
+.articleWrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.75;
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 40px;
+}
+
+.pageSection {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.pageTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 12px;
+}
+
+.pageImage {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }

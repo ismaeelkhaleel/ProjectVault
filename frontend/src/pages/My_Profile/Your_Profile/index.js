@@ -32,6 +32,7 @@ function Profile() {
 
   const follower = authState?.user?.profile?.user?.followers || [];
   const isFollow = follower.includes(userId);
+  const [modalImage, setModalImage] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -53,6 +54,14 @@ function Profile() {
     await dispatch(updateProfilePicture(formData));
     dispatch(getUserProfile(id));
     setIsImage(false);
+    window.location.reload(true);
+  };
+  const openImageModal = (imageSrc) => {
+    setModalImage(imageSrc);
+  };
+
+  const closeImageModal = () => {
+    setModalImage(null);
   };
 
   return (
@@ -133,6 +142,11 @@ function Profile() {
                 <img
                   src={`${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`}
                   alt={authState?.user?.profile?.user?.username || ""}
+                  onClick={() =>
+                    openImageModal(
+                      `${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`
+                    )
+                  }
                 />
                 {isOwner && (
                   <span className={styles.tooltip_text}>
@@ -234,6 +248,14 @@ function Profile() {
           </div>
         </div>
       </div>
+      {modalImage && (
+        <div className={styles.modal} onClick={closeImageModal}>
+          <button className={styles.closeButton} onClick={closeImageModal}>
+            ✖
+          </button>
+          <img src={modalImage} alt="Full Screen" />
+        </div>
+      )}
     </div>
   );
 }

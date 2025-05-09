@@ -12,6 +12,7 @@ import commentRoutes from "./routes/comment.routes.js";
 import userActivityRoutes from "./routes/userActivity.routes.js";
 import recommendRoutes from "./routes/recommend.routes.js";
 import notificationRoutes from './routes/notification.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 
 import { socketHandler, onlineUsers } from "./sockets/socketHandler.js";
 
@@ -27,6 +28,7 @@ app.use(commentRoutes);
 app.use(userActivityRoutes);
 app.use(recommendRoutes);
 app.use(notificationRoutes);
+app.use(adminRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Create HTTP server

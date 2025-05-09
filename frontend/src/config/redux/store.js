@@ -3,12 +3,14 @@ import authReducer from "./reducer/authReducer/index";
 import projectReducer from "./reducer/projectReducer/index";
 import commentReducer from "./reducer/commentReducer/index";
 import notificationReducer from "./reducer/notificationReducer/index";
+import adminReducer from "./reducer/adminReducer/index";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     project: projectReducer,
     comment: commentReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    admin: adminReducer,
   },
 });

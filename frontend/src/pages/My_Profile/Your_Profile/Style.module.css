@@ -377,3 +377,56 @@
 .profile_container_card_bottom_left_unfollow_button :hover {
     background-color: rgb(170, 169, 169) !important;
 }
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+}
+
+.closeButton {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    background: #ffffff;
+    color: #000;
+    border: none;
+    font-size: 24px;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.closeButton:hover {
+    background: #ddd;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

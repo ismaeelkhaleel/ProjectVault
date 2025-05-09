@@ -13,20 +13,20 @@ const profileSchema = new mongoose.Schema(
     },
     course: {
       type: String,
-      enum: ["MCA", "MSC (CYBER SECURITY)", "BSC (CS)",""],
+      enum: ["MCA", "MSC (CYBER SECURITY)", "BSC (CS)", ""],
       default: "",
-      uppercase:true
+      uppercase: true,
     },
     enrollNumber: {
       type: String,
       default: "",
-      match: /^[A-Z]{2}\d{4}$/, 
+      match: /^[A-Z]{2}\d{4}$/,
       uppercase: true,
     },
     facNumber: {
       type: String,
       default: "",
-      match: /^\d{2}CAMSA\d{3}$/,  
+      match: /^\d{2}CAMSA\d{3}$/,
       uppercase: true,
     },
     idCard: {
@@ -37,10 +37,14 @@ const profileSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    verifRequest: {
+      type: Boolean,
+      default: false,
+    },
     verified: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   { timestamps: true }
 );
