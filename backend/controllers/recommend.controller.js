@@ -32,10 +32,42 @@ export const getRecommendedProfiles = async (req, res) => {
     const profile = await Profile.findOne({ user: user._id });
     if (!profile) return res.status(404).json({ message: "Profile not found" });
 
-    // Exclude current user
-    const otherProfiles = await Profile.find({ user: { $ne: user._id } })
-      .populate("user", "name username profilePicture followers following")
-      .lean();
+    const otherProfiles = await Profile.aggregate([
+      {
+        $match: {
+          user: { $ne: user._id },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      {
+        $match: {
+          "user.type": "user",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          bio: 1,
+          skills: 1,
+          user: {
+            _id: 1,
+            name: 1,
+            username: 1,
+            profilePicture: 1,
+            followers: 1,
+            following: 1,
+          },
+        },
+      },
+    ]);
 
     const response = await axios.post(
       "http://localhost:5001/recommend-profiles",

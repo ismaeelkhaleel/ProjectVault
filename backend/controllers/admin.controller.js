@@ -2,7 +2,6 @@ import express from "express";
 import Profile from "../models/profile.model.js";
 import User from "../models/user.model.js";
 import {sendNotification} from "../utils/sendNotification.js"
-// Get all unverified profiles (only admin can access)
 export const getUnVerifiedProfiles = async (req, res) => {
   const userId = req.params.id;
   try {

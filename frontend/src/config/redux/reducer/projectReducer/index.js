@@ -23,6 +23,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  uploadSuccess: false,
   message: "",
   likedProjects: [],
   savedProjects: [],
@@ -46,22 +47,21 @@ const projectSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(uploadProject.pending, (state) => {
-      state.isLoading = true;
-      state.message = "Uploading Projects...";
-    })
-    .addCase(uploadProject.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.message =
-        action.payload.message || "Projects Uploaded Successfully";
-    })
-    .addCase(uploadProject.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.message =
-        action.payload.message || "Failed to Upload Projects";
-    })
+      .addCase(uploadProject.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Uploading Projects...";
+      })
+      .addCase(uploadProject.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.uploadSuccess = true;
+        state.message =
+          action.payload.message || "Projects Uploaded Successfully";
+      })
+      .addCase(uploadProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload.message || "Failed to Upload Projects";
+      })
       .addCase(getUserProjects.pending, (state) => {
         state.isLoading = true;
         state.message = "Fetching User Projects...";

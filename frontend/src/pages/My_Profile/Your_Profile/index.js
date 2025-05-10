@@ -142,11 +142,13 @@ function Profile() {
                 <img
                   src={`${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`}
                   alt={authState?.user?.profile?.user?.username || ""}
-                  onClick={() =>
-                    openImageModal(
-                      `${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`
-                    )
-                  }
+                  onClick={() => {
+                    if (!isOwner) {
+                      openImageModal(
+                        `${BASE_URL}uploads/${authState?.user?.profile?.user?.profilePicture}`
+                      );
+                    }
+                  }}
                 />
                 {isOwner && (
                   <span className={styles.tooltip_text}>

@@ -54,16 +54,36 @@ function Dessertation() {
       {pageImages.length === 0 ? (
         <p className={styles.loading}>Loading PDF pages...</p>
       ) : (
-        pageImages.map((src, index) => (
-          <div key={index} className={styles.pageSection}>
-            <h2 className={styles.pageTitle}>Page {index + 1}</h2>
-            <img
-              src={src}
-              alt={`Page ${index + 1}`}
-              className={styles.pageImage}
-            />
-          </div>
-        ))
+        <div>
+          {pdfUrl && (
+            <a
+              href={pdfUrl}
+              download
+              style={{
+                padding: "8px 16px",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                borderRadius: "5px",
+                textDecoration: "none",
+                fontWeight: "bold",
+                display:"flex",
+                justifySelf: "flex-end",
+              }}
+            >
+              Download pdf
+            </a>
+          )}
+          {pageImages.map((src, index) => (
+            <div key={index} className={styles.pageSection}>
+              <h2 className={styles.pageTitle}>Page {index + 1}</h2>
+              <img
+                src={src}
+                alt={`Page ${index + 1}`}
+                className={styles.pageImage}
+              />
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

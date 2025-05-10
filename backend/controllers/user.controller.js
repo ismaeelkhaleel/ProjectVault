@@ -390,6 +390,11 @@ export const getAllUsersProfiles = async (req, res) => {
       },
       { $unwind: "$userDetails" },
       {
+        $match: {
+          "userDetails.type": "user", // ✅ Only include users, exclude admins
+        },
+      },
+      {
         $addFields: {
           followersCount: { $size: "$userDetails.followers" },
           createdAt: "$userDetails.createdAt",

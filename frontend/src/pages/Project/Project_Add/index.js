@@ -25,14 +25,17 @@ const ProjectForm = () => {
   const [submitError, setSubmitError] = useState("");
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
   const authState = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
-  const { loading, error, project } = useSelector((state) => state.project);
+  const { isLoading, isError, uploadSuccess } = useSelector(
+    (state) => state.project
+  );
 
   const verified = authState?.user?.profile?.verified;
-  const isDisabled = loading || !verified;
+  const isDisabled = isLoading || !verified;
 
   useEffect(() => {
     dispatch(getUserProfile(userId));
@@ -136,6 +139,12 @@ const ProjectForm = () => {
       },
     }),
   };
+  useEffect(() => {
+    if (uploadSuccess) {
+      navigate("/your_project");
+      window.location.reload(true);
+    }
+  }, [uploadSuccess, navigate]);
 
   return (
     <div className={styles.main_container}>
@@ -215,7 +224,13 @@ const ProjectForm = () => {
               isMulti
               options={technologyOptions}
               value={selectedTechnologies}
-              onChange={setSelectedTechnologies}
+              onChange={(selected) => {
+                setSelectedTechnologies(selected);
+                setFormData((prev) => ({
+                  ...prev,
+                  technology: selected.map((tech) => tech.value).join(", "),
+                }));
+              }}
               placeholder="Select technologies"
             />
             {validationErrors.technology && (
@@ -298,11 +313,8 @@ const ProjectForm = () => {
           </div>
 
           {submitError && <p className={styles.error}>{submitError}</p>}
-          {error && <p className={styles.error}>{error}</p>}
-          {loading && <p>Submitting...</p>}
-          {project && (
-            <p className={styles.success}>Project created successfully!</p>
-          )}
+          {isError && <p className={styles.error}>{isError}</p>}
+          {isLoading && <p>Please wait we are proceeding your request</p>}
 
           <div className={styles.tooltipWrapper}>
             <button
@@ -310,7 +322,7 @@ const ProjectForm = () => {
               className={styles.button}
               disabled={isDisabled}
             >
-              {loading ? "Submitting..." : "Submit"}
+              {isLoading ? "Submitting..." : "Submit"}
             </button>
             {!verified && (
               <span className={styles.tooltip}>You are not verified</span>

@@ -156,7 +156,9 @@
     display: flex;
     width: 100%;
     font-family: 'Roboto', sans-serif;
-    background-color: #f7f7f7;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
 }
 
 .project_details_wrapper_bottom_code_tree {
@@ -164,14 +166,13 @@
     box-sizing: border-box;
     border-right: 2px solid #e1e4e8;
     min-height: 100vh;
-    background-color: #fff;
     overflow-y: auto;
 }
 
 .project_details_wrapper_bottom_code_section {
     width: 60%;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: white;
     padding-inline: 1rem;
     display: flex;
     flex-direction: column;
