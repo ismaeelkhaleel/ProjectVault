@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
-import Logo from "../assest/images/logo.png";
 import { BASE_URL } from "../config/index";
 
 function Navbar() {
@@ -44,13 +43,6 @@ function Navbar() {
       {!isAdmin ? (
         <div className={styles.navbar_card}>
           <div className={styles.navbar_card_left}>
-            <img
-              src={Logo}
-              alt="ProjectVault_Logo"
-              onClick={() => {
-                navigate("/");
-              }}
-            />
             {token ? (
               <h2
                 onClick={() => {
@@ -128,7 +120,9 @@ function Navbar() {
               </div>
               {profileToggle && (
                 <div
-                  className={styles.navbar_card_right_profile}
+                  className={`${styles.navbar_card_right_profile} ${
+                    profileToggle ? styles.active : ""
+                  }`}
                   ref={profileRef}
                 >
                   <div className={styles.navbar_card_right_profile_top}>
@@ -347,28 +341,31 @@ function Navbar() {
             </div>
           ) : (
             <div className={styles.navbar_card_right}>
-              <h3 onClick={() => navigate("/auth/login")}>Login</h3>
-              <h3 onClick={() => navigate("/auth/register")}>Sign Up</h3>
+              <h3
+                onClick={() => navigate("/auth/login")}
+                className={styles.navbar_card_right_login}
+              >
+                Login
+              </h3>
+              <h3
+                onClick={() => navigate("/auth/register")}
+                className={styles.navbar_card_right_sign}
+              >
+                Sign Up
+              </h3>
             </div>
           )}
         </div>
       ) : (
         <div className={styles.navbar_card}>
           <div className={styles.navbar_card_left}>
-            <img
-              src={Logo}
-              alt="ProjectVault_Logo"
-              onClick={() => {
-                navigate("/");
-              }}
-            />
             {token ? (
               <h2
                 onClick={() => {
                   navigate("/dashboard");
                 }}
               >
-                {loggedInUser?.username}
+                Admin Dashboard
               </h2>
             ) : (
               <h2

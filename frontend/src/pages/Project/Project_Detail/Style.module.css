@@ -1,3 +1,7 @@
+.activeTab {
+    color: #3498db;
+}
+
 .project_details_container {
     padding-inline: 2rem;
     padding-block: 2rem;
@@ -97,7 +101,6 @@
     content: '';
     position: absolute;
     top: 100%;
-    /* Tooltip ke bottom par */
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
@@ -136,9 +139,11 @@
 .project_details_wrapper_bottom_instructions {
     background-color: #f9f9f9;
     border-radius: 8px;
+    width: 100%;
 }
 
 .project_details_wrapper_instructions_content {
+
     font-size: 16px;
     line-height: 1.6;
     color: #333;
@@ -467,4 +472,109 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.fileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    /* allow wrap on small screen */
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.fileHeader h3 {
+    margin: 0;
+    word-break: break-word;
+}
+
+@media (max-width: 600px) {}
+
+
+
+@media only screen and (max-width: 1024px) {
+    .profile_container_card_bottom {
+        padding-inline: 1rem;
+    }
+
+
+
+}
+
+@media only screen and (max-width:968px) {
+    .project_details_container {
+        padding-inline: 0.5rem;
+    }
+
+    .project_details_wrapper_bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .project_details_wrapper_middle_options {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .project_details_wrapper_middle_options_item {
+        padding-inline: 0rem;
+    }
+
+    .project_details_wrapper_middle_options_item>div {
+        padding-inline: 0rem;
+    }
+
+    .project_details_wrapper_middle_options_item svg {
+        display: none;
+    }
+
+    .project_details_wrapper_middle_options_item>h4 {
+        font-size: 0.9rem;
+    }
+
+    .project_details_wrapper_bottom_suggested {
+        width: 100%;
+        margin-left: 0rem;
+        padding-inline-start: 0rem;
+        margin-top: 2rem;
+        border-top: 2px solid black;
+    }
+
+    .project_details_wrapper_bottom_video {
+        width: 100%;
+    }
+
+    .profile_container_card_bottom_left_mobile {
+        display: none;
+    }
+
+    .project_details_wrapper_bottom_code {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .project_details_wrapper_bottom_code_tree {
+        width: 100%;
+        border: none;
+        min-height: 100%;
+        border-bottom: 1px solid black;
+        padding-bottom: 1rem;
+    }
+
+    .project_details_wrapper_bottom_code_section {
+        width: 100%;
+        margin-top: 2rem;
+        padding-inline: 0rem;
+    }
+
+    .fileHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .fileHeader>button {
+        align-self: flex-end;
+    }
 }

@@ -53,10 +53,11 @@
 .navbar_card_right_item {
     display: flex;
     align-items: center;
+    margin-left: 0.5rem;
 }
 
 .navbar_card_right_item svg {
-    width: 50px;
+    width: 40px;
     cursor: pointer;
     transition: 0.2s ease-in-out;
 }
@@ -72,7 +73,7 @@
 }
 
 .tooltip_container img {
-    width:40px;
+    width: 40px;
     height: 40px;
     object-fit: cover;
     border-radius: 50%;
@@ -102,18 +103,25 @@
 }
 
 .navbar_card_right_profile {
-    display: flex;
-    flex-direction: column;
     position: absolute;
     top: 0;
     right: 0;
+    width: 300px;
+    min-height: 100vh;
     background-color: rgb(239, 239, 239);
     border: 1px solid black;
     border-radius: 16px 0 0 16px;
-    width: 300px;
-    min-height: 100vh;
     padding-inline: 0.5rem;
+    display: flex;
+    flex-direction: column;
 
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.active {
+  transform: translateX(0%);
 }
 
 .navbar_card_right_profile_top {
@@ -194,4 +202,18 @@
 
 .navbar_card_right_profile_bottom svg {
     width: 25px;
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar_card_right_sign {
+        display: none;
+    }
+
+    .navbar_card_left h2 {
+        font-size: 1.3rem;
+    }
+
+    .navbar_card_right_item svg {
+        width: 30px;
+    }
 }

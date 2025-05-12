@@ -63,6 +63,11 @@ function Profile() {
   const closeImageModal = () => {
     setModalImage(null);
   };
+  useEffect(() => {
+    if (isEditable) {
+      setActiveTab("Overview");
+    }
+  }, [isEditable, setActiveTab]);
 
   return (
     <div className={styles.profile_container}>
@@ -136,7 +141,13 @@ function Profile() {
           </div>
         </div>
         <div className={styles.profile_container_card_bottom}>
-          <div className={styles.profile_container_card_bottom_left}>
+          <div
+            className={`${styles.profile_container_card_bottom_left} ${
+              activeTab === "Overview"
+                ? ""
+                : styles.profile_container_card_bottom_left_mobile
+            }`}
+          >
             <div className={styles.tooltip_container}>
               <label htmlFor="profilePicture">
                 <img

@@ -45,7 +45,6 @@ const NotificationListener = ({ userId }) => {
     if (userId) {
       dispatch(getAllNotifications(userId));
     }
-    console.log(notificationState);
   }, [dispatch, userId]);
 
   const handleMarkAllAsRead = async () => {

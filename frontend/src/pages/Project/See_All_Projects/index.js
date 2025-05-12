@@ -48,17 +48,21 @@ const ProjectsPage = () => {
       ) ||
       project.category?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesYear = selectedYear ? project.year === selectedYear : true;
-    const matchesTech = selectedTech
-      ? project.technology?.includes(selectedTech)
+    const matchesYear = selectedYear
+      ? project.year.toString() === selectedYear
       : true;
+    const matchesTech = selectedTech
+      ? project.technology?.some((tech) =>
+          tech.toLowerCase().includes(selectedTech.toLowerCase())
+        )
+      : true;
+
     const matchesCategory = selectedCategory
-      ? project.category === selectedCategory
+      ? project.category?.toLowerCase() === selectedCategory.toLowerCase()
       : true;
 
     return matchesSearch && matchesYear && matchesTech && matchesCategory;
   });
-
   return (
     <div className={styles.pageWrapper}>
       <h2 className={styles.heading}>

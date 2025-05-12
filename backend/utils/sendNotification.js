@@ -10,8 +10,8 @@ export async function sendNotification({ recipientId, senderId, type, projectId 
     commentId,
   });
 
-  const socketId = onlineUsers.get(String(recipientId)); // Get the recipient's socket ID
+  const socketId = onlineUsers.get(String(recipientId));  
   if (socketId) {
-    io.to(socketId).emit('notification', notification); // Emit notification to the recipient
+    io.to(socketId).emit('notification', notification);  
   }
 }

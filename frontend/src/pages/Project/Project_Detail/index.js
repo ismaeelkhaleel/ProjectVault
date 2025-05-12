@@ -79,7 +79,9 @@ function Project() {
         <div className={styles.project_details_wrapper_middle}>
           <div className={styles.project_details_wrapper_middle_options}>
             <div
-              className={styles.project_details_wrapper_middle_options_item}
+              className={`${
+                styles.project_details_wrapper_middle_options_item
+              } ${activeTab === "Demo Video" ? styles.activeTab : ""}`}
               onClick={() => {
                 setActiveTab("Demo Video");
               }}
@@ -92,10 +94,12 @@ function Project() {
               >
                 <path d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z" />
               </svg>
-              <h4>Demo Video</h4>
+              <h4>Video</h4>
             </div>
             <div
-              className={styles.project_details_wrapper_middle_options_item}
+              className={`${
+                styles.project_details_wrapper_middle_options_item
+              } ${activeTab === "Instructions" ? styles.activeTab : ""}`}
               onClick={() => {
                 setActiveTab("Instructions");
               }}
@@ -112,7 +116,9 @@ function Project() {
               <h4>Instructions</h4>
             </div>
             <div
-              className={styles.project_details_wrapper_middle_options_item}
+              className={`${
+                styles.project_details_wrapper_middle_options_item
+              } ${activeTab === "Code" ? styles.activeTab : ""}`}
               onClick={() => {
                 setActiveTab("Code");
               }}
@@ -133,7 +139,9 @@ function Project() {
               <h4>Code</h4>
             </div>
             <div
-              className={styles.project_details_wrapper_middle_options_item}
+              className={`${
+                styles.project_details_wrapper_middle_options_item
+              } ${activeTab === "Dessertation" ? styles.activeTab : ""}`}
               onClick={() => {
                 setActiveTab("Dessertation");
               }}

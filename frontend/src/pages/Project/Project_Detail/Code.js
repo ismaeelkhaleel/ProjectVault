@@ -93,13 +93,7 @@ function Code() {
         </div>
         {selectedFile ? (
           <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <div className={styles.fileHeader}>
               <h3>{selectedFile.name}</h3>
               {isCopied ? (
                 <button

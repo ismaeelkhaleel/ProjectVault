@@ -2,7 +2,6 @@
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
 .header {
@@ -44,8 +43,7 @@
 }
 
 .notificationList {
-    max-height: 350px;
-    overflow-y: auto;
+    overflow-y: hidden;
     padding: 8px 0;
 }
 

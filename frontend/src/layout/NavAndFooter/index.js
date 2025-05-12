@@ -15,7 +15,6 @@ const NavFooter = ({ children }) => {
       <main
         style={{
           flex: 1,
-          paddingBottom: "60px",
         }}
       >
         {children}
