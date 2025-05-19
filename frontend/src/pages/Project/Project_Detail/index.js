@@ -75,6 +75,16 @@ function Project() {
               </span>
             </p>
           </div>
+          <div style={{marginTop:"1rem"}}>
+            <p>
+              Uploaded At{" "}
+              <span
+                style={{ fontWeight: "bolder"}}
+              >
+                {projectState?.projectDetails?.createdAt.slice(0,10)}
+              </span>
+            </p>
+          </div>
         </div>
         <div className={styles.project_details_wrapper_middle}>
           <div className={styles.project_details_wrapper_middle_options}>
