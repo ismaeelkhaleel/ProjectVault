@@ -17,6 +17,7 @@
     "dayjs": "^1.11.13",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.507.0",
+    "nprogress": "^0.2.0",
     "pdfjs-dist": "^3.11.174",
     "react": "^19.1.0",
     "react-calendar-heatmap": "^1.10.0",

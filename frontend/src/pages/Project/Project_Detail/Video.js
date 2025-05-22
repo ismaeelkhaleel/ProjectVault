@@ -1,5 +1,3 @@
-import React from "react";
-import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Style.module.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +11,7 @@ import {
   unsaveProject,
 } from "../../../config/redux/action/projectAction";
 import CommentSection from "./CommentSection";
+import CustomVideoPlayer from "../../../components/CustomVideoPlayer";
 
 function Video() {
   const navigate = useNavigate();
@@ -50,12 +49,8 @@ function Video() {
     <div className={styles.project_details_wrapper_bottom}>
       <div className={styles.project_details_wrapper_bottom_video}>
         <div className={styles.react_player_wrapper}>
-          <ReactPlayer
+           <CustomVideoPlayer
             url={currentProject?.demoVideoPath}
-            controls
-            width="100%"
-            height="100%"
-            className={styles.react_player}
           />
         </div>
         <div className={styles.project_details_wrapper_bottom_others_icon}>

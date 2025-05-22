@@ -9,3 +9,13 @@ body {
     background: linear-gradient(to right, #f0f4f8, #e0eafc);
     overflow-x: hidden;
 }
+
+#nprogress .bar {
+  background: #00bfff !important;
+  height: 4px !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #00bfff, 0 0 5px #00bfff !important;
+}
+

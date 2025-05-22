@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import RouteChangeLoader from "./components/RouteChangeLoader";
 import {
   BrowserRouter as Router,
   Route,
@@ -26,6 +27,7 @@ import Homepage from "./pages/Homepage/index";
 import AdminDashboard from "./layout/Admin";
 import ProfileDetail from "./layout/Admin/ProfileDetail";
 import NavFooter from "./layout/NavAndFooter";
+import "./index.css";
 
 const ProtectedRoute = ({ children }) => {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -69,6 +71,7 @@ const App = () => {
   const userId = localStorage.getItem("userId");
   return (
     <Router>
+      <RouteChangeLoader/>
       <NavFooter>
         <Routes>
           <Route path="/" element={<Homepage />} />
