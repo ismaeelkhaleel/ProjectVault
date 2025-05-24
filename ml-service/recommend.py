@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer, util
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
-def get_projects_recommendations(user_skills, projects, top_n=3, min_score=0.000):
+def get_projects_recommendations(user_skills, projects, top_n, min_score):
     project_corpus = [
         " ".join(p.get("technology", [])) * 4 + " " + p.get("description", "")
         for p in projects
@@ -33,7 +33,7 @@ def get_projects_recommendations(user_skills, projects, top_n=3, min_score=0.000
 
 
 def get_profile_recommendations(
-    user_bio, user_skills, profiles, top_n=5, min_score=0.0
+    user_bio, user_skills, profiles, top_n, min_score
 ):
     user_text = " ".join(user_skills) * 4 + " " + user_bio
     profile_texts = [

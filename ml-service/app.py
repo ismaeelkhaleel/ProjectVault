@@ -10,7 +10,7 @@ def recommend_endpoint():
     data = request.get_json()
     skills = data.get("skills", [])
     projects = data.get("projects", [])
-    top_n = data.get("top_n", 5)
+    top_n = data.get("top_n", 50)
     min_score = data.get("min_score", 0.0)
 
     recommended = get_projects_recommendations(
@@ -25,7 +25,7 @@ def recommend_profiles():
     user_bio = data.get("bio", "")
     user_skills = data.get("skills", [])
     profiles = data.get("profiles", [])
-    top_n = data.get("top_n", 5)
+    top_n = data.get("top_n", 50)
     min_score = data.get("min_score", 0.0)
 
     recommended = get_profile_recommendations(
