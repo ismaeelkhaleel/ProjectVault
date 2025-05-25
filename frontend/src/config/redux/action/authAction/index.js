@@ -158,8 +158,6 @@ export const updateProfilePicture = createAsyncThunk(
           },
         }
       );
-
-      console.log(response.data);
       const updatedUser = {
         ...JSON.parse(localStorage.getItem("loggedInUser")),
         profilePicture: response.data.user.profilePicture,

@@ -5,6 +5,8 @@ const technologyOptions = [
   { value: "TypeScript", label: "TypeScript" },
   { value: "Java", label: "Java" },
   { value: "C#", label: "C#" },
+  { value: "HTML", label: "HTML" },
+  { value: "CSS", label: "CSS" },
   { value: "C++", label: "C++" },
   { value: "C", label: "C" },
   { value: "Go", label: "Go" },
