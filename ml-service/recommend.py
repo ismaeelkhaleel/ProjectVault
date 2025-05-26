@@ -16,7 +16,6 @@ def get_projects_recommendations(user_skills, projects, top_n, min_score):
     vectorizer = TfidfVectorizer()
     vectors = vectorizer.fit_transform(corpus)
     
-    print(vectors)
     user_vec = vectors[0]
     project_vecs = vectors[1:]
 

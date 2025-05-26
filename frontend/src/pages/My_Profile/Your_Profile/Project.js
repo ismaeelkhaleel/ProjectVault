@@ -58,6 +58,9 @@ function Project() {
                   className={
                     styles.profile_container_card_bottom_right_projects_item
                   }
+                  onClick={() => {
+                    navigate(`/project_details/${project._id}`);
+                  }}
                 >
                   <div>
                     <h2
@@ -83,7 +86,10 @@ function Project() {
                     className={
                       styles.profile_container_card_bottom_right_projects_icon
                     }
-                    onClick={() => handleSaveToggle(project._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSaveToggle(project._id);
+                    }}
                   >
                     {isSaved ? (
                       <svg
