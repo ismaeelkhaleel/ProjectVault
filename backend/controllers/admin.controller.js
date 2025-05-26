@@ -32,7 +32,6 @@ export const getUnVerifiedProfiles = async (req, res) => {
   }
 };
 
-// Verify a profile
 export const verifyProfile = async (req, res) => {
   const profileId = req.params.id;
   try {
@@ -64,7 +63,6 @@ export const verifyProfile = async (req, res) => {
   }
 };
 
-// Reject verification request
 export const rejectRequest = async (req, res) => {
   const profileId = req.params.id;
   try {

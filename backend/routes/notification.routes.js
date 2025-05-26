@@ -1,4 +1,3 @@
-// routes/notificationRoutes.js
 import express from 'express';
 import { deleteAllNotifications, deleteNotification, getNotifications, markAsSeen } from '../controllers/notification.controller.js';
 

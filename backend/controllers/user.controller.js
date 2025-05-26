@@ -391,7 +391,7 @@ export const getAllUsersProfiles = async (req, res) => {
       { $unwind: "$userDetails" },
       {
         $match: {
-          "userDetails.type": "user", // ✅ Only include users, exclude admins
+          "userDetails.type": "user",
         },
       },
       {

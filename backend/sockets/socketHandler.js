@@ -1,4 +1,3 @@
-// sockets/socketHandler.js
 let onlineUsers = new Map(); // This stores userId => socketId
 
 // This function handles the socket connection and sets up the necessary events
@@ -23,7 +22,6 @@ const socketHandler = (io) => {
       });
     });
 
-    // Optionally handle other events (like typing, messaging, etc.)
   });
 };
 

@@ -115,7 +115,7 @@ export const uploadProject = async (req, res) => {
       ".git",
       ""
     )}/archive/refs/heads/main.zip`;
-    console.log(`📥 Downloading ZIP from: ${repoZipUrl}`);
+    console.log(`Downloading ZIP from: ${repoZipUrl}`);
 
     const response = await axios({
       method: "GET",
@@ -130,8 +130,8 @@ export const uploadProject = async (req, res) => {
       writer.on("error", reject);
     });
 
-    console.log(`✅ ZIP file saved at: ${zipPath}`);
-    console.log(`🚀 Cloning repository using simple-git into: ${clonePath}`);
+    console.log(`ZIP file saved at: ${zipPath}`);
+    console.log(`Cloning repository using simple-git into: ${clonePath}`);
 
     const git = simpleGit();
 
@@ -140,7 +140,7 @@ export const uploadProject = async (req, res) => {
     }
 
     await git.clone(githubRepo, clonePath.replace(/\\/g, "/"));
-    console.log("✅ Repository cloned successfully!");
+    console.log("Repository cloned successfully!");
 
     const baseUploadsPath = path.join(__dirname, "../uploads");
 
@@ -172,7 +172,7 @@ export const uploadProject = async (req, res) => {
     });
 
     await project.save();
-    console.log("✅ Project details saved successfully!");
+    console.log("Project details saved successfully!");
 
     await UserActivity.create({
       userId: userId,
@@ -185,7 +185,7 @@ export const uploadProject = async (req, res) => {
       project,
     });
   } catch (error) {
-    console.error("❌ Error in uploadProject:", error);
+    console.error("Error in uploadProject:", error);
     res
       .status(500)
       .json({ error: "Internal Server Error", details: error.message });
