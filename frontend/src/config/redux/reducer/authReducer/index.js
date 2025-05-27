@@ -16,10 +16,12 @@ import {
   getHeatMap,
   getRecommendedProfiles,
   getAllProfiles,
+  getLoggedInProfile,
 } from "../../action/authAction";
 
 const initialState = {
   user: null,
+  loggedInUserProfile: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -314,6 +316,22 @@ const authSlice = createSlice({
         state.isError = true;
         state.message =
           action?.payload?.message || "Error in fetching all profiles";
+      })
+      .addCase(getLoggedInProfile.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.message = "Fetching profile...";
+      })
+      .addCase(getLoggedInProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.loggedInUserProfile = action.payload;
+        state.message = "Fetched Profile";
+      })
+      .addCase(getLoggedInProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action?.payload?.message || "Error in fetching profile";
       });
   },
 });

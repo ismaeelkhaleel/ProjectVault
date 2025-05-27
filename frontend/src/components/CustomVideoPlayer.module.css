@@ -1,8 +1,7 @@
 .playerWrapper {
   position: relative;
   width: 100%;
-  max-width: 740px;
-  aspect-ratio: 16 / 9; /* Ensures all videos maintain same ratio */
+  aspect-ratio: 16 / 9;
   background: #000;
   margin: 0 auto;
   user-select: none;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRecommendedProjects } from "../../../config/redux/action/projectAction";
 import styles from "./Style.module.css";
 import { useNavigate } from "react-router-dom";
+import Image from "../../../assest/images/default.png";
 
 const Recommend = ({ userId }) => {
   const dispatch = useDispatch();
@@ -11,15 +12,15 @@ const Recommend = ({ userId }) => {
   );
 
   const [startIndex, setStartIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(2);
   const navigate = useNavigate();
 
   useEffect(() => {
     const updateVisibleCount = () => {
       const width = window.innerWidth;
-      if (width < 640) setVisibleCount(1);
-      else if (width < 1024) setVisibleCount(2);
-      else setVisibleCount(4);
+      if (width < 640) setVisibleCount(1); 
+      else if (width < 1024) setVisibleCount(2);  
+      else setVisibleCount(3);  
     };
 
     updateVisibleCount();
@@ -32,12 +33,12 @@ const Recommend = ({ userId }) => {
   }, [dispatch, userId]);
 
   const handlePrev = () => {
-    setStartIndex((prev) => Math.max(prev - 1, 0));
+    setStartIndex((prev) => Math.max(prev - visibleCount, 0));
   };
 
   const handleNext = () => {
     setStartIndex((prev) =>
-      Math.min(prev + 1, recommendedProjects.length - visibleCount)
+      Math.min(prev + visibleCount, recommendedProjects.length - visibleCount)
     );
   };
 
@@ -100,6 +101,11 @@ const Recommend = ({ userId }) => {
               className={styles.recommend_card}
               onClick={() => navigate(`/project-details/${project._id}`)}
             >
+              <img
+                src={project.imagePath || Image}
+                alt={project.title}
+                className={styles.recommend_card_image}
+              />
               <h3 className={styles.recommend_card_title}>{project.title}</h3>
               <p className={styles.recommend_card_description}>
                 {project.description.length > 200
@@ -115,7 +121,9 @@ const Recommend = ({ userId }) => {
             <button
               className={styles.arrow_button}
               onClick={handleNext}
-              disabled={startIndex + visibleCount >= recommendedProjects.length}
+              disabled={
+                startIndex + visibleCount >= recommendedProjects.length
+              }
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

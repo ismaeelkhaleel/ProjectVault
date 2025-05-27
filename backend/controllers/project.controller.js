@@ -115,13 +115,28 @@ export const uploadProject = async (req, res) => {
       ".git",
       ""
     )}/archive/refs/heads/main.zip`;
+
     console.log(`Downloading ZIP from: ${repoZipUrl}`);
 
-    const response = await axios({
-      method: "GET",
-      url: repoZipUrl,
-      responseType: "stream",
-    });
+    let response;
+    try {
+      response = await axios({
+        method: "GET",
+        url: repoZipUrl,
+        responseType: "stream",
+      });
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        return res.status(400).json({
+          error: "GitHub repository not found or it may be private.",
+        });
+      } else {
+        return res.status(500).json({
+          error: "Failed to fetch GitHub repository",
+          details: err.message,
+        });
+      }
+    }
 
     await new Promise((resolve, reject) => {
       const writer = fs.createWriteStream(zipPath);

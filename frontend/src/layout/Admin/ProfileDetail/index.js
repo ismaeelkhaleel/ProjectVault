@@ -6,6 +6,7 @@ import {
   verifyProfile,
   rejectRequest,
 } from "../../../config/redux/action/adminAction/index";
+import { blockAndUnblockUser } from "../../../config/redux/action/adminAction";
 import { BASE_URL } from "../../../config";
 import styles from "./ProfileDetail.module.css";
 
@@ -47,6 +48,11 @@ function ProfileDetail() {
   if (!profile) {
     return <div>Loading profile...</div>;
   }
+  const handleBlockToggle = () => {
+    dispatch(blockAndUnblockUser(profile.user._id)).then(() => {
+      dispatch(getProfileByAdmin(id));
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -118,6 +124,14 @@ function ProfileDetail() {
                 : "Reject"}
             </button>
           </div>
+          <button
+            className={`${styles.block_button} ${
+              profile.user.blocked ? styles.verify : styles.reject
+            }`}
+            onClick={handleBlockToggle}
+          >
+            {profile.user.blocked ? "Unblock User" : "Block User"}
+          </button>
         </div>
       </div>
 

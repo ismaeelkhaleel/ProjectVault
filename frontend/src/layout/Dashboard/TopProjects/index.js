@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProjects } from "../../../config/redux/action/projectAction";
 import styles from "./Style.module.css";
 import { useNavigate } from "react-router-dom";
+import Image from "../../../assest/images/default.png";
 
 const TopProjects = ({ userId }) => {
   const dispatch = useDispatch();
-  const { allProjects, isError, message } = useSelector(
+  const { allProjects } = useSelector(
     (state) => state.project
   );
 
@@ -19,7 +20,7 @@ const TopProjects = ({ userId }) => {
       const width = window.innerWidth;
       if (width < 640) setVisibleCount(1);
       else if (width < 1024) setVisibleCount(2);
-      else setVisibleCount(4);
+      else setVisibleCount(3);
     };
 
     updateVisibleCount();
@@ -32,12 +33,12 @@ const TopProjects = ({ userId }) => {
   }, [dispatch, userId]);
 
   const handlePrev = () => {
-    setStartIndex((prev) => Math.max(prev - 1, 0));
+    setStartIndex((prev) => Math.max(prev - visibleCount, 0));
   };
 
   const handleNext = () => {
     setStartIndex((prev) =>
-      Math.min(prev + 1, allProjects.length - visibleCount)
+      Math.min(prev + visibleCount, allProjects.length - visibleCount)
     );
   };
 
@@ -69,10 +70,6 @@ const TopProjects = ({ userId }) => {
         )}
       </div>
 
-      {isError && (
-        <p className={styles.top_container_error_message}>{message}</p>
-      )}
-
       <div className={styles.carousel_wrapper}>
         <div className={styles.carousel_card_container}>
           <div>
@@ -101,6 +98,11 @@ const TopProjects = ({ userId }) => {
               className={styles.top_card}
               onClick={() => navigate(`/project-details/${project._id}`)}
             >
+              <img
+                src={project.imagePath || Image}
+                alt={project.title}
+                className={styles.top_card_image}
+              />
               <h3 className={styles.top_card_title}>{project.title}</h3>
               <p className={styles.top_card_description}>
                 {project.description.length > 200

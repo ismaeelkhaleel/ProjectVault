@@ -2,15 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../config/index";
+import { useDispatch, useSelector } from "react-redux";
+import { getLoggedInProfile } from "../config/redux/action/authAction";
+import Logo from "../assest/images/logo.png";
 
 function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth);
   const [profileToggle, setProfileToggle] = useState(false);
+  const [showNotVerifiedAlert, setShowNotVerifiedAlert] = useState(false);
   const profileRef = useRef(null);
   const profileButtonRef = useRef(null);
 
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
   const isAdmin = loggedInUser?.type === "admin";
 
   const handleProfileToggle = () => {
@@ -38,6 +45,14 @@ function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    if (userId && !isAdmin) {
+      dispatch(getLoggedInProfile(userId));
+    }
+  }, [dispatch, userId]);
+
+  const isVerified = authState?.loggedInUserProfile?.verified;
+
   return (
     <div className={styles.navbar_container}>
       {!isAdmin ? (
@@ -49,7 +64,7 @@ function Navbar() {
                   navigate("/dashboard");
                 }}
               >
-                {loggedInUser?.username}
+                <img src={Logo} alt="Logo" />
               </h2>
             ) : (
               <h2
@@ -57,7 +72,7 @@ function Navbar() {
                   navigate("/");
                 }}
               >
-                ProjectVault
+                <img src={Logo} alt="Logo" />
               </h2>
             )}
           </div>
@@ -71,7 +86,11 @@ function Navbar() {
                     fill="currentColor"
                     className="size-6"
                     onClick={() => {
-                      navigate("/project_submit_form");
+                      if (isVerified) {
+                        navigate("/project_submit_form");
+                      } else {
+                        setShowNotVerifiedAlert(true);
+                      }
                     }}
                   >
                     <path
@@ -365,7 +384,7 @@ function Navbar() {
                   navigate("/dashboard");
                 }}
               >
-                Admin Dashboard
+                <img src={Logo} alt="Logo" />
               </h2>
             ) : (
               <h2
@@ -373,28 +392,53 @@ function Navbar() {
                   navigate("/");
                 }}
               >
-                ProjectVault
+                <img src={Logo} alt="Logo" />
               </h2>
             )}
           </div>
           {token ? (
             <div className={styles.navbar_card_right}>
+              <div className={styles.navbar_card_right_item}>
+                <div
+                  className={styles.tooltip_container}
+                  onClick={() => {
+                    navigate("/admin/projects");
+                  }}
+                >
+                  <h4>Projects</h4>
+                  <span className={styles.tooltip_text}>All Projects</span>
+                </div>
+              </div>
+              <div className={styles.navbar_card_right_item}>
+                <div
+                  className={styles.tooltip_container}
+                  onClick={() => {
+                    navigate("/admin/users");
+                  }}
+                >
+                  <h4>Users</h4>
+                  <span className={styles.tooltip_text}>All Users</span>
+                </div>
+              </div>
               <div
                 className={styles.navbar_card_right_item}
                 onClick={handleLogout}
               >
                 <div className={styles.tooltip_container}>
-                  <h4>Sign Out</h4>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2 4.75A2.75 2.75 0 0 1 4.75 2h3a2.75 2.75 0 0 1 2.75 2.75v.5a.75.75 0 0 1-1.5 0v-.5c0-.69-.56-1.25-1.25-1.25h-3c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h3c.69 0 1.25-.56 1.25-1.25v-.5a.75.75 0 0 1 1.5 0v.5A2.75 2.75 0 0 1 7.75 14h-3A2.75 2.75 0 0 1 2 11.25v-6.5Zm9.47.47a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H5.25a.75.75 0 0 1 0-1.5h7.19l-.97-.97a.75.75 0 0 1 0-1.06Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+
                   <span className={styles.tooltip_text}>Log Out</span>
-                </div>
-              </div>
-              <div className={styles.navbar_card_right_item}>
-                <div className={styles.tooltip_container}>
-                  <img
-                    src={`${BASE_URL}uploads/${loggedInUser?.profilePicture}`}
-                    alt={loggedInUser?.username}
-                  />
-                  <span className={styles.tooltip_text}>Profile Picture</span>
                 </div>
               </div>
             </div>
@@ -404,6 +448,32 @@ function Navbar() {
               <h3 onClick={() => navigate("/auth/register")}>Sign Up</h3>
             </div>
           )}
+        </div>
+      )}
+      {showNotVerifiedAlert && (
+        <div className={styles.custom_alert_overlay}>
+          <div className={styles.custom_alert_box}>
+            <p>
+              You are not a verified user.
+              <span
+                onClick={() => {
+                  navigate(`/my_profile/${userId}`);
+                  setShowNotVerifiedAlert(false);
+                }}
+                style={{
+                  cursor: "pointer",
+                  color: "#3498db",
+                  fontWeight: "bold",
+                }}
+              >
+                Click Here{" "}
+              </span>{" "}
+              to Update Your Profile
+            </p>
+            <button onClick={() => setShowNotVerifiedAlert(false)}>
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>

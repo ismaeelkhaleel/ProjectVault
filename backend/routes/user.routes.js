@@ -9,7 +9,6 @@ import {
   updatePassword,
   updateProfile,
   upload,
-  deleteProfileAndUser,
   getAllUsersProfiles,
   getProfileByUsername,
   getUserProfile,
@@ -18,6 +17,7 @@ import {
   unfollowUser,
   getUserFollowerList,
   getUserFollowingList,
+  getLogedinProfile
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -34,7 +34,6 @@ router.put(
   updateProfilePicture
 );
 router.put("/update-profile/:id", upload.single("idCard"), updateProfile);
-router.delete("/delete-profile-and-user/:id", deleteProfileAndUser);
 router.get("/get-all-users-profiles", getAllUsersProfiles);
 router.get("/get-profile-by-username/:username", getProfileByUsername);
 router.get("/get-user-profile/:id", getUserProfile);
@@ -42,5 +41,6 @@ router.put("/follow-user/:id", followUser);
 router.put("/unfollow-user/:id", unfollowUser);
 router.get("/get-user-follower-list/:id", getUserFollowerList);
 router.get("/get-user-following-list/:id", getUserFollowingList);
+router.get("/get-logedin-profile/:id", getLogedinProfile);
 
 export default router;

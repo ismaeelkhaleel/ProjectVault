@@ -46,6 +46,10 @@ const projectSchema = new mongoose.Schema(
     },
     desertationPath: {
       type: String,
+      required: true,
+    },
+    imagePath: {
+      type: String,
     },
     views: {
       type: Number,

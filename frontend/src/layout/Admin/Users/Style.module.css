@@ -1,0 +1,202 @@
+.filterControls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.heading {
+  margin-top: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.heading::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background-color: #3498db;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.searchInput {
+  width: 300px;
+  max-width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: #888;
+  font-style: italic;
+}
+
+.searchInput:focus {
+  border-color: #3498db;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+.filterSelect {
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  min-width: 200px;
+}
+
+.filterSelect:hover,
+.filterSelect:focus {
+  border-color: #3498db;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+.userCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.userCount p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.userCount:hover {
+  transform: translateY(-4px);
+}
+
+
+.noProfiles {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555;
+  padding: 2rem;
+}
+
+.profileGrid {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.profileCardWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.profileCard {
+  position: relative;
+  flex: 0 0 auto;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  padding-bottom: 3.5rem;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+.profileCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #3498db;
+  margin-bottom: 1rem;
+}
+
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.3rem;
+}
+
+.course {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.blockBtn {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.block {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.block:hover {
+  background-color: #c0392b;
+}
+
+.unblock {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.unblock:hover {
+  background-color: #27ae60;
+}

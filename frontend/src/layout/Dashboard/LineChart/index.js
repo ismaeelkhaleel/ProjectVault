@@ -53,22 +53,20 @@ const LineChart = ({ userId }) => {
   const summaryByMonth = userActivityData?.summaryByMonth || {};
   const labels = getLast12MonthsLabels();
 
-  const datasets = Object.keys(summaryByMonth).map((type) => ({
-    label: type
-      .replace(/_/g, " ")
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" "),
-
+  const datasets = Object.keys(summaryByMonth).map((type) => {
+  const activityType = activityTypesList.find(item => item.key === type);
+  return {
+    label: activityType ? activityType.label : type,
     data: summaryByMonth[type],
     borderColor: colors[type] || "#000",
     backgroundColor: `${colors[type]}33`,
     tension: 0.3,
-    fill: false,
+    fill: true,
     pointStyle: "circle",
     pointRadius: 4,
     pointHoverRadius: 6,
-  }));
+  };
+});
 
   const chartData = {
     labels,

@@ -31,9 +31,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "default.png",
     },
-    type:{
-      type:String,
-      default:"user"
+    type: {
+      type: String,
+      default: "user",
     },
     otp: {
       type: String,
@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
     otpVerified: {
+      type: Boolean,
+      default: false,
+    },
+    blocked: {
       type: Boolean,
       default: false,
     },

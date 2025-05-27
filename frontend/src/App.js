@@ -27,6 +27,8 @@ import Homepage from "./pages/Homepage/index";
 import AdminDashboard from "./layout/Admin";
 import ProfileDetail from "./layout/Admin/ProfileDetail";
 import NavFooter from "./layout/NavAndFooter";
+import ProjectsByAdmin from "./layout/Admin/Projects";
+import UserByAdmin from "./layout/Admin/Users";
 import "./index.css";
 
 const ProtectedRoute = ({ children }) => {
@@ -43,11 +45,17 @@ const ProtectedRoute = ({ children }) => {
     window.location.pathname.startsWith(path)
   );
 
+  const sharedPaths = ["/project-details"];
+
+  const isSharedPath = sharedPaths.some((path) =>
+    window.location.pathname.startsWith(path)
+  );
+
   if (isAdminPath && !isAdmin) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  if (!isAdminPath && isAdmin) {
+  if (!isAdminPath && isAdmin && !isSharedPath) {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
@@ -71,7 +79,7 @@ const App = () => {
   const userId = localStorage.getItem("userId");
   return (
     <Router>
-      <RouteChangeLoader/>
+      <RouteChangeLoader />
       <NavFooter>
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -213,7 +221,23 @@ const App = () => {
             }
           />
           <Route
-            path="/profile-verify/detail/:id"
+            path="/admin/projects"
+            element={
+              <ProtectedRoute>
+                <ProjectsByAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute>
+                <UserByAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/user-profile/detail/:id"
             element={
               <ProtectedRoute>
                 <ProfileDetail />

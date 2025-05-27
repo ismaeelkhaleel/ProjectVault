@@ -59,13 +59,27 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const emailExists = await User.findOne({ email });
-    if (emailExists) {
+    // Check if email exists
+    const existingEmailUser = await User.findOne({ email });
+    if (existingEmailUser) {
+      if (existingEmailUser.blocked) {
+        return res.status(403).json({
+          message:
+            "Your account with this email has been blocked. Please contact support.",
+        });
+      }
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    const usernameExists = await User.findOne({ username });
-    if (usernameExists) {
+    // Check if username exists
+    const existingUsernameUser = await User.findOne({ username });
+    if (existingUsernameUser) {
+      if (existingUsernameUser.blocked) {
+        return res.status(403).json({
+          message:
+            "Your account with this username has been blocked. Please contact support.",
+        });
+      }
       return res.status(400).json({ message: "Username already taken" });
     }
 
@@ -237,6 +251,14 @@ export const login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    // ✅ Check if user is blocked
+    if (user.blocked) {
+      return res.status(403).json({
+        message: "Your account has been blocked. Please contact support.",
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
@@ -251,6 +273,7 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+
     await UserActivity.create({
       userId: user._id,
       activityType: "login",
@@ -356,26 +379,6 @@ export const updateProfile = async (req, res) => {
 };
 
 export { upload };
-
-export const deleteProfileAndUser = async (req, res) => {
-  const userId = req.params.id;
-  try {
-    const user = await User.findOne({ _id: userId });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    await User.deleteOne({ _id: userId });
-
-    await Profile.deleteOne({ user: userId });
-    return res
-      .status(200)
-      .json({ message: "User and profile deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
 
 export const getAllUsersProfiles = async (req, res) => {
   try {
@@ -520,14 +523,12 @@ export const unfollowUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Check if not following
     if (!userToUnfollow.followers.includes(userId)) {
       return res
         .status(400)
         .json({ message: "You're not following this user" });
     }
 
-    // Remove follower from the user's followers
     userToUnfollow.followers = userToUnfollow.followers.filter(
       (followerId) => followerId.toString() !== userId
     );
@@ -577,6 +578,23 @@ export const getUserFollowingList = async (req, res) => {
     }
 
     return res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getLogedinProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const profile = await Profile.findOne({ user: id }).populate(
+      "user",
+      "name username profilePicture blocked"
+    );
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+    return res.status(200).json(profile);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });

@@ -300,3 +300,17 @@ export const getRecommendedProfiles = createAsyncThunk(
     }
   }
 );
+
+export const getLoggedInProfile = createAsyncThunk(
+  "user/getLoggedInProfile",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await clientServer.get(`/get-logedin-profile/${userId}`);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      const errMessage =
+        err.response?.data?.message || "Failed to fetch user profiles";
+      return thunkAPI.rejectWithValue({ message: errMessage });
+    }
+  }
+);
