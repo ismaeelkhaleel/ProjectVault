@@ -8,10 +8,11 @@ import {
   unsaveProject,
 } from "../../../config/redux/action/projectAction";
 import styles from "./Style.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Project() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id: viewedUserId } = useParams();
   const loggedInUserId = localStorage.getItem("userId");
   const projectState = useSelector((state) => state.project);
@@ -59,7 +60,7 @@ function Project() {
                     styles.profile_container_card_bottom_right_projects_item
                   }
                   onClick={() => {
-                    navigate(`/project_details/${project._id}`);
+                    navigate(`/project-details/${project._id}`);
                   }}
                 >
                   <div>

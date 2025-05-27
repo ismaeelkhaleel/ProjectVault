@@ -454,7 +454,7 @@ export const getCodeTree = async (req, res) => {
         .json({ error: "Code path not found for the project" });
     }
 
-    const uploadsFolderPath = path.join(__dirname, "..", "uploads"); // go to backend/uploads/
+    const uploadsFolderPath = path.join(__dirname, "..", "uploads");
     const relativePath = codePath.replace(
       /^http:\/\/localhost:5000\/uploads\//,
       ""

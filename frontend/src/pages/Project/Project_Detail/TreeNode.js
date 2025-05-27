@@ -1,5 +1,3 @@
-// TreeNode.js
-
 import React, { useState } from "react";
 
 const IGNORED_NAMES = [".git"];
@@ -12,14 +10,14 @@ const TreeNode = ({ node, setSelectedFile, selectedFile }) => {
   };
 
   const handleFileClick = () => {
-    setSelectedFile(node); // 👈 Update selected file in parent
+    setSelectedFile(node);  
   };
 
   if (IGNORED_NAMES.includes(node.name)) {
     return null;
   }
 
-  // Check if this node is the currently selected file
+
   const isActive = selectedFile && selectedFile.path === node.path;
 
   return (
@@ -39,8 +37,8 @@ const TreeNode = ({ node, setSelectedFile, selectedFile }) => {
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            color: isActive ? "red" : "inherit", // 🔥 Here we apply red color if active
-            fontWeight: isActive ? "bold" : "normal", // 🔥 Bold for active file
+            color: isActive ? "red" : "inherit",  
+            fontWeight: isActive ? "bold" : "normal", 
           }}
         >
           <span style={{ marginRight: "5px" }}>📄</span>
@@ -55,7 +53,7 @@ const TreeNode = ({ node, setSelectedFile, selectedFile }) => {
               key={index}
               node={child}
               setSelectedFile={setSelectedFile}
-              selectedFile={selectedFile} // 👈 Pass selectedFile to child nodes also
+              selectedFile={selectedFile}
             />
           ))}
         </div>
