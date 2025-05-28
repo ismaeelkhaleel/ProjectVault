@@ -50,6 +50,7 @@ const fileFilter = (req, file, cb) => {
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ];
+  const imageTypes = ["image/jpeg", "image/png", "image/webp"];
 
   if (
     file.fieldname === "demoVideoPath" &&
@@ -61,9 +62,16 @@ const fileFilter = (req, file, cb) => {
     documentTypes.includes(file.mimetype)
   ) {
     cb(null, true);
+  } else if (
+    file.fieldname === "imagePath" &&
+    imageTypes.includes(file.mimetype)
+  ) {
+    cb(null, true);
   } else {
     cb(
-      new Error("Invalid file type. Only videos and documents are allowed"),
+      new Error(
+        "Invalid file type. Only videos, documents, and images are allowed."
+      ),
       false
     );
   }
@@ -84,6 +92,7 @@ export const uploadProject = async (req, res) => {
     } = req.body;
     const demoVideoPath = req.files?.demoVideoPath?.[0]?.path || null;
     const desertationPath = req.files?.desertationPath?.[0]?.path || null;
+    const imagePath = req.files?.imagePath?.[0]?.path || null;
 
     if (!userId)
       return res.status(400).json({ message: "User ID is required" });
@@ -127,6 +136,7 @@ export const uploadProject = async (req, res) => {
       });
     } catch (err) {
       if (err.response && err.response.status === 404) {
+        console.log("GitHub repository not found or it may be private.")
         return res.status(400).json({
           error: "GitHub repository not found or it may be private.",
         });
@@ -171,6 +181,7 @@ export const uploadProject = async (req, res) => {
     const publicZipUrl = makePublicUrl(zipPath);
     const publicClonePath = makePublicUrl(clonePath);
     const publicDesertationUrl = makePublicUrl(desertationPath);
+    const publicImagePath = makePublicUrl(imagePath);
 
     const project = new Project({
       userId,
@@ -184,6 +195,7 @@ export const uploadProject = async (req, res) => {
       zipFilePath: publicZipUrl,
       demoVideoPath: publicVideoUrl,
       desertationPath: publicDesertationUrl,
+      imagePath: publicImagePath,
     });
 
     await project.save();

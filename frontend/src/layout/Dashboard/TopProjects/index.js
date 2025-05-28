@@ -7,9 +7,7 @@ import Image from "../../../assest/images/default.png";
 
 const TopProjects = ({ userId }) => {
   const dispatch = useDispatch();
-  const { allProjects } = useSelector(
-    (state) => state.project
-  );
+  const { allProjects } = useSelector((state) => state.project);
 
   const [startIndex, setStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(4);
@@ -19,6 +17,7 @@ const TopProjects = ({ userId }) => {
     const updateVisibleCount = () => {
       const width = window.innerWidth;
       if (width < 640) setVisibleCount(1);
+      else if (width < 868) setVisibleCount(1);
       else if (width < 1024) setVisibleCount(2);
       else setVisibleCount(3);
     };

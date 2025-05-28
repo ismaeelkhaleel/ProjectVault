@@ -44,7 +44,7 @@
 
 .projectCard {
     background: linear-gradient(135deg, #f8f9fa, #ffffff);
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -52,7 +52,8 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    height: 250px;
+    padding-bottom: 1.5rem;
+    min-height: 380px;
 }
 
 .projectCard:hover {
@@ -81,23 +82,29 @@
     opacity: 1;
     pointer-events: auto;
 }
-
-.cardBody {
-    padding: 1.5rem;
+.cardBody img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0;
+  margin-bottom: 1rem;
+  display: block;
 }
 
 .projectTitle {
     font-size: 1.3rem;
     font-weight: 600;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
     color: #34495e;
+    padding-inline-start: 1rem;
 }
 
 .projectDesc {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #555;
     margin-bottom: 1rem;
     line-height: 1.4;
+    padding-inline: 1rem;
 }
 
 .projectTechs {
@@ -105,17 +112,18 @@
     color: #7f8c8d;
     margin-bottom: 1.2rem;
     font-style: italic;
+    padding-inline:1rem ;
 }
 
 .viewBtn {
-    align-self: flex-start;
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease;
     color: black;
     font-weight: bold;
-    display: flex;
-    justify-self: flex-end;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
 }
 
 .viewBtn:hover {

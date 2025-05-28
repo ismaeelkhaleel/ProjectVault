@@ -18,7 +18,8 @@ export const uploadProject = createAsyncThunk(
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       const errMessage =
-        err.response?.data?.message || "Failed to upload project";
+        err.response?.data?.error;
+        console.log(errMessage);
       return thunkAPI.rejectWithValue({ message: errMessage });
     }
   }

@@ -21,6 +21,7 @@ const ProjectForm = () => {
 
   const [demoVideo, setDemoVideo] = useState(null);
   const [desertation, setDesertation] = useState(null);
+  const [image, setImage] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
@@ -30,7 +31,7 @@ const ProjectForm = () => {
 
   const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
-  const { isLoading, isError, uploadSuccess } = useSelector(
+  const { isLoading, isError, uploadSuccess,message } = useSelector(
     (state) => state.project
   );
 
@@ -59,6 +60,7 @@ const ProjectForm = () => {
     const { name, files } = e.target;
     if (name === "demoVideo") setDemoVideo(files[0]);
     if (name === "desertation") setDesertation(files[0]);
+    if (name === "image") setImage(files[0]);
   };
 
   const validate = () => {
@@ -74,6 +76,7 @@ const ProjectForm = () => {
     if (!formData.year.trim()) errors.year = "Year is required";
     if (!demoVideo) errors.demoVideo = "Please upload a demo video";
     if (!desertation) errors.desertation = "Please upload a dissertation";
+    if (!image) errors.image = "Please upload an image";
 
     return errors;
   };
@@ -97,6 +100,7 @@ const ProjectForm = () => {
     formDataToSubmit.append("year", formData.year);
     formDataToSubmit.append("demoVideoPath", demoVideo);
     formDataToSubmit.append("desertationPath", desertation);
+    formDataToSubmit.append("imagePath", image);
 
     dispatch(uploadProject(formDataToSubmit));
   };
@@ -281,22 +285,36 @@ const ProjectForm = () => {
               )}
             </div>
           </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Demo Video</label>
-            <input
-              type="file"
-              id="demoVideo"
-              name="demoVideo"
-              accept="video/*"
-              className={styles.fileInput}
-              onChange={handleFileChange}
-            />
-            {validationErrors.demoVideo && (
-              <p className={styles.error}>{validationErrors.demoVideo}</p>
-            )}
+          <div className={styles.row}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Demo Video</label>
+              <input
+                type="file"
+                id="demoVideo"
+                name="demoVideo"
+                accept="video/*"
+                className={styles.fileInput}
+                onChange={handleFileChange}
+              />
+              {validationErrors.demoVideo && (
+                <p className={styles.error}>{validationErrors.demoVideo}</p>
+              )}
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Upload a Image</label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                className={styles.fileInput}
+                onChange={handleFileChange}
+              />
+              {validationErrors.desertation && (
+                <p className={styles.error}>{validationErrors.desertation}</p>
+              )}
+            </div>
           </div>
-
           <div className={styles.formGroup}>
             <label className={styles.label}>Dissertation File</label>
             <input
@@ -313,7 +331,7 @@ const ProjectForm = () => {
           </div>
 
           {submitError && <p className={styles.error}>{submitError}</p>}
-          {isError && <p className={styles.error}>{isError}</p>}
+          {isError && <p className={styles.error}>{message}</p>}
           {isLoading && <p>Please wait we are proceeding your request</p>}
 
           <div className={styles.tooltipWrapper}>

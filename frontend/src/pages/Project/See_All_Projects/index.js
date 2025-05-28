@@ -9,6 +9,7 @@ import styles from "./Style.module.css";
 import categories from "../../../data/categories";
 import technologies from "../../../data/technologies";
 import years from "../../../data/years";
+import Image from "../../../assest/images/default.png";
 
 const ProjectsPage = () => {
   const location = useLocation();
@@ -131,6 +132,7 @@ const ProjectsPage = () => {
                   </div>
                 )}
                 <div className={styles.cardBody}>
+                  <img src={project.imagePath || Image} alt={project.title} />
                   <h5 className={styles.projectTitle}>{project.title}</h5>
                   <p className={styles.projectDesc}>
                     {project.description?.slice(0, 100)}...

@@ -3,6 +3,7 @@ import { getLikedProjects } from "../../../config/redux/action/projectAction";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Style.module.css";
 import { useNavigate } from "react-router-dom";
+import Image from "../../../assest/images/default.png";
 
 function LikedProject() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function LikedProject() {
         <div className={styles.like_projects_grid}>
           {likedProjects.map((project, index) => (
             <div className={styles.like_project_card} key={index}>
+              <img src={project.imagePath || Image} alt={project.title} />
               <h3 className={styles.like_project_title}>{project.title}</h3>
               <p className={styles.like_project_description}>
                 {project.description.length > 100
@@ -31,19 +33,16 @@ function LikedProject() {
                   : project.description}
               </p>
               <p className={styles.projectTechs}>
-                  Tech: {project.technology?.join(", ")}
-                </p>
-              <div>
-                <p
-                  className={styles.like_project_button}
-                  onClick={() => {
-                    navigate(`/project-details/${project._id}`);
-                  }}
-                >
-                  See Full Project
-                   
-                </p>
-              </div>
+                Tech: {project.technology?.join(", ")}
+              </p>
+              <p
+                className={styles.like_project_button}
+                onClick={() => {
+                  navigate(`/project-details/${project._id}`);
+                }}
+              >
+                See Full Project
+              </p>
             </div>
           ))}
         </div>

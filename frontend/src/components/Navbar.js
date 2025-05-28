@@ -295,9 +295,13 @@ function Navbar() {
                     <div
                       className={styles.navbar_card_right_profile_middle_item}
                       onClick={() => {
+                      if (isVerified) {
                         navigate("/project_submit_form");
-                        setProfileToggle(!profileToggle);
-                      }}
+                      } else {
+                        setShowNotVerifiedAlert(true);
+                      }
+                      setProfileToggle(!profileToggle);
+                    }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

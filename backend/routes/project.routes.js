@@ -24,6 +24,7 @@ router.post(
   upload.fields([
     { name: "demoVideoPath", maxCount: 1 },
     { name: "desertationPath", maxCount: 1 },
+    { name: "imagePath", maxCount: 1 },
   ]),
   uploadProject
 );

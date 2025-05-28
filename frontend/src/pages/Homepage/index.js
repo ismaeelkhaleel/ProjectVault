@@ -12,6 +12,9 @@ import image6 from "../../assest/images/image6.jpeg";
 import image7 from "../../assest/images/image7.png";
 import image8 from "../../assest/images/image8.jpg";
 import image9 from "../../assest/images/image9.jpg";
+import { getAllProjects } from "../../config/redux/action/projectAction";
+import { useDispatch, useSelector } from "react-redux";
+import Image from "../../assest/images/default.png";
 
 const images = [
   image1,
@@ -26,6 +29,8 @@ const images = [
 ];
 function Homepage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const projectState = useSelector((state) => state.project);
   const [currentImage, setCurrentImage] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,6 +39,21 @@ function Homepage() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    dispatch(getAllProjects());
+  }, [dispatch]);
+
+  const projects = projectState?.allProjects || [];
+  const topThreeProjects = projects.slice(0, 3);
+
+  useEffect(() => {
+    console.log(topThreeProjects);
+  }, [projects]);
+
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token;
   return (
     <div className={styles.homepage_container}>
       <div className={styles.homepage_container_wrapper}>
@@ -42,7 +62,12 @@ function Homepage() {
           <h3 className={styles.welcomeText}>
             <Typewriter
               options={{
-                strings: ["Welcome, Guest!", "Welcome to the CS Dept Portal!"],
+                strings: [
+                  isLoggedIn
+                    ? `Welcome, ${loggedInUser?.name}`
+                    : "Welcome, Guest!",
+                  "Welcome to the CS Dept Portal!",
+                ],
                 autoStart: true,
                 loop: true,
                 delay: 100,
@@ -88,7 +113,7 @@ function Homepage() {
 
         {/*<=============== images section ================>*/}
         <div className={styles.images_section_container}>
-          <h2>Images</h2>
+          <h2 className={styles.heading}>Department Images</h2>
           <img
             src={images[currentImage]}
             alt="Rotating"
@@ -96,9 +121,41 @@ function Homepage() {
           />
         </div>
 
+        {/*<=============== project section ================>*/}
+        <div className={styles.project_section_container}>
+          <h2 className={styles.heading}>Some Projects</h2>
+
+          <div className={styles.project_grid}>
+            {topThreeProjects.map((project, index) => (
+              <div key={index} className={styles.project_card}>
+                <img src={project.imagePath || Image} alt={project.title} />
+                <h3>{project.title}</h3>
+                <p>
+                  {project.description.length > 150
+                    ? project.description.slice(0, 150) + "..."
+                    : project.description}
+                </p>
+                <p>Tech: {project.technology?.join(", ")}</p>
+                <p
+                  onClick={() => {
+                    navigate(`/project-details/${project._id}`);
+                  }}
+                  className={styles.see_detail}
+                >
+                  See Detail
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={() => navigate("/projects")}>
+            Explore All Projects
+          </button>
+        </div>
+
         {/*<=============== About section ================>*/}
         <div className={styles.about_section_container}>
-          <h2 className={styles.about_title}>About This Platform</h2>
+          <h2 className={styles.heading}>About This Platform</h2>
           <p className={styles.about_description}>
             This platform has been developed for the students of AMU's Computer
             Science Department to upload, manage, and showcase their academic
@@ -131,7 +188,7 @@ function Homepage() {
 
         {/*<=============== Step-wise section ================>*/}
         <div className={styles.stepwise_direction_section_contanier}>
-          <h2 className={styles.step_title}>How It Works</h2>
+          <h2 className={styles.heading}>How It Works</h2>
           <div className={styles.step_list}>
             <div className={styles.step_item}>
               <span className={styles.step_number}>1</span>

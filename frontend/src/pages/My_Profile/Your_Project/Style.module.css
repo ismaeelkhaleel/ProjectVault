@@ -1,123 +1,138 @@
 .your_project_container {
-    padding: 4rem 2rem;
-    background: linear-gradient(to right, #f0f4f8, #e0eafc);
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 4rem 2rem;
+  background: linear-gradient(to right, #f0f4f8, #e0eafc);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .your_projects_grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    max-width: 1400px;
-    margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .your_project_card {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(14px);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    width: calc((100% - 4rem) / 3);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+ transition: transform 0.4s ease, box-shadow 0.5s ease; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
 }
 
+.your_project_card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
 
 .your_project_card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(33, 147, 176, 0.2);
+  box-shadow:
+    0 0 10px rgba(255, 0, 150, 0.4),
+    0 0 20px rgba(255, 165, 0, 0.3),
+    0 0 30px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(138, 43, 226, 0.3);
 }
 
 
 .your_project_title {
-    font-size: 1.6rem;
-    margin-bottom: 0.75rem;
-    color: #0d3b66;
-    font-weight: 700;
-    position: relative;
-    z-index: 1;
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  color: #0d3b66;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  padding-inline-start: 1rem;
 }
 
 .your_project_description {
-    font-size: 1.05rem;
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    z-index: 1;
-    position: relative;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  z-index: 1;
+  position: relative;
+  flex-grow: 1;
+  padding-inline: 1rem;
 }
 
 .projectTechs {
-    font-size: 0.85rem;
-    color: #7f8c8d;
-    margin-bottom: 1.2rem;
-    font-style: italic;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 1.2rem;
+  font-style: italic;
+  padding-inline-start: 1rem;
 }
 
 .your_project_button {
-    color: #2193b0;
-    font-weight: 600;
-    font-size: 1rem;
-    position: absolute;
-    right: 2rem;
-    bottom: 2rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+  color: #2193b0;
+  font-weight: 600;
+  font-size: 1rem;
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .your_project_button:hover {
-    color: #176b87;
-    text-decoration: underline;
+  color: #176b87;
+  text-decoration: underline;
 }
 
-@media (max-width: 576px) {
-    .your_project_card {
-        width: 100%;
-    }
-}
 
 @media (min-width: 577px) and (max-width: 768px) {
-    .your_project_card {
-        width: 50%;
-    }
+  .your_project_card {
+    width: 60%;
+  }
 }
+@media (max-width: 577px){
+    .your_project_card {
+        width: 80%;
+    }
+} 
 
 @media (min-width: 769px) and (max-width: 992px) {
-    .your_project_card {
-        width: 33%;
-    }
+  .your_project_card {
+    width: 45%;
+  }
 }
 
 @media (min-width: 993px) and (max-width: 1200px) {
-    .your_project_card {
-        width: 33%;
-    }
+  .your_project_card {
+    width: 30%;
+  }
 }
 
 @media (min-width: 1201px) {
-    .your_project_card {
-        width: 25%;
-    }
+  .your_project_card {
+    width: 23%;
+  }
 }
 
-
 @keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(40px);
-    }
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
 
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
