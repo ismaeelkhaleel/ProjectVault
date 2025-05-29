@@ -84,6 +84,7 @@ export const uploadProject = async (req, res) => {
     const {
       userId,
       title,
+      supervisor,
       description,
       githubRepo,
       category,
@@ -186,6 +187,7 @@ export const uploadProject = async (req, res) => {
     const project = new Project({
       userId,
       title,
+      supervisor,
       description,
       year,
       githubRepo,

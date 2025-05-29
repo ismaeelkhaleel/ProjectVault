@@ -5,6 +5,7 @@ import styles from "./Style.module.css";
 import categoryOptions from "../../../data/categories";
 import technologyOptions from "../../../data/technologies";
 import yearOptions from "../../../data/years";
+import supervisorOtpions from "../../../data/supervisors";
 import Select from "react-select";
 import { getUserProfile } from "../../../config/redux/action/authAction";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,7 @@ const ProjectForm = () => {
 
   const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
-  const { isLoading, isError, uploadSuccess,message } = useSelector(
+  const { isLoading, isError, uploadSuccess, message } = useSelector(
     (state) => state.project
   );
 
@@ -66,6 +67,8 @@ const ProjectForm = () => {
   const validate = () => {
     const errors = {};
     if (!formData.title.trim()) errors.title = "Project title is required";
+    if (!formData.supervisor.trim())
+      errors.supervisor = "Supervisor is required";
     if (!formData.description.trim())
       errors.description = "Description is required";
     if (!formData.githubRepo.trim())
@@ -93,6 +96,7 @@ const ProjectForm = () => {
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("userId", userId);
     formDataToSubmit.append("title", formData.title);
+    formDataToSubmit.append("supervisor", formData.supervisor);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("githubRepo", formData.githubRepo);
     formDataToSubmit.append("category", formData.category);
@@ -168,24 +172,45 @@ const ProjectForm = () => {
       <div className={styles.container}>
         <h2 className={styles.heading}>Add Project</h2>
         <form onSubmit={handleSubmit}>
-          <div className={styles.formGroup}>
-            <label htmlFor="title" className={styles.label}>
-              Project Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              className={styles.input}
-              value={formData.title}
-              onChange={handleInputChange}
-              placeholder="Enter Project Title"
-            />
-            {validationErrors.title && (
-              <p className={styles.error}>{validationErrors.title}</p>
-            )}
+          <div className={styles.row}>
+            <div className={styles.formGroup}>
+              <label htmlFor="title" className={styles.label}>
+                Project Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                className={styles.input}
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="Enter Project Title"
+              />
+              {validationErrors.title && (
+                <p className={styles.error}>{validationErrors.title}</p>
+              )}
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Supervisor</label>
+              <Select
+                styles={customSelectStyles}
+                options={supervisorOtpions}
+                value={supervisorOtpions.find(
+                  (opt) => opt.value === formData.supervisor
+                )}
+                onChange={(selected) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    supervisor: selected.value,
+                  }))
+                }
+                placeholder="Select a Supervisor"
+              />
+              {validationErrors.supervisor && (
+                <p className={styles.error}>{validationErrors.supervisor}</p>
+              )}
+            </div>
           </div>
-
           <div className={styles.formGroup}>
             <label htmlFor="description" className={styles.label}>
               Description
@@ -310,8 +335,8 @@ const ProjectForm = () => {
                 className={styles.fileInput}
                 onChange={handleFileChange}
               />
-              {validationErrors.desertation && (
-                <p className={styles.error}>{validationErrors.desertation}</p>
+              {validationErrors.image && (
+                <p className={styles.error}>{validationErrors.image}</p>
               )}
             </div>
           </div>

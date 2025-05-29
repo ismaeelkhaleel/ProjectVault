@@ -92,6 +92,14 @@ function Project() {
               </span>
             </p>
           </div>
+          <div style={{ marginTop: "1rem" }}>
+            <p>
+              Under the supervison of{" "}
+              <span style={{ fontWeight: "bolder" }}>
+                {projectState?.projectDetails?.supervisor || "N/A"}
+              </span>
+            </p>
+          </div>
           {isAdmin && (
             <div style={{ marginTop: "1rem" }}>
               <span
