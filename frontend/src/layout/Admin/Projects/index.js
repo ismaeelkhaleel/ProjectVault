@@ -5,6 +5,7 @@ import styles from "./Style.module.css";
 import categories from "../../../data/categories";
 import technologies from "../../../data/technologies";
 import years from "../../../data/years";
+import supervisors from "../../../data/supervisors";
 import Fuse from "fuse.js";
 import Image from "../../../assest/images/default.png";
 const ProjectsPage = () => {
@@ -18,6 +19,7 @@ const ProjectsPage = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedTech, setSelectedTech] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSupervisor, setSelectedSupervisor] = useState("");
   const [fuseResults, setFuseResults] = useState([]);
 
   useEffect(() => {
@@ -65,7 +67,10 @@ const ProjectsPage = () => {
     const matchesCategory = selectedCategory
       ? project.category?.toLowerCase() === selectedCategory.toLowerCase()
       : true;
-    return matchesYear && matchesTech && matchesCategory;
+    const matchesSupervisor = selectedSupervisor
+      ? project.supervisor?.toLowerCase() === selectedSupervisor.toLowerCase()
+      : true;
+    return matchesYear && matchesTech && matchesCategory && matchesSupervisor;
   });
 
   return (
@@ -90,6 +95,18 @@ const ProjectsPage = () => {
           {years.map((year) => (
             <option key={year.value} value={year.value}>
               {year.label}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedSupervisor}
+          onChange={(e) => setSelectedSupervisor(e.target.value)}
+          className={styles.filterSelect}
+        >
+          <option value="">All Supervisors</option>
+          {supervisors.map((supervisor) => (
+            <option key={supervisor.value} value={supervisor.value}>
+              {supervisor.label}
             </option>
           ))}
         </select>
