@@ -17,10 +17,10 @@
 
 ## 📁 Project Structure
 
-projectvault
-  backend # Express.js server, MongoDB database
-  frontend # React.js client app
-  ml-service # Python Flask microservice for AI recommendations
+## projectvault
+- backend # Express.js server, MongoDB database
+- frontend # React.js client app
+- ml-service # Python Flask microservice for AI recommendations
 
 
 ---
