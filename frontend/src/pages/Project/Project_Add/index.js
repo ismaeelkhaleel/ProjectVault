@@ -150,7 +150,6 @@ const ProjectForm = () => {
   useEffect(() => {
     if (uploadSuccess) {
       navigate("/your_project");
-      window.location.reload(true);
     }
   }, [uploadSuccess, navigate]);
 
@@ -357,7 +356,7 @@ const ProjectForm = () => {
 
           {submitError && <p className={styles.error}>{submitError}</p>}
           {isError && <p className={styles.error}>{message}</p>}
-          {isLoading && <p>Please wait we are proceeding your request</p>}
+          {isLoading && <p style={{marginBottom:"1rem", color:"green"}}>Please wait we are proceeding your request...</p>}
 
           <div className={styles.tooltipWrapper}>
             <button
