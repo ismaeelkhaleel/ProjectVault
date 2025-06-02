@@ -112,6 +112,61 @@ export const uploadProject = async (req, res) => {
     if (!profile.verified) {
       return res.status(400).json({ message: "User is not verified" });
     }
+    
+    const existingProject = await Project.findOne({
+      userId,
+      githubRepo,
+    });
+
+    if (existingProject) {
+      
+      const filePathsToDelete = [
+        existingProject.demoVideoPath,
+        existingProject.zipFilePath,
+        existingProject.desertationPath,
+        existingProject.imagePath,
+      ];
+
+      for (const fileUrl of filePathsToDelete) {
+        if (fileUrl) {
+          const localPath = path.join(
+            __dirname,
+            "../uploads",
+            decodeURIComponent(
+              new URL(fileUrl).pathname.replace("/uploads/", "")
+            )
+          );
+
+          if (fs.existsSync(localPath)) {
+            fs.unlinkSync(localPath);
+            console.log("Deleted old file:", localPath);
+          }
+        }
+      }
+
+      
+      if (existingProject.clonedPath) {
+        const localClonePath = path.join(
+          __dirname,
+          "../uploads",
+          decodeURIComponent(
+            new URL(existingProject.clonedPath).pathname.replace(
+              "/uploads/",
+              ""
+            )
+          )
+        );
+
+        if (fs.existsSync(localClonePath)) {
+          fs.rmSync(localClonePath, { recursive: true, force: true });
+          console.log("Deleted old cloned repo folder:", localClonePath);
+        }
+      }
+
+     
+      await Project.deleteOne({ _id: existingProject._id });
+      console.log("Old project deleted from DB.");
+    }
 
     const repoName = githubRepo.split("/").slice(-2).join("-");
     const uploadsDir = path.join(__dirname, "../uploads", userId);
@@ -137,7 +192,7 @@ export const uploadProject = async (req, res) => {
       });
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        console.log("GitHub repository not found or it may be private.")
+        console.log("GitHub repository not found or it may be private.");
         return res.status(400).json({
           error: "GitHub repository not found or it may be private.",
         });
@@ -257,7 +312,7 @@ export const getUserProjects = async (req, res) => {
     const userId = req.params.id;
     const projects = await Project.find({ userId }).populate(
       "userId",
-      "name username email profilePictur"
+      "name username email profilePicture"
     );
     res.json(projects);
   } catch (error) {
